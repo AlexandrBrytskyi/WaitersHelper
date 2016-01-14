@@ -1,0 +1,1 @@
+mysql -u root -proot < waitershelperdump.sql
