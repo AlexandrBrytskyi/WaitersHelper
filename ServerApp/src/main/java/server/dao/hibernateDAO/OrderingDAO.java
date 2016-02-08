@@ -2,17 +2,24 @@ package server.dao.hibernateDAO;
 
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import server.dao.IOrderingDAO;
 import server.exceptions.NoOrderingWithIdException;
+import server.exceptions.OrderingAlreadyServingException;
+import server.exceptions.OrderingNotServingByYouException;
 import server.model.denomination.Denomination;
 import server.model.fund.Fund;
 import server.model.order.OrderType;
 import server.model.order.Ordering;
 import server.model.user.User;
 
+import javax.swing.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 
 @Repository(value = "Ordering_hibernate_dao")
@@ -62,14 +69,33 @@ public class OrderingDAO implements IOrderingDAO {
         }
     }
 
-    public Ordering setWhoServesOrder(Ordering ordering, User user) {
-        try {
+    public Ordering setWhoServesOrder(Ordering ordering, User user) throws NoOrderingWithIdException, OrderingAlreadyServingException {
+        Ordering founded = getOrderingById(ordering.getId());
+        if (founded.getWhoServesOrder() == null) {
             ordering.setWhoServesOrder(user);
-            sessionFactory.getCurrentSession().update(ordering);
-            return ordering;
-        } catch (Throwable e) {
-            LOGGER.error(e);
-        }
+            try {
+                sessionFactory.getCurrentSession().merge(ordering);
+                return ordering;
+            } catch (Throwable e) {
+                LOGGER.error(e);
+            }
+        } else throw new OrderingAlreadyServingException(ordering);
+        return null;
+    }
+
+    public Ordering setWhoServesOrderNull(Ordering ordering, User user) throws OrderingNotServingByYouException, NoOrderingWithIdException {
+        Ordering founded = getOrderingById(ordering.getId());
+        if (founded.getWhoServesOrder().getLogin().equals(user.getLogin())) {
+            ordering.setWhoServesOrder(null);
+            try {
+                sessionFactory.getCurrentSession().merge(ordering);
+                return ordering;
+            } catch (Throwable e) {
+                LOGGER.error(e);
+            }
+        } else throw new OrderingNotServingByYouException(ordering);
+
+
         return null;
     }
 
@@ -132,7 +158,7 @@ public class OrderingDAO implements IOrderingDAO {
     public Fund getFinalFund(Ordering ordering) {
         Fund resultFund = countPrice(ordering);
         try {
-            sessionFactory.getCurrentSession().update(resultFund);
+            sessionFactory.getCurrentSession().merge(resultFund);
             return resultFund;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -142,12 +168,12 @@ public class OrderingDAO implements IOrderingDAO {
 
     private Fund countPrice(Ordering ordering) {
         double result = 0;
-        for (Denomination denomination : ordering.getDenominations()) {
+        for (Denomination denomination : sessionFactory.getCurrentSession().get(Ordering.class, ordering.getId()).getDenominations()) {
             result += denomination.getPrice();
         }
         Fund fund = ordering.getFund();
         fund.setPrice(result);
-        fund.setFinalPrice(result + result * fund.getKo());
+        fund.setFinalPrice(result + result * fund.getKo() - ordering.getAdvancePayment());
         return fund;
     }
 
@@ -155,6 +181,94 @@ public class OrderingDAO implements IOrderingDAO {
         try {
             sessionFactory.getCurrentSession().delete(ordering);
             return ordering;
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Ordering> getOrderings(LocalDate concretteDay) {
+        try {
+            return sessionFactory.getCurrentSession().createCriteria(Ordering.class).
+                    add(Restrictions.between("dateClientsCome", (LocalDateTime.of(concretteDay, LocalTime.of(0, 0))),
+                            (LocalDateTime.of(concretteDay, LocalTime.of(23, 59))))).
+                    list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Ordering> getOrderings(LocalDate begin, LocalDate end) {
+        try {
+            return sessionFactory.getCurrentSession().createCriteria(Ordering.class).
+                    add(Restrictions.between("dateClientsCome", (LocalDateTime.of(begin, LocalTime.of(0, 0))),
+                            (LocalDateTime.of(end, LocalTime.of(23, 59))))).
+                    list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Ordering> getOrderings(User whoTaken, LocalDate concretteDay) {
+        try {
+            return sessionFactory.getCurrentSession().createCriteria(Ordering.class).
+                    add(Restrictions.between("dateClientsCome", (LocalDateTime.of(concretteDay, LocalTime.of(0, 0))),
+                            (LocalDateTime.of(concretteDay, LocalTime.of(23, 59))))).
+                    add(Restrictions.eq("whoTakenOrder", whoTaken)).
+                    list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Ordering> getOrderings(User whoTaken, LocalDate begin, LocalDate end) {
+        try {
+            return sessionFactory.getCurrentSession().createCriteria(Ordering.class).
+                    add(Restrictions.between("dateClientsCome", (LocalDateTime.of(begin, LocalTime.of(0, 0))),
+                            (LocalDateTime.of(end, LocalTime.of(23, 59))))).
+                    add(Restrictions.eq("whoTakenOrder", whoTaken)).
+                    list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Ordering> getOrderingsUserServes(User whoServing, LocalDate begin, LocalDate end) {
+        try {
+            return sessionFactory.getCurrentSession().createCriteria(Ordering.class).
+                    add(Restrictions.between("dateClientsCome", (LocalDateTime.of(begin, LocalTime.of(0, 0))),
+                            (LocalDateTime.of(end, LocalTime.of(23, 59))))).
+                    add(Restrictions.eq("whoServesOrder", whoServing)).
+                    list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT u FROM User u").list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+
+    @Override
+    public Ordering updateOrdering(Ordering orderingSource) {
+        try {
+            return (Ordering) sessionFactory.getCurrentSession().merge(orderingSource);
         } catch (Throwable e) {
             LOGGER.error(e);
         }

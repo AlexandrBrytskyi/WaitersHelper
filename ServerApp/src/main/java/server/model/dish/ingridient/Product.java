@@ -40,9 +40,6 @@ public class Product extends IdAutoGenerator {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", mesuarment=" + mesuarment +
-                "} " + super.toString();
+        return  name + ", "  + mesuarment.toString();
     }
 }

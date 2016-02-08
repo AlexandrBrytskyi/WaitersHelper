@@ -24,7 +24,7 @@ public class IngridientDao implements IIngredientDAO {
     private SessionFactory sessionFactory;
 
 
-    public Ingridient addIngridient(Product product, int amount) {
+    public Ingridient addIngridient(Product product, double amount) {
         Ingridient newIngridient = new Ingridient();
         newIngridient.setProduct(product);
         newIngridient.setAmount(amount);
@@ -37,7 +37,7 @@ public class IngridientDao implements IIngredientDAO {
         return null;
     }
 
-    public Ingridient addIngridient(Product product, int amount, Dish dish) {
+    public Ingridient addIngridient(Product product, double amount, Dish dish) {
         Ingridient newIngridient = new Ingridient();
         newIngridient.setProduct(product);
         newIngridient.setAmount(amount);

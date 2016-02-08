@@ -24,11 +24,22 @@ public class Dish extends IdAutoGenerator {
     @Column
     private String description;
 
+    @Column
+    private boolean available = true;
+
     @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Ingridient> ingridients;
 
 
     public Dish() {
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public String getName() {
@@ -73,12 +84,6 @@ public class Dish extends IdAutoGenerator {
 
     @Override
     public String toString() {
-        return "Dish{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", priceForPortion=" + priceForPortion +
-                ", description='" + description + '\'' +
-                ", ingridients=" + ingridients +
-                "} " + super.toString();
+        return name + ",\n" + type;
     }
 }

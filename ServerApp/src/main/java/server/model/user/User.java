@@ -1,21 +1,21 @@
 package server.model.user;
 
-import server.model.IdUtil.IdAutoGenerator;
+import server.exceptions.WrongPasswordException;
+import server.service.password_utils.Password;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table
-public class User extends IdAutoGenerator {
+public class User implements Serializable {
 
     @Column
     private String name;
 
     @Column
-    private String login;
+    @Id
+    private String login = "standardlogin";
 
     @Column
     private int pass;
@@ -24,8 +24,20 @@ public class User extends IdAutoGenerator {
     @Enumerated
     private UserType type;
 
+    @Column
+    private boolean locked = false;
+
+
     public User() {
 
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     public String getName() {
@@ -48,8 +60,8 @@ public class User extends IdAutoGenerator {
         return pass;
     }
 
-    public void setPass(int pass) {
-        this.pass = pass;
+    public void setPass(String pass) throws WrongPasswordException {
+        this.pass = new Password(pass).hashCode();
     }
 
     public UserType getType() {
@@ -58,5 +70,13 @@ public class User extends IdAutoGenerator {
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

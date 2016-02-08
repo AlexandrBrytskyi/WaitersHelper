@@ -60,6 +60,16 @@ public class DishDAO implements IDishDAO {
         return founded;
     }
 
+    public Dish updateDish(Dish dish) {
+        try {
+            sessionFactory.getCurrentSession().update(dish);
+            return dish;
+        } catch (Throwable e) {
+            LOGGER.error(e+ " while updating dish");
+        }
+        return null;
+    }
+
 
     /*As parameter dish given existing in db dish*/
     public Dish setDishType(Dish dish, DishType dishType) {
@@ -110,7 +120,6 @@ public class DishDAO implements IDishDAO {
     }
 
 
-
     public Dish removeDish(Dish dish) {
         try {
             sessionFactory.getCurrentSession().delete(dish);
@@ -145,7 +154,7 @@ public class DishDAO implements IDishDAO {
 
     public List<Dish> getAllDishes() {
         try {
-            return sessionFactory.getCurrentSession().createCriteria(Dish.class).list();
+            return sessionFactory.getCurrentSession().createQuery("SELECT d from Dish d").list();
         } catch (Throwable e) {
             LOGGER.error(e);
             return null;

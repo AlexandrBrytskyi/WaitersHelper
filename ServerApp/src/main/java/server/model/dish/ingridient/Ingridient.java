@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Ingridient extends IdAutoGenerator {
 
     @Column
-    private int amount;
+    private double amount;
 
     @ManyToOne()
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -23,11 +23,11 @@ public class Ingridient extends IdAutoGenerator {
     public Ingridient() {
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

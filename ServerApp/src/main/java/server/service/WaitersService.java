@@ -1,31 +1,27 @@
 package server.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import server.dao.*;
+import server.dao.IIngredientDAO;
+import server.dao.IProductDAO;
 import server.exceptions.*;
 import server.model.denomination.Denomination;
-import server.model.denomination.DenominationState;
 import server.model.dish.Dish;
 import server.model.dish.DishType;
 import server.model.dish.ingridient.Ingridient;
 import server.model.dish.ingridient.Mesuarment;
 import server.model.dish.ingridient.Product;
-import server.model.fund.Fund;
 import server.model.order.OrderType;
 import server.model.order.Ordering;
-import server.model.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service("userService")
+@Service(value = "waitersService")
 @Transactional
-public class UserService implements IUserService {
-
+public class WaitersService extends BarmenService implements IWaitersService {
     @Autowired(required = true)
     @Qualifier(value = "hibernateProductDAO")
     IProductDAO productDAO;
@@ -34,17 +30,8 @@ public class UserService implements IUserService {
     @Qualifier(value = "hibernateIngridientDAO")
     IIngredientDAO ingredientDao;
 
-    @Autowired(required = true)
-    @Qualifier(value = "hibernateDishDAO")
-    IDishDAO dishDAO;
 
-    @Autowired
-    @Qualifier("hibernateDenominationDAO")
-    IDenominationDAO denominationDAO;
 
-    @Autowired
-    @Qualifier("Ordering_hibernate_dao")
-    IOrderingDAO orderingDAO;
 
 
     /*products*/
@@ -68,17 +55,17 @@ public class UserService implements IUserService {
         return productDAO.removeById(id);
     }
 
-    public List<Product> showAllProducts() {
+    public List<Product> getAllProducts() {
         return productDAO.showAll();
     }
 
 
     /*Ingridients*/
-    public Ingridient addIngridient(Product product, int amount) {
+    public Ingridient addIngridient(Product product, double amount) {
         return ingredientDao.addIngridient(product, amount);
     }
 
-    public Ingridient addIngridient(Product product, int amount, Dish dish) {
+    public Ingridient addIngridient(Product product, double amount, Dish dish) {
         return ingredientDao.addIngridient(product, amount, dish);
     }
 
@@ -108,9 +95,7 @@ public class UserService implements IUserService {
 
 
     /*Dishes*/
-    public Dish addDish(Dish dish) {
-        return dishDAO.addDish(dish);
-    }
+
 
 
     public List<Dish> findDishByName(String name) {
@@ -141,29 +126,17 @@ public class UserService implements IUserService {
         return dishDAO.getAllIngridientsByDishId(id);
     }
 
-    public Dish removeDish(Dish dish) {
-        return dishDAO.removeDish(dish);
-    }
 
     public Dish removeDishById(int id) throws NoDishWithIdFoundedException {
         return dishDAO.removeDishById(id);
     }
 
-    public List<Dish> getDishesByDishType(DishType dishType) {
-        return dishDAO.getDishesByDishType(dishType);
-    }
 
-    public List<Dish> getAllDishes() {
-        return dishDAO.getAllDishes();
-    }
 
 
 
 /*denomination*/
 
-    public Denomination addDenomination(Denomination denomination) {
-        return denominationDAO.addDenomination(denomination);
-    }
 
     public Denomination getDenominationById(int id) throws DenominationWithIdNotFoundException {
         return denominationDAO.getDenominationById(id);
@@ -181,29 +154,19 @@ public class UserService implements IUserService {
         return denominationDAO.setPortion(portion, denomination);
     }
 
-    public Denomination setDenominationState(DenominationState state, Denomination denomination) {
-        return denominationDAO.setDenominationState(state, denomination);
-    }
 
     public Denomination removeDenomination(int id) throws DenominationWithIdNotFoundException {
         return denominationDAO.removeDenomination(id);
     }
 
-    public Denomination removeDenomination(Denomination denomination) {
-        return denominationDAO.removeDenomination(denomination);
-    }
 
-    public List<Denomination> getDenominationsByOrder(Ordering ordering) {
-        return denominationDAO.getDenominationsByOrder(ordering);
-    }
+
 
 
 
     /*orderings*/
 
-    public Ordering addOrder(Ordering ordering) {
-        return orderingDAO.addOrder(ordering);
-    }
+
 
     public Ordering getOrderingById(int id) throws NoOrderingWithIdException {
         return orderingDAO.getOrderingById(id);
@@ -213,17 +176,12 @@ public class UserService implements IUserService {
         return orderingDAO.setTimeClientsCome(ordering, time);
     }
 
-    public Ordering setWhoServesOrder(Ordering ordering, User user) {
-        return orderingDAO.setWhoServesOrder(ordering, user);
-    }
 
     public Ordering setOrderType(Ordering ordering, OrderType type) {
         return orderingDAO.setOrderType(ordering, type);
     }
 
-    public Ordering addDenominationToOrder(Ordering ordering, Denomination denomination) {
-        return orderingDAO.addDenominationToOrder(ordering, denomination);
-    }
+
 
     public Ordering setDescription(String description, Ordering ordering) {
         return orderingDAO.setDescription(description, ordering);
@@ -233,17 +191,8 @@ public class UserService implements IUserService {
         return orderingDAO.setAmountOfPeople(amount, ordering);
     }
 
-    public Ordering setKO(double ko, Ordering ordering) {
-        return orderingDAO.setKO(ko, ordering);
-    }
 
-    public Fund getFinalFund(Ordering ordering) {
-        return orderingDAO.getFinalFund(ordering);
-    }
 
-    public Ordering removeOrdering(Ordering ordering) {
-        return orderingDAO.removeOrdering(ordering);
-    }
 
 
 }

@@ -14,18 +14,27 @@ import server.model.dish.ingridient.Mesuarment;
 import server.model.dish.ingridient.Product;
 import server.model.order.OrderType;
 import server.model.order.Ordering;
+import server.model.user.User;
+import server.model.user.UserType;
+import server.service.password_utils.Password;
+import server.validator.IValidator;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class UserServiceTest {
 
-    private static IUserService service;
+    private static IAdminService service;
+    private static IValidator validator;
 
     @BeforeClass
     public static void intitService() {
         ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
-        service = (IUserService) context.getBean("userService");
+        service = (IAdminService) context.getBean("adminService");
+        validator = (IValidator) context.getBean("myValidator");
     }
 
     public UserServiceTest() {
@@ -49,7 +58,7 @@ public class UserServiceTest {
     @Test
     @Ignore
     public void showAllproductsTest() {
-        System.out.println(service.showAllProducts().toString());
+        System.out.println(service.getAllProducts().toString());
     }
 
     @Test
@@ -61,6 +70,7 @@ public class UserServiceTest {
             e.printStackTrace();
         }
     }
+
 
     @Test
     @Ignore
@@ -260,21 +270,21 @@ public class UserServiceTest {
 
   /*denominationTests*/
 
-    @Test
-    @Ignore
-    public void addDenominationTest() {
-        Denomination denomination = new Denomination();
-        Denomination denomination1 = new Denomination();
-        denomination.setState(DenominationState.JUST_ADDED);
-        try {
-            denomination.setDish(service.getDishById(14));
-        } catch (NoDishWithIdFoundedException e) {
-            e.printStackTrace();
-        }
-        denomination.setPortion(1.5);
-        service.addDenomination(denomination);
-        service.addDenomination(denomination1);
-    }
+//    @Test
+//    @Ignore
+//    public void addDenominationTest() {
+//        Denomination denomination = new Denomination();
+//        Denomination denomination1 = new Denomination();
+//        denomination.setState(DenominationState.JUST_ADDED);
+//        try {
+//            denomination.setDish(service.getDishById(14));
+//        } catch (NoDishWithIdFoundedException e) {
+//            e.printStackTrace();
+//        }
+//        denomination.setPortion(1.5);
+//        service.addDenomination(denomination);
+//        service.addDenomination(denomination1);
+//    }
 
     @Test
     @Ignore
@@ -306,11 +316,11 @@ public class UserServiceTest {
         service.setPortion(5, service.getDenominationById(46));
     }
 
-    @Test
-    @Ignore
-    public void setDenominationStateTest() throws DenominationWithIdNotFoundException {
-        service.setDenominationState(DenominationState.READY, service.getDenominationById(46));
-    }
+//    @Test
+//    @Ignore
+//    public void setDenominationStateTest() throws DenominationWithIdNotFoundException {
+//        service.setDenominationState(DenominationState.READY, service.getDenominationById(46));
+//    }
 
     @Test
     @Ignore
@@ -332,14 +342,36 @@ public class UserServiceTest {
 
     /*ordering tests*/
 
+
     @Test
     @Ignore
     public void addOrderingTest() {
+
         Ordering ordering = new Ordering();
-        ordering.setAmountOfPeople(10);
+        ordering.setAmountOfPeople(11);
         ordering.setDescription("Huylaki");
         ordering.setType(OrderType.PREVIOUS);
         ordering.setDateClientsCome(LocalDateTime.now());
+        try {
+            ordering.setWhoTakenOrder(validator.login("vasia", new Password("12345")));
+        } catch (WrongLoginException e) {
+            e.printStackTrace();
+        } catch (WrongPasswordException e) {
+            e.printStackTrace();
+        } catch (AccountBlockedException e) {
+            e.printStackTrace();
+        }
+        List<Denomination> denominations = new LinkedList<Denomination>();
+        Denomination denomination = new Denomination();
+        denomination.setPortion(1);
+        denomination.setState(DenominationState.JUST_ADDED);
+        try {
+            denomination.setDish(service.getDishById(52));
+        } catch (NoDishWithIdFoundedException e) {
+            e.printStackTrace();
+        }
+        denominations.add(denomination);
+        ordering.setDenominations(denominations);
         service.addOrder(ordering);
     }
 
@@ -391,7 +423,7 @@ public class UserServiceTest {
     @Ignore
     public void getFinalFundTest() {
         try {
-            service.setKO(0.10,service.getOrderingById(4));
+            service.setKO(0.10, service.getOrderingById(4));
             System.out.println(service.getFinalFund(service.getOrderingById(4)));
         } catch (NoOrderingWithIdException e) {
             e.printStackTrace();
@@ -406,6 +438,33 @@ public class UserServiceTest {
         } catch (NoOrderingWithIdException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Test
+    public void addUserTest() {
+        User user = new User();
+        user.setName("Vasia2");
+        user.setLogin("vasia");
+        try {
+            user.setPass("12345/");
+        } catch (WrongPasswordException e) {
+            e.printStackTrace();
+        }
+        user.setType(UserType.ADMIN);
+        try {
+            service.addNewUser(user);
+        } catch (UserFieldIsEmptyException e) {
+            e.printStackTrace();
+        } catch (WrongLoginException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Ignore
+    public void getOrderingByDateTest() {
+        System.out.println(service.getOrderings(LocalDate.now()).toString());
     }
 
 

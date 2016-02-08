@@ -128,8 +128,8 @@ public class DenominationDAO implements IDenominationDAO {
 
     public List<Denomination> getDenominationsByOrder(Ordering ordering) {
         try {
-            return sessionFactory.getCurrentSession().createQuery("SELECT d from Denomination where d.order_id LIKE :id").
-                    setParameter("id", ordering.getId()).list();
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order = :orderin").
+                    setParameter("orderin", ordering).list();
         } catch (Throwable e) {
             LOGGER.error(e);
             return null;

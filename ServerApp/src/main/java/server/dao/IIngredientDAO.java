@@ -13,9 +13,10 @@ import java.util.List;
  */
 public interface IIngredientDAO {
 
-    Ingridient addIngridient(Product product, int amount);
 
-    Ingridient addIngridient(Product product, int amount, Dish dish);
+    Ingridient addIngridient(Product product, double amount);
+
+    Ingridient addIngridient(Product product, double amount, Dish dish);
 
     Ingridient setDishOfIngridient(int id, Dish dish) throws IngridientWithIDNotFoundException;
 

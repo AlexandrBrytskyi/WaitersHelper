@@ -18,7 +18,7 @@ public class Denomination extends IdAutoGenerator {
     private Dish dish;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private Ordering order;
 
 
@@ -98,6 +98,10 @@ public class Denomination extends IdAutoGenerator {
 
     public void setState(DenominationState state) {
         this.state = state;
+    }
+
+    public String printForOrdering() {
+        return "Denomination: " + dish.getName() + ", portions: " + portion;
     }
 
     @Override

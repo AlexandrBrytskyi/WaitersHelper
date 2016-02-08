@@ -19,6 +19,8 @@ public interface IDishDAO {
 
     Dish getDishById(int id) throws NoDishWithIdFoundedException;
 
+    Dish updateDish(Dish dish);
+
     Dish setDishType(Dish dish, DishType dishType);
 
     Dish setPriceForPortionToDish(double price, Dish dish);

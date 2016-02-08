@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class IdAutoGenerator implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column
     private int Id;
 
