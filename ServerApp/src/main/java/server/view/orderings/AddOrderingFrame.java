@@ -114,11 +114,12 @@ public class AddOrderingFrame extends JFrame {
             JOptionPane.showMessageDialog(mainPanel, "Wrong date");
             return false;
         }
-        if (!amountOfPeopleField.getText().equals(""))
-            if (!isDigitsOnly(amountOfPeopleField.getText()) || Integer.valueOf(amountOfPeopleField.getText()) < 0) {
-                JOptionPane.showMessageDialog(mainPanel, "Wrong amount of people");
-                return false;
-            }
+        try {
+            Integer.valueOf(amountOfPeopleField.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(mainPanel, "Wrong amount of people");
+            return false;
+        }
         try {
             if (advancedPaymentField.isEnabled()) Double.valueOf(advancedPaymentField.getText());
         } catch (NumberFormatException e) {

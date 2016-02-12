@@ -43,7 +43,7 @@ public class Ordering implements Serializable, Comparable {
     private User whoServesOrder;
 
 
-    @OneToOne(targetEntity = Fund.class, mappedBy = "order", cascade = {CascadeType.REMOVE})
+    @OneToOne(targetEntity = Fund.class, mappedBy = "order", cascade = {CascadeType.REMOVE},fetch = FetchType.EAGER)
     private Fund fund;
 
 

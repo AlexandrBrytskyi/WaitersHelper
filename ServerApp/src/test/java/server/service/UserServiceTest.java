@@ -324,8 +324,8 @@ public class UserServiceTest {
 
     @Test
     @Ignore
-    public void removeDenominationsTest() throws DenominationWithIdNotFoundException {
-        service.removeDenomination(service.getDenominationById(49));
+    public void removeDenominationsTest() throws DenominationWithIdNotFoundException, UserAccessException {
+        service.removeDenomination(service.getDenominationById(49),null);
         service.removeDenomination(47);
     }
 

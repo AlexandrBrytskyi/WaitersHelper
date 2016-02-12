@@ -26,6 +26,7 @@ public class AdminUI extends JFrame {
     private JTabbedPane dishesPane;
     private JTabbedPane ordersPane;
     private JPanel accountPanel;
+    private JPanel reportPanel;
     private AllProductPanel allProductsPanel;
     private AllDishPanel allDishPanel;
     private AllOrderingsPanel allOrderingsPanel;

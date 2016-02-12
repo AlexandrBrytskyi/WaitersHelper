@@ -10,12 +10,16 @@ import server.dao.IOrderingDAO;
 import server.dao.IUserDAO;
 import server.exceptions.*;
 import server.model.denomination.Denomination;
+import server.model.denomination.DenominationState;
 import server.model.dish.Dish;
 import server.model.dish.DishType;
 import server.model.fund.Fund;
 import server.model.order.Ordering;
 import server.model.user.User;
+import server.model.user.UserType;
+import server.service.printing.FundPdfGenerator;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,6 +42,10 @@ public class BarmenService implements IBarmenService {
     @Autowired(required = true)
     @Qualifier(value = "hibernateDishDAO")
     IDishDAO dishDAO;
+
+    @Autowired(required = true)
+    @Qualifier("fundGenerator")
+    private FundPdfGenerator fundPdfGenerator;
 
     @Override
     public Dish addDish(Dish dish) {
@@ -116,7 +124,7 @@ public class BarmenService implements IBarmenService {
             if (orderingDAO.getOrderingById(denomination.getOrder().getId()).getWhoServesOrder().getLogin().equals(logined.getLogin()))
                 return denominationDAO.addDenomination(denomination);
             throw new UserAccessException("Only user who serves can add denomination now");
-        }  else {
+        } else {
             return denominationDAO.addDenomination(denomination);
         }
     }
@@ -127,8 +135,21 @@ public class BarmenService implements IBarmenService {
     }
 
     @Override
-    public Denomination removeDenomination(Denomination denomination) {
+    public Denomination removeDenomination(Denomination denomination, User logined) throws UserAccessException {
+        if (!logined.getType().equals(UserType.ADMIN)) throw new UserAccessException("Only admin can delete");
+        if (denomination.getOrder().getWhoServesOrder() != null)
+            throw new UserAccessException("Can`t remove, ordering is already serving");
         return denominationDAO.removeDenomination(denomination);
+    }
+
+    @Override
+    public Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException {
+        if ((state.equals(DenominationState.IS_COOKING) || state.equals(DenominationState.READY) || state.equals(DenominationState.WAITING_FOR_COCK))
+                && !logined.getType().equals(UserType.COOK))
+            throw new UserAccessException("Only coock can set such state");
+        if (state.equals(DenominationState.READY))
+            throw new UserAccessException("Dish is already ready! Can`t change state");
+        return denominationDAO.setDenominationState(state, denomination);
     }
 
     public Dish removeDish(Dish dish) {
@@ -171,6 +192,21 @@ public class BarmenService implements IBarmenService {
         } else {
             throw new UserAccessException("You can drop serving only orders of today");
         }
+    }
+
+    @Override
+    public void generatePdf(Ordering ordering) throws FileNotFoundException {
+        fundPdfGenerator.generatePdf(ordering);
+    }
+
+    @Override
+    public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
+        DenominationState state = null;
+        if (!selectedDenomination.getOrder().getWhoServesOrder().equals(logined)) throw new UserAccessException("You can`t cancel, you don`n serve");
+        if (logined.getType().equals(UserType.BARMEN)) state = DenominationState.CANCELED_BY_BARMEN;
+        if (logined.getType().equals(UserType.WAITER)) state = DenominationState.CANCELED_BY_WAITER;
+        if (logined.getType().equals(UserType.ADMIN)) state = DenominationState.CANCELED_BY_ADMIN;
+        changeDenominationState(selectedDenomination, state, logined);
     }
 
 }

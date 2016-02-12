@@ -19,6 +19,9 @@ public class Dish extends IdAutoGenerator {
     private DishType type;
 
     @Column
+    private WhoCoockDishType whoCoockDishType;
+
+    @Column
     private double priceForPortion;
 
     @Column
@@ -80,6 +83,14 @@ public class Dish extends IdAutoGenerator {
 
     public void setIngridients(List<Ingridient> ingridients) {
         this.ingridients = ingridients;
+    }
+
+    public WhoCoockDishType getWhoCoockDishType() {
+        return whoCoockDishType;
+    }
+
+    public void setWhoCoockDishType(WhoCoockDishType whoCoockDishType) {
+        this.whoCoockDishType = whoCoockDishType;
     }
 
     @Override

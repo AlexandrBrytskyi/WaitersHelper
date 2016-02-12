@@ -5,6 +5,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import server.exceptions.IngridientWithIDNotFoundException;
 import server.model.dish.Dish;
 import server.model.dish.DishType;
+import server.model.dish.WhoCoockDishType;
 import server.model.dish.ingridient.Ingridient;
 import server.model.dish.ingridient.Product;
 import server.service.IAdminService;
@@ -47,6 +48,7 @@ public class AllDishPanel {
     private JButton removeSelectedIngridientButton;
     private JLabel grnLabel;
     private JPanel isDishAvailablePanel;
+    private JComboBox whoCookComboBox;
     private Dish selectedDish;
     private JButton changeDishAvailable;
     private IAdminService adminService;
@@ -151,11 +153,15 @@ public class AllDishPanel {
             for (DishType type : DishType.values()) {
                 dishTypeComboBox.addItem(type);
             }
+            for (WhoCoockDishType whoCoockDishType : WhoCoockDishType.values()) {
+                whoCookComboBox.addItem(whoCoockDishType);
+            }
         }
         if (barmenService != null) {
             for (DishType type : DishType.values()) {
                 if (!type.equals(DishType.DISH)) dishTypeComboBox.addItem(type);
             }
+            whoCookComboBox.addItem(WhoCoockDishType.BARMEN);
         }
         changeDishButton.setEnabled(false);
         removeDishButton.setEnabled(false);
@@ -172,6 +178,7 @@ public class AllDishPanel {
         dishDescriptionField.setLineWrap(true);
         dishNameField.setEnabled(enable);
         dishTypeComboBox.setEnabled(enable);
+        whoCookComboBox.setEnabled(enable);
     }
 
     private ActionListener addDishButtonActionListener = new ActionListener() {
@@ -192,6 +199,7 @@ public class AllDishPanel {
                 dish.setType((DishType) dishTypeComboBox.getSelectedItem());
                 dish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
                 dish.setDescription(dishDescriptionField.getText());
+                dish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
                 if (adminService != null) adminService.addDish(dish);
                 if (barmenService != null) barmenService.addDish(dish);
                 dishTableModel.updateList();
@@ -224,6 +232,7 @@ public class AllDishPanel {
                     selectedDish.setType((DishType) dishTypeComboBox.getSelectedItem());
                     selectedDish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
                     selectedDish.setDescription(dishDescriptionField.getText());
+                    selectedDish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
                     if (adminService != null) adminService.updateDish(selectedDish);
                     if (barmenService != null) barmenService.updateDish(selectedDish);
                 }
@@ -328,6 +337,7 @@ public class AllDishPanel {
                 dishTypeComboBox.setSelectedItem(selectedDish.getType());
                 dishPriceField.setText(String.valueOf(selectedDish.getPriceForPortion()));
                 dishDescriptionField.setText(selectedDish.getDescription());
+                whoCookComboBox.setSelectedItem(selectedDish.getWhoCoockDishType());
                 removeDishButton.setEnabled(true);
                 changeDishButton.setEnabled(true);
                 if (adminService != null || waitersService != null) {

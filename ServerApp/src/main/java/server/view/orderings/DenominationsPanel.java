@@ -52,6 +52,7 @@ public class DenominationsPanel {
     private JPanel panel2;
     private JComboBox dishTypeComboBox;
     private JLabel dishTypeLabel;
+    private JLabel lab6;
     private static final Logger LOGGER = Logger.getLogger(DenominationsPanel.class);
     private IBarmenService service;
     private User logined;
@@ -137,7 +138,16 @@ public class DenominationsPanel {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(addRemovePanel, "Really remove this denomination?", "Denomination removing",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
-                    service.removeDenomination(denominationsTableModel.getSelectedDenomination());
+                    try {
+                        service.removeDenomination(denominationsTableModel.getSelectedDenomination(), logined);
+                    } catch (UserAccessException e1) {
+                        if (JOptionPane.showConfirmDialog(mainPanel, e1 + ", but you can cancel it, would you like?", "Maybe cancel?", JOptionPane.YES_NO_OPTION) == 0)
+                            try {
+                                service.cancelDenomination(logined, denominationsTableModel.getSelectedDenomination());
+                            } catch (UserAccessException e2) {
+                                JOptionPane.showMessageDialog(mainPanel, e2);
+                            }
+                    }
                     updateValues();
                 }
             }
@@ -155,8 +165,11 @@ public class DenominationsPanel {
     }
 
     private boolean validateFields() {
-        if (priceField.getText() == null || priceField.getText().equals("")) {
-            JOptionPane.showMessageDialog(addRemovePanel, "Enter portion please", "Empty field", JOptionPane.WARNING_MESSAGE);
+        if (checkPortionField()) {
+            priceField.setText(countPrice());
+        } else {
+            JOptionPane.showMessageDialog(addRemovePanel, "Wrong Portion, reset please",
+                    "Portion Setting", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         return true;
@@ -191,17 +204,8 @@ public class DenominationsPanel {
     private void initPortionPriceField() {
         portionField.setEnabled(false);
         priceField.setEnabled(false);
-        portionField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (checkPortionField()) {
-                    priceField.setText(countPrice());
-                } else {
-                    JOptionPane.showMessageDialog(addRemovePanel, "Wrong Portion, reset please",
-                            "Portion Setting", JOptionPane.WARNING_MESSAGE);
-                }
-            }
-        });
+
+
     }
 
     private boolean checkPortionField() {
@@ -243,25 +247,27 @@ public class DenominationsPanel {
                 }
             }
         }
-        dishComboBox.setEnabled(false);
+        dishComboBox.setEnabled(true);
     }
 
     private void initTable() {
         String[] head;
         if (orderingSource.getType().equals(OrderType.CURRENT)) {
-            head = new String[]{"Dish", "Portion", "Price", "Dish added", "Dish ready"};
+            head = new String[]{"Dish", "Portion", "Price", "Dish added", "Dish ready", "State"};
             lab1.setText("Dish");
             lab2.setText("Portion");
             lab3.setText("Price");
             lab4.setText("Dish added");
             lab5.setText("Dish ready");
+            lab6.setText("State");
         } else {
-            head = new String[]{"Dish", "Portion", "Price"};
+            head = new String[]{"Dish", "Portion", "Price", "State"};
             lab1.setText("Dish");
             lab2.setText("Portion");
             lab3.setText("Price");
-            lab4.setVisible(false);
+            lab4.setText("State");
             lab5.setVisible(false);
+            lab6.setVisible(false);
 
         }
         denominationsTableModel = new DenominationsTableModel(head);
@@ -301,7 +307,7 @@ public class DenominationsPanel {
                 dishComboBox.setSelectedItem((Dish) selectedDenomination.getDish());
                 portionField.setText(String.valueOf(selectedDenomination.getPortion()));
                 priceField.setText(String.valueOf(selectedDenomination.getPrice()));
-                if (getColumnCount() == 5) {
+                if (getColumnCount() == 6) {
                     addedDateField.setText(selectedDenomination.getTimeWhenAdded().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                     if (selectedDenomination.getTimeWhenIsReady() != null)
                         readyDateField.setText(selectedDenomination.getTimeWhenIsReady().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
@@ -329,19 +335,36 @@ public class DenominationsPanel {
 
         public Object getValueAt(int rowIndex, int columnIndex) {
             Denomination selected = denominations.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    return selected.getDish();
-                case 1:
-                    return selected.getPortion();
-                case 2:
-                    return selected.getPrice();
-                case 3:
-                    return selected.getTimeWhenAdded();
-                case 4:
-                    return selected.getTimeWhenIsReady();
-                default:
-                    return null;
+            if (colNames.length == 6) {
+                switch (columnIndex) {
+                    case 0:
+                        return selected.getDish();
+                    case 1:
+                        return selected.getPortion();
+                    case 2:
+                        return selected.getPrice();
+                    case 3:
+                        return selected.getTimeWhenAdded();
+                    case 4:
+                        return selected.getTimeWhenIsReady();
+                    case 5:
+                        return selected.getState();
+                    default:
+                        return null;
+                }
+            } else {
+                switch (columnIndex) {
+                    case 0:
+                        return selected.getDish();
+                    case 1:
+                        return selected.getPortion();
+                    case 2:
+                        return selected.getPrice();
+                    case 3:
+                        return selected.getState();
+                    default:
+                        return null;
+                }
             }
         }
 

@@ -3,12 +3,14 @@ package server.service;
 
 import server.exceptions.*;
 import server.model.denomination.Denomination;
+import server.model.denomination.DenominationState;
 import server.model.dish.Dish;
 import server.model.dish.DishType;
 import server.model.fund.Fund;
 import server.model.order.Ordering;
 import server.model.user.User;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,7 +49,9 @@ public interface IBarmenService {
 
     List<Denomination> getDenominationsByOrder(Ordering ordering);
 
-    Denomination removeDenomination(Denomination denomination);
+    Denomination removeDenomination(Denomination denomination, User logined) throws UserAccessException;
+
+    Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException;
 
     Dish addDish(Dish dish);
 
@@ -65,6 +69,7 @@ public interface IBarmenService {
 
     Ordering setWhoServesOrderNull(Ordering ordering, User user) throws OrderingNotServingByYouException, NoOrderingWithIdException, UserAccessException;
 
+    void generatePdf(Ordering ordering) throws FileNotFoundException;
 
-
+    void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
 }

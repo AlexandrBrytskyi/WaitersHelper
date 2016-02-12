@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,6 +70,7 @@ public class OrderingPanel extends JPanel {
     private IBarmenService service;
     private AllOrderingsPanel allOrderingsPanel;
     private User logined;
+
 
     public OrderingPanel(Ordering ordering, IBarmenService service, AllOrderingsPanel allOrderingsPanel, User logined) {
         this.logined = logined;
@@ -243,7 +245,11 @@ public class OrderingPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(fundPanel, "Have you already checked all denominations, " +
                         "KO?", "Are you sure", JOptionPane.YES_NO_OPTION) == 0) {
-
+                    try {
+                        service.generatePdf(orderingSource);
+                    } catch (FileNotFoundException e1) {
+                        JOptionPane.showMessageDialog(mainPanel, "Document is open, close it and try again");
+                    }
                 } else {
 
                 }
