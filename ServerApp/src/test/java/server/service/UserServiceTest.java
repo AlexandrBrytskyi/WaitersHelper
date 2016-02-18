@@ -253,8 +253,10 @@ public class UserServiceTest {
     @Ignore
     public void removeDishTest() {
         try {
-            service.removeDish(service.getDishById(37));
+            service.removeDish(service.getDishById(37),null);
         } catch (NoDishWithIdFoundedException e) {
+            e.printStackTrace();
+        } catch (UserAccessException e) {
             e.printStackTrace();
         }
     }

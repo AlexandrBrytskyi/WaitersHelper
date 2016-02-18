@@ -159,7 +159,8 @@ public class BarmenService implements IBarmenService {
         return denominationDAO.setDenominationState(state, denomination);
     }
 
-    public Dish removeDish(Dish dish) {
+    public Dish removeDish(Dish dish, User logined) throws UserAccessException {
+        if (!(logined.getType().equals(UserType.BARMEN)&&!dish.getType().equals(DishType.DISH))) throw new UserAccessException("Barmen can remove only bar dishes");
         return dishDAO.removeDish(dish);
     }
 

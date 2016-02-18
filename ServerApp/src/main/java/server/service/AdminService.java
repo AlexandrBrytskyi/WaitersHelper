@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.exceptions.UserAccessException;
 import server.exceptions.UserFieldIsEmptyException;
 import server.exceptions.WrongLoginException;
 import server.model.denomination.Denomination;
+import server.model.dish.Dish;
 import server.model.dish.ingridient.Ingridient;
 import server.model.order.Ordering;
 import server.model.user.User;
+import server.model.user.UserType;
 import server.service.printing.ReportsPDFGenerator;
 
 import java.io.File;
@@ -35,6 +38,10 @@ public class AdminService extends WaitersService implements IAdminService {
         return orderingDAO.removeOrdering(ordering);
     }
 
+    public Dish removeDish(Dish dish, User logined) throws UserAccessException {
+        if (logined.getType()!= UserType.ADMIN) throw new UserAccessException("Only admin can delete");
+        return dishDAO.removeDish(dish);
+    }
 
     /*users */
     public User addNewUser(User user) throws UserFieldIsEmptyException, WrongLoginException {

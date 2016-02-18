@@ -64,7 +64,7 @@ public interface IBarmenService {
 
     List<Dish> getAllDishes();
 
-    Dish removeDish(Dish dish);
+    Dish removeDish(Dish dish, User logined) throws UserAccessException;
 
     Ordering removeOrdering(Ordering source, User logined) throws UserAccessException;
 

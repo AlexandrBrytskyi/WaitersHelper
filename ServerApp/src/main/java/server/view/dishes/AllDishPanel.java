@@ -3,11 +3,13 @@ package server.view.dishes;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import server.exceptions.IngridientWithIDNotFoundException;
+import server.exceptions.UserAccessException;
 import server.model.dish.Dish;
 import server.model.dish.DishType;
 import server.model.dish.WhoCoockDishType;
 import server.model.dish.ingridient.Ingridient;
 import server.model.dish.ingridient.Product;
+import server.model.user.User;
 import server.service.IAdminService;
 import server.service.IBarmenService;
 import server.service.IWaitersService;
@@ -58,14 +60,17 @@ public class AllDishPanel {
     private boolean isAlreadyInitialised = false;
     private DishTableModel dishTableModel;
     private IngridientTableModel ingridientTableModel;
+    private User logined;
 
 
-    public AllDishPanel(IAdminService service, Logger LOGGER) {
+    public AllDishPanel(IAdminService service, Logger LOGGER, User logined) {
+        this.logined = logined;
         this.adminService = service;
         this.LOGGER = LOGGER;
     }
 
-    public AllDishPanel(IBarmenService service, Logger LOGGER) {
+    public AllDishPanel(IBarmenService service, Logger LOGGER, User logined) {
+        this.logined = logined;
         this.barmenService = service;
         this.LOGGER = LOGGER;
         allDishesPanel.remove(dishIngridientScrolPane);
@@ -194,23 +199,27 @@ public class AllDishPanel {
                 addDishButton.setText("Submit");
                 allDishesTable.setEnabled(false);
             } else {
-                Dish dish = new Dish();
-                dish.setName(dishNameField.getText());
-                dish.setType((DishType) dishTypeComboBox.getSelectedItem());
-                dish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
-                dish.setDescription(dishDescriptionField.getText());
-                dish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
-                if (adminService != null) adminService.addDish(dish);
-                if (barmenService != null) barmenService.addDish(dish);
-                dishTableModel.updateList();
-                allDishesTable.updateUI();
-                JOptionPane.showMessageDialog(addChangeDishPanel, "New Dish was successfully added");
-                LOGGER.info("new Dish was Added" + dish.toString());
-                addDishButton.setText("Add");
-                setDishFieldsEnable(false);
-                changeDishButton.setEnabled(true);
-                removeDishButton.setEnabled(true);
-                allDishesTable.setEnabled(true);
+                try {
+                    Dish dish = new Dish();
+                    dish.setName(dishNameField.getText());
+                    dish.setType((DishType) dishTypeComboBox.getSelectedItem());
+                    dish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
+                    dish.setDescription(dishDescriptionField.getText());
+                    dish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
+                    if (adminService != null) adminService.addDish(dish);
+                    if (barmenService != null) barmenService.addDish(dish);
+                    dishTableModel.updateList();
+                    allDishesTable.updateUI();
+                    JOptionPane.showMessageDialog(addChangeDishPanel, "New Dish was successfully added");
+                    LOGGER.info("new Dish was Added" + dish.toString());
+                    addDishButton.setText("Add");
+                    setDishFieldsEnable(false);
+                    changeDishButton.setEnabled(true);
+                    removeDishButton.setEnabled(true);
+                    allDishesTable.setEnabled(true);
+                } catch (NumberFormatException e1) {
+                    JOptionPane.showMessageDialog(allDishesPanel, "Wrong price!");
+                }
             }
 
         }
@@ -226,23 +235,27 @@ public class AllDishPanel {
                 addDishButton.setEnabled(false);
                 removeDishButton.setEnabled(false);
             } else { //submit
-                if (JOptionPane.showConfirmDialog(addChangeDishPanel, "Apply changes?", "Dish change", JOptionPane.YES_NO_OPTION) == 0) {
-                    Dish selectedDish = dishTableModel.getSelectedDish();
-                    selectedDish.setName(dishNameField.getText());
-                    selectedDish.setType((DishType) dishTypeComboBox.getSelectedItem());
-                    selectedDish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
-                    selectedDish.setDescription(dishDescriptionField.getText());
-                    selectedDish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
-                    if (adminService != null) adminService.updateDish(selectedDish);
-                    if (barmenService != null) barmenService.updateDish(selectedDish);
+                try {
+                    if (JOptionPane.showConfirmDialog(addChangeDishPanel, "Apply changes?", "Dish change", JOptionPane.YES_NO_OPTION) == 0) {
+                        Dish selectedDish = dishTableModel.getSelectedDish();
+                        selectedDish.setName(dishNameField.getText());
+                        selectedDish.setType((DishType) dishTypeComboBox.getSelectedItem());
+                        selectedDish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
+                        selectedDish.setDescription(dishDescriptionField.getText());
+                        selectedDish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
+                        if (adminService != null) adminService.updateDish(selectedDish);
+                        if (barmenService != null) barmenService.updateDish(selectedDish);
+                    }
+                    allDishesTable.setEnabled(true);
+                    addDishButton.setEnabled(true);
+                    removeDishButton.setEnabled(true);
+                    changeDishButton.setText("Change");
+                    setDishFieldsEnable(false);
+                    dishTableModel.updateList();
+                    allDishesTable.updateUI();
+                } catch (NumberFormatException e1) {
+                    JOptionPane.showMessageDialog(allDishesPanel, "Wrong price!");
                 }
-                allDishesTable.setEnabled(true);
-                addDishButton.setEnabled(true);
-                removeDishButton.setEnabled(true);
-                changeDishButton.setText("Change");
-                setDishFieldsEnable(false);
-                dishTableModel.updateList();
-                allDishesTable.updateUI();
             }
         }
     };
@@ -252,8 +265,8 @@ public class AllDishPanel {
             if (JOptionPane.showConfirmDialog(addChangeDishPanel, "Really remove dish?", "Dish deleting", JOptionPane.YES_NO_OPTION) == 0) {
                 try {
 
-                    if (adminService != null) adminService.removeDish(dishTableModel.getSelectedDish());
-                    if (barmenService != null) barmenService.removeDish(dishTableModel.getSelectedDish());
+                    if (adminService != null) adminService.removeDish(dishTableModel.getSelectedDish(), logined);
+                    if (barmenService != null) barmenService.removeDish(dishTableModel.getSelectedDish(), logined);
                     JOptionPane.showMessageDialog(addChangeDishPanel, "Removed successfuly");
                     dishTableModel.updateList();
                     allDishesTable.updateUI();
@@ -263,6 +276,8 @@ public class AllDishPanel {
                     }
                 } catch (ConstraintViolationException e1) {
                     JOptionPane.showMessageDialog(allDishesPanel, "Can`t delete dish as it is included in one of orderings, remove ordering firstly");
+                } catch (UserAccessException e1) {
+                    JOptionPane.showMessageDialog(allDishesPanel, e1);
                 }
             }
         }
@@ -289,12 +304,12 @@ public class AllDishPanel {
             if (JOptionPane.showConfirmDialog(addChangeIngridientPanel, "Really remove Ingridient?", "Ingridient deleting", JOptionPane.YES_NO_OPTION) == 0) {
                 try {
                     adminService.removeIngridientById(ingridientTableModel.getSelectedIngridient().getId());
+                    JOptionPane.showMessageDialog(addChangeIngridientPanel, "Removed successfuly");
+                    ingridientTableModel.updateList();
+                    chosenDishIngridientsTable.updateUI();
                 } catch (IngridientWithIDNotFoundException e1) {
                     LOGGER.error("cant delete ingridient " + e1);
                 }
-                JOptionPane.showMessageDialog(addChangeIngridientPanel, "Removed successfuly");
-                ingridientTableModel.updateList();
-                chosenDishIngridientsTable.updateUI();
             }
         }
     };

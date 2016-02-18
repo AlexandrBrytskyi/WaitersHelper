@@ -50,7 +50,7 @@ public class BarmenUI extends JFrame {
 
 
     private void initAllDishPanel() {
-        allDishPanel = new AllDishPanel(service, LOGGER);
+        allDishPanel = new AllDishPanel(service, LOGGER,loggedUser);
         dishesPane.addTab("All Dishes", allDishPanel.getAllDishesPanel());
     }
 
