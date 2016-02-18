@@ -468,4 +468,14 @@ public class UserServiceTest {
     }
 
 
+    @Test
+    @Ignore
+    public void getDenominationsByOrderingForFundTest() {
+        try {
+            System.out.println(service.getDenominationsByOrderForFund(service.getOrderingById(100)));
+        } catch (NoOrderingWithIdException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -94,6 +94,32 @@ public class Dish extends IdAutoGenerator {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dish dish = (Dish) o;
+
+        if (Double.compare(dish.priceForPortion, priceForPortion) != 0) return false;
+        if (name != null ? !name.equals(dish.name) : dish.name != null) return false;
+        if (type != dish.type) return false;
+        return !(ingridients != null ? !ingridients.equals(dish.ingridients) : dish.ingridients != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        temp = Double.doubleToLongBits(priceForPortion);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (ingridients != null ? ingridients.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return name + ",\n" + type;
     }

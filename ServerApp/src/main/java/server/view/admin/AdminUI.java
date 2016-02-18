@@ -6,6 +6,8 @@ import server.service.IAdminService;
 import server.view.account.AccountFrame;
 import server.view.dishes.AllDishPanel;
 import server.view.orderings.AllOrderingsPanel;
+import server.view.products.AllProductPanel;
+import server.view.reports.ReportsPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -26,11 +28,13 @@ public class AdminUI extends JFrame {
     private JTabbedPane dishesPane;
     private JTabbedPane ordersPane;
     private JPanel accountPanel;
-    private JPanel reportPanel;
+    private JPanel reportsPanel;
     private AllProductPanel allProductsPanel;
     private AllDishPanel allDishPanel;
     private AllOrderingsPanel allOrderingsPanel;
     private AllUsersPanel allUsersPanel;
+    private ReportsPanel reportsPanell;
+
     private User loggedUser;
     private JPanel myOrderingsPanel;
 
@@ -52,6 +56,7 @@ public class AdminUI extends JFrame {
         initAllDishPanel();
         initAllOrdersPanel();
         initAllUsersPanel();
+        initReportsPanel();
         accountPane.addChangeListener(menuTabChangeListener);
 
     }
@@ -94,8 +99,14 @@ public class AdminUI extends JFrame {
     private void initAllUsersPanel() {
         allUsersPanel = new AllUsersPanel(service);
         usersPanel.setLayout(new BorderLayout());
-        usersPanel.add(allUsersPanel.getAllUsersPanel(),BorderLayout.PAGE_START);
+        usersPanel.add(allUsersPanel.getAllUsersPanel(), BorderLayout.PAGE_START);
         allUsersPanel.initialiseAllUsersPanel();
+    }
+
+    private void initReportsPanel() {
+        reportsPanell = new ReportsPanel(service);
+        reportsPanel.add(reportsPanell.getMainPanel());
+        reportsPanel.updateUI();
     }
 
     private ChangeListener menuTabChangeListener = new ChangeListener() {

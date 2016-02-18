@@ -1,4 +1,4 @@
-package server.view.admin;
+package server.view.products;
 
 import org.apache.log4j.Logger;
 import server.exceptions.ProductByIdNotFoundException;
@@ -136,7 +136,6 @@ public class AllProductPanel {
 
     private void initialiseProductTable() {
         String[] head = new String[]{"Product", "Mesurement"};
-        java.util.List<Product> productList = service.getAllProducts();
         productTableModel = new ProductTableModel(head);
         allProductsTable.setModel(productTableModel);
     }

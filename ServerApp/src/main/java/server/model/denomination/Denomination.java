@@ -105,6 +105,30 @@ public class Denomination extends IdAutoGenerator {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Denomination that = (Denomination) o;
+
+        if (Double.compare(that.portion, portion) != 0) return false;
+        if (Double.compare(that.price, price) != 0) return false;
+        if (dish != null ? !dish.equals(that.dish) : that.dish != null) return false;
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        if (timeWhenAdded != null ? !timeWhenAdded.equals(that.timeWhenAdded) : that.timeWhenAdded != null)
+            return false;
+        if (timeWhenIsReady != null ? !timeWhenIsReady.equals(that.timeWhenIsReady) : that.timeWhenIsReady != null)
+            return false;
+        return state == that.state;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return dish != null ? dish.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "Denomination{" +
                 "dish=" + dish +

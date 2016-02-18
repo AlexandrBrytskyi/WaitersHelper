@@ -127,7 +127,7 @@ public class AllDishPanel {
     }
 
     private void initialiseSelectedDishIngridientsTable() {
-        ingridientTableModel = new IngridientTableModel(new String[]{"Dish", "Product", "Amount"});
+        ingridientTableModel = new IngridientTableModel(new String[]{"Dish", "Product", "Amount", "Mesurement"});
         chosenDishIngridientsTable.setModel(ingridientTableModel);
     }
 
@@ -458,6 +458,8 @@ public class AllDishPanel {
                     return selected.getProduct().getName();
                 case 2:
                     return selected.getAmount();
+                case 3:
+                    return selected.getProduct().getMesuarment();
                 default:
                     return null;
             }

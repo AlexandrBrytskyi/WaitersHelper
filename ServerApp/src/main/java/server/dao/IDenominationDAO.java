@@ -6,12 +6,9 @@ import server.model.denomination.DenominationState;
 import server.model.dish.Dish;
 import server.model.order.Ordering;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * User: huyti
- * Date: 10.01.2016
- */
 public interface IDenominationDAO {
 
     Denomination addDenomination(Denomination denomination);
@@ -32,4 +29,14 @@ public interface IDenominationDAO {
     Denomination removeDenomination(Denomination denomination);
 
     List<Denomination> getDenominationsByOrder(Ordering ordering);
+
+    List<Denomination> getDenominationsByOrderForFund(Ordering ordering);
+
+    List<Denomination> getReadyDenominationsByDate(LocalDateTime concreteDate);
+
+    List<Denomination> getReadyDenominationsByDate(LocalDateTime periodStart, LocalDateTime periodEnd);
+
+    List<Denomination> getDenominationsByDate(LocalDateTime concreteDate);
+
+    List<Denomination> getDenominationsByDate(LocalDateTime periodStart, LocalDateTime periodEnd);
 }

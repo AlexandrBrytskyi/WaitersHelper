@@ -18,8 +18,10 @@ import server.model.order.Ordering;
 import server.model.user.User;
 import server.model.user.UserType;
 import server.service.printing.FundPdfGenerator;
+import server.service.printing.PdfPrinter;
 
-import java.io.FileNotFoundException;
+import java.awt.print.PrinterException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -135,6 +137,11 @@ public class BarmenService implements IBarmenService {
     }
 
     @Override
+    public List<Denomination> getDenominationsByOrderForFund(Ordering ordering) {
+        return denominationDAO.getDenominationsByOrderForFund(ordering);
+    }
+
+    @Override
     public Denomination removeDenomination(Denomination denomination, User logined) throws UserAccessException {
         if (!logined.getType().equals(UserType.ADMIN)) throw new UserAccessException("Only admin can delete");
         if (denomination.getOrder().getWhoServesOrder() != null)
@@ -157,8 +164,9 @@ public class BarmenService implements IBarmenService {
     }
 
     @Override
-    public Ordering removeOrdering(Ordering source) throws UserAccessException {
-        throw new UserAccessException("Only admin can remove orderings");
+    public Ordering removeOrdering(Ordering source, User logined) throws UserAccessException {
+        if (!logined.getType().equals(UserType.ADMIN)) throw new UserAccessException("Only admin can remove orderings");
+        return  orderingDAO.removeOrdering(source);
     }
 
     public Ordering setWhoServesOrder(Ordering ordering, User user) throws OrderingAlreadyServingException, NoOrderingWithIdException, UserAccessException {
@@ -195,14 +203,15 @@ public class BarmenService implements IBarmenService {
     }
 
     @Override
-    public void generatePdf(Ordering ordering) throws FileNotFoundException {
-        fundPdfGenerator.generatePdf(ordering);
+    public void generatePrintPdf(Ordering ordering) throws IOException, PrinterException {
+        PdfPrinter.print(fundPdfGenerator.generatePdf(ordering));
     }
 
     @Override
     public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
         DenominationState state = null;
-        if (!selectedDenomination.getOrder().getWhoServesOrder().equals(logined)) throw new UserAccessException("You can`t cancel, you don`n serve");
+        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin())&&!logined.getType().equals(UserType.ADMIN))
+            throw new UserAccessException("You can`t cancel, you don`n serve");
         if (logined.getType().equals(UserType.BARMEN)) state = DenominationState.CANCELED_BY_BARMEN;
         if (logined.getType().equals(UserType.WAITER)) state = DenominationState.CANCELED_BY_WAITER;
         if (logined.getType().equals(UserType.ADMIN)) state = DenominationState.CANCELED_BY_ADMIN;

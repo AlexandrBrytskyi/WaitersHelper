@@ -4211,3 +4211,38 @@ Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have a
 2016-02-01 01:08:37 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
 2016-02-01 01:08:38 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
 2016-02-01 01:08:39 INFO  HibernateTransactionManager:357 - Using DataSource [org.springframework.jdbc.datasource.DriverManagerDataSource@3935e9a8] of Hibernate SessionFactory for HibernateTransactionManager
+2016-02-15 00:24:59 INFO  ClassPathXmlApplicationContext:577 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@6ea6d14e: startup date [Mon Feb 15 00:24:59 EET 2016]; root of context hierarchy
+2016-02-15 00:25:00 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [app-context.xml]
+2016-02-15 00:25:04 INFO  DriverManagerDataSource:133 - Loaded JDBC driver: com.mysql.jdbc.Driver
+2016-02-15 00:25:06 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-02-15 00:25:06 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-02-15 00:25:06 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-02-15 00:25:06 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-02-15 00:25:08 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2016-02-15 00:25:08 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-02-15 00:25:09 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:25:09 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:25:09 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:25:09 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:25:09 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:25:10 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-02-15 00:25:13 INFO  HibernateTransactionManager:357 - Using DataSource [org.springframework.jdbc.datasource.DriverManagerDataSource@4ad4936c] of Hibernate SessionFactory for HibernateTransactionManager
+2016-02-15 00:25:14 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-02-15 00:25:15 ERROR DenominationDAO:146 - java.lang.ClassCastException: [Lserver.model.denomination.DenominationState; cannot be cast to java.lang.Enum
+2016-02-15 00:26:39 INFO  ClassPathXmlApplicationContext:577 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@6ea6d14e: startup date [Mon Feb 15 00:26:39 EET 2016]; root of context hierarchy
+2016-02-15 00:26:39 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [app-context.xml]
+2016-02-15 00:26:41 INFO  DriverManagerDataSource:133 - Loaded JDBC driver: com.mysql.jdbc.Driver
+2016-02-15 00:26:42 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-02-15 00:26:42 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-02-15 00:26:42 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-02-15 00:26:43 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-02-15 00:26:44 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2016-02-15 00:26:44 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-02-15 00:26:45 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:26:45 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:26:45 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:26:45 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:26:45 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
+2016-02-15 00:26:46 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-02-15 00:26:47 INFO  HibernateTransactionManager:357 - Using DataSource [org.springframework.jdbc.datasource.DriverManagerDataSource@4ad4936c] of Hibernate SessionFactory for HibernateTransactionManager
+2016-02-15 00:26:48 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory

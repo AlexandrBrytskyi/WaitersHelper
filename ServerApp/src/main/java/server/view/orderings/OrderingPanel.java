@@ -15,7 +15,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,7 +56,6 @@ public class OrderingPanel extends JPanel {
     private JPanel datePanell;
     private JLabel createdDateLabel;
     private JComboBox koComboBox;
-    private JScrollPane pannnn;
     private JLabel amountOfPeopleLable;
     private JPanel razdelitel;
     private JTextField avanceField;
@@ -64,6 +65,8 @@ public class OrderingPanel extends JPanel {
     private JButton serveButton;
     private JButton dropButton;
     private JPanel takeServePanel;
+    private JScrollPane panee;
+    private JPanel descPan;
     private Ordering orderingSource;
     private static final Logger LOGGER = Logger.getLogger(OrderingPanel.class);
     private SqlDateModel model;
@@ -179,7 +182,7 @@ public class OrderingPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (JOptionPane.showConfirmDialog(mainPanel, "Really remove?", "Removing ordering", JOptionPane.YES_NO_OPTION) == 0) {
                     try {
-                        service.removeOrdering(orderingSource);
+                        service.removeOrdering(orderingSource, logined);
                         JOptionPane.showMessageDialog(mainPanel, "Removed Succesfully");
                         allOrderingsPanel.getFilteredAndBuildPanel();
                     } catch (UserAccessException e1) {
@@ -246,12 +249,16 @@ public class OrderingPanel extends JPanel {
                 if (JOptionPane.showConfirmDialog(fundPanel, "Have you already checked all denominations, " +
                         "KO?", "Are you sure", JOptionPane.YES_NO_OPTION) == 0) {
                     try {
-                        service.generatePdf(orderingSource);
+                        service.generatePrintPdf(orderingSource);
                     } catch (FileNotFoundException e1) {
                         JOptionPane.showMessageDialog(mainPanel, "Document is open, close it and try again");
+                    } catch (PrinterException e1) {
+                        JOptionPane.showMessageDialog(mainPanel, "Problem with printer " + e1);
+                    } catch (IOException e1) {
+                        JOptionPane.showMessageDialog(mainPanel, "Problem with generating pdf " + e1);
                     }
                 } else {
-
+                    JOptionPane.showMessageDialog(mainPanel, "You should be more carefull with this!");
                 }
             }
         });
@@ -281,7 +288,9 @@ public class OrderingPanel extends JPanel {
         descriptionField.setText(orderingSource.getDescription());
         descriptionField.setLineWrap(true);
         descriptionField.setEnabled(false);
-        descriptionField.setSize(new Dimension(600, 250));
+        descriptionField.setPreferredSize(new Dimension(600, 100));
+        descriptionField.setMaximumSize(descriptionField.getPreferredSize());
+
     }
 
     private void initTakenServingPanel() {

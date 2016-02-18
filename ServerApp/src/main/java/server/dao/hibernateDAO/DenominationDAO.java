@@ -12,6 +12,7 @@ import server.model.dish.Dish;
 import server.model.order.Ordering;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -130,6 +131,68 @@ public class DenominationDAO implements IDenominationDAO {
         try {
             return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order = :orderin").
                     setParameter("orderin", ordering).list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Denomination> getDenominationsByOrderForFund(Ordering ordering) {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order = :orderin and d.state not in :canc").
+                    setParameter("orderin", ordering).
+                    setParameterList("canc", new DenominationState[]{DenominationState.CANCELED_BY_ADMIN, DenominationState.CANCELED_BY_BARMEN, DenominationState.CANCELED_BY_COCK, DenominationState.CANCELED_BY_BARMEN}).list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Denomination> getReadyDenominationsByDate(LocalDateTime concreteDate) {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order.dateClientsCome between :date1 and :date2 and d.state = :ready").
+                    setParameter("date1", concreteDate).
+                    setParameter("date2", LocalDateTime.of(concreteDate.toLocalDate(), LocalTime.of(23, 59))).
+                    setParameter("ready", DenominationState.READY).list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Denomination> getReadyDenominationsByDate(LocalDateTime periodStart, LocalDateTime periodEnd) {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order.dateClientsCome between :dateStart and :dateEnd and d.state = :ready").
+                    setParameter("dateStart", periodStart).
+                    setParameter("dateEnd", periodEnd).
+                    setParameter("ready", DenominationState.READY).list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Denomination> getDenominationsByDate(LocalDateTime concreteDate) {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order.dateClientsCome between :date1 and :date2").
+                    setParameter("date1", concreteDate).
+                    setParameter("date2", LocalDateTime.of(concreteDate.toLocalDate(), LocalTime.of(23, 59))).list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Denomination> getDenominationsByDate(LocalDateTime periodStart, LocalDateTime periodEnd) {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Denomination d where d.order.dateClientsCome between :dateStart and :dateEnd").
+                    setParameter("dateStart", periodStart).
+                    setParameter("dateEnd", periodEnd).list();
         } catch (Throwable e) {
             LOGGER.error(e);
             return null;

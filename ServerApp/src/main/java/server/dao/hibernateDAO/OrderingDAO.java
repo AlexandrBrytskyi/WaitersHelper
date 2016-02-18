@@ -10,12 +10,12 @@ import server.exceptions.NoOrderingWithIdException;
 import server.exceptions.OrderingAlreadyServingException;
 import server.exceptions.OrderingNotServingByYouException;
 import server.model.denomination.Denomination;
+import server.model.denomination.DenominationState;
 import server.model.fund.Fund;
 import server.model.order.OrderType;
 import server.model.order.Ordering;
 import server.model.user.User;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -169,7 +169,12 @@ public class OrderingDAO implements IOrderingDAO {
     private Fund countPrice(Ordering ordering) {
         double result = 0;
         for (Denomination denomination : sessionFactory.getCurrentSession().get(Ordering.class, ordering.getId()).getDenominations()) {
-            result += denomination.getPrice();
+            if (!denomination.getState().equals(DenominationState.CANCELED_BY_ADMIN) &&
+                    !denomination.getState().equals(DenominationState.CANCELED_BY_WAITER) &&
+                    !denomination.getState().equals(DenominationState.CANCELED_BY_BARMEN) &&
+                    !denomination.getState().equals(DenominationState.CANCELED_BY_COCK) &&
+                    !denomination.getState().equals(DenominationState.JUST_ADDED))
+                result += denomination.getPrice();
         }
         Fund fund = ordering.getFund();
         fund.setPrice(result);
