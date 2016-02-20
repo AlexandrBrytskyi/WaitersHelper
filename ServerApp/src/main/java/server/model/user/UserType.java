@@ -3,5 +3,5 @@ package server.model.user;
 
 public enum UserType {
 
-    ADMIN, WAITER, COOK, BARMEN
+    ADMIN, WAITER, COLD_KITCHEN_COCK, HOT_KITCHEN_COCK, MANGAL_COCK, BARMEN
 }
