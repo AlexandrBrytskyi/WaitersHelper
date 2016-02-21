@@ -3,6 +3,7 @@ package server.view.barmen;
 import org.apache.log4j.Logger;
 import server.model.user.User;
 import server.service.IBarmenService;
+import server.validator.Loginable;
 import server.view.account.AccountFrame;
 import server.view.dishes.AllDishPanel;
 import server.view.orderings.AllOrderingsPanel;
@@ -13,7 +14,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public class BarmenUI extends JFrame {
+public class BarmenUI extends JFrame implements Loginable {
     protected static Logger LOGGER = Logger.getLogger(BarmenUI.class);
 
     private JPanel mainPanel;
@@ -94,4 +95,8 @@ public class BarmenUI extends JFrame {
     };
 
 
+    @Override
+    public void sendUIToLoginedList() {
+        service.sentUIobjectToValidator(loggedUser,this);
+    }
 }

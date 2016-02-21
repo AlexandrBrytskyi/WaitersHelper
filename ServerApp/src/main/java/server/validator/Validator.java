@@ -18,8 +18,8 @@ import server.service.ICookService;
 import server.service.IWaitersService;
 import server.service.password_utils.Password;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Transactional
 @Component("myValidator")
@@ -46,18 +46,23 @@ public class Validator implements IValidator {
     @Qualifier("barmenService")
     IBarmenService barmenService;
 
-
-    List<User> loggedUsers = new ArrayList<User>();
+    /*while login called method "login" first, it returns logged User
+    * having logged user MainFrame try to get service from validator
+    * after service got it try to create UIFrame,
+    * UIFrame must implement Loginable so it realises method sendUIToLoginedList()
+    * ui is UIFrame, so if UIFrame is null, user will not be logined more
+    */
+    private Map<User, Object> loggedUsers = new HashMap<User, Object>();
 
     public User login(String login, Password pass) throws WrongLoginException, WrongPasswordException, AccountBlockedException {
         User logged = userDAO.getUser(login, pass);
-        loggedUsers.add(logged);
+        loggedUsers.put(logged,null);
         LOGGER.info("user " + logged.getName() + " has loged in");
         return logged;
     }
 
     public IAdminService getAdminService(User user) {
-        if (loggedUsers.contains(user) && user.getType().equals(UserType.ADMIN)) {
+        if (loggedUsers.containsKey(user) && user.getType().equals(UserType.ADMIN)) {
             LOGGER.info("admin service was given to user " + user.getName());
             return adminService;
         } else {
@@ -67,7 +72,7 @@ public class Validator implements IValidator {
     }
 
     public IWaitersService getWaitersService(User user) {
-        if (loggedUsers.contains(user) && user.getType().equals(UserType.WAITER)) {
+        if (loggedUsers.containsKey(user) && user.getType().equals(UserType.WAITER)) {
             LOGGER.info("waiter service was given to user " + user.getName());
             return waitersService;
         } else {
@@ -77,9 +82,9 @@ public class Validator implements IValidator {
     }
 
     public ICookService getCookService(User user) {
-        if (loggedUsers.contains(user) && (user.getType().equals(UserType.HOT_KITCHEN_COCK)||
-                user.getType().equals(UserType.COLD_KITCHEN_COCK)||
-        user.getType().equals(UserType.MANGAL_COCK))) {
+        if (loggedUsers.containsKey(user) && (user.getType().equals(UserType.HOT_KITCHEN_COCK) ||
+                user.getType().equals(UserType.COLD_KITCHEN_COCK) ||
+                user.getType().equals(UserType.MANGAL_COCK))) {
             LOGGER.info("Cook service was given to user " + user.getName());
             return cookService;
         } else {
@@ -90,7 +95,7 @@ public class Validator implements IValidator {
 
 
     public IBarmenService getBarmenService(User user) {
-        if (loggedUsers.contains(user) && user.getType().equals(UserType.BARMEN)) {
+        if (loggedUsers.containsKey(user) && user.getType().equals(UserType.BARMEN)) {
             LOGGER.info("Barmen service was given to user " + user.getName());
             return barmenService;
         } else {
@@ -99,4 +104,13 @@ public class Validator implements IValidator {
         }
     }
 
+    @Override
+    public void setObjectToUser(User user, Object ui) {
+        if (loggedUsers.containsKey(user)) loggedUsers.put(user,ui);
+        System.out.println(loggedUsers.toString());
+    }
+
+    public Map<User, Object> getLoggedUsers() {
+        return loggedUsers;
+    }
 }

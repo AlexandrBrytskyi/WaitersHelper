@@ -23,4 +23,5 @@ public interface IValidator {
 
     IBarmenService getBarmenService(User user);
 
+    void setObjectToUser(User user, Object ui);
 }

@@ -11,6 +11,7 @@ import server.model.user.User;
 import server.model.user.UserType;
 import server.service.password_utils.Password;
 import server.validator.IValidator;
+import server.validator.Loginable;
 import server.view.admin.AdminUI;
 import server.view.barmen.BarmenUI;
 import server.view.waiter.WaiterUI;
@@ -74,12 +75,14 @@ public class MainFrame extends JFrame {
 
 
     private void defineUI(User logged) {
-        if (logged.getType().equals(UserType.ADMIN)) new AdminUI(validator.getAdminService(logged), logged);
-        if (logged.getType().equals(UserType.WAITER)) new WaiterUI(validator.getWaitersService(logged), logged);
+        Loginable ui =null;
+        if (logged.getType().equals(UserType.ADMIN)) ui = new AdminUI(validator.getAdminService(logged), logged);
+        if (logged.getType().equals(UserType.WAITER))ui = new WaiterUI(validator.getWaitersService(logged), logged);
         if (logged.getType().equals(UserType.HOT_KITCHEN_COCK)||
                 logged.getType().equals(UserType.COLD_KITCHEN_COCK)||
                 logged.getType().equals(UserType.MANGAL_COCK)) return;
-        if (logged.getType().equals(UserType.BARMEN)) new BarmenUI(validator.getBarmenService(logged), logged);
+        if (logged.getType().equals(UserType.BARMEN)) ui = new BarmenUI(validator.getBarmenService(logged), logged);
+        if (ui!=null) ui.sendUIToLoginedList();
     }
 
     public static void main(String[] args) {

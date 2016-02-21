@@ -75,4 +75,6 @@ public interface IBarmenService {
     void generatePrintPdf(Ordering ordering) throws IOException, PrinterException;
 
     void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
+
+    void sentUIobjectToValidator(User user, Object ui);
 }

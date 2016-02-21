@@ -26,4 +26,9 @@ public class CookService implements ICookService {
             throw new UserAccessException("Can`t change state, already ready, admin can cancel");
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_COCK, denomination);
     }
+
+    @Override
+    public Denomination setDenomStateReady() {
+        return null;
+    }
 }

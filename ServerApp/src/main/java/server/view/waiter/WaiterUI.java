@@ -3,6 +3,7 @@ package server.view.waiter;
 import org.apache.log4j.Logger;
 import server.model.user.User;
 import server.service.IWaitersService;
+import server.validator.Loginable;
 import server.view.account.AccountFrame;
 import server.view.barmen.BarmenUIDecorator;
 import server.view.dishes.AllDishPanel;
@@ -12,7 +13,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public class WaiterUI extends BarmenUIDecorator {
+public class WaiterUI extends BarmenUIDecorator implements Loginable {
     private static final Logger LOGGER = Logger.getLogger(WaiterUI.class);
 
     private IWaitersService service;
@@ -51,5 +52,10 @@ public class WaiterUI extends BarmenUIDecorator {
 
     private void setChangeListener() {
         accountPane.addChangeListener(MymenuTabChangeListener);
+    }
+
+    @Override
+    public void sendUIToLoginedList() {
+        service.sentUIobjectToValidator(loggedUser,this);
     }
 }

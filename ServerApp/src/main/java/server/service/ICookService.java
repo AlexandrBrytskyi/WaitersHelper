@@ -8,4 +8,6 @@ import server.model.user.User;
 public interface ICookService {
 
     Denomination cancelDenomination(Denomination denomination, User logined) throws UserAccessException;
+
+    Denomination setDenomStateReady();
 }

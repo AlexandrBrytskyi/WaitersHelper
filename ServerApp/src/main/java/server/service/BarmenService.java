@@ -19,6 +19,7 @@ import server.model.user.User;
 import server.model.user.UserType;
 import server.service.printing.FundPdfGenerator;
 import server.service.printing.PdfPrinter;
+import server.validator.IValidator;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
@@ -44,6 +45,10 @@ public class BarmenService implements IBarmenService {
     @Autowired(required = true)
     @Qualifier(value = "hibernateDishDAO")
     IDishDAO dishDAO;
+
+    @Autowired(required = true)
+    @Qualifier("myValidator")
+    IValidator validator;
 
     @Autowired(required = true)
     @Qualifier("fundGenerator")
@@ -152,8 +157,8 @@ public class BarmenService implements IBarmenService {
     @Override
     public Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException {
         if ((state.equals(DenominationState.IS_COOKING) || state.equals(DenominationState.READY) || state.equals(DenominationState.WAITING_FOR_COCK))
-                && !(logined.getType().equals(UserType.HOT_KITCHEN_COCK)||
-                logined.getType().equals(UserType.COLD_KITCHEN_COCK)||
+                && !(logined.getType().equals(UserType.HOT_KITCHEN_COCK) ||
+                logined.getType().equals(UserType.COLD_KITCHEN_COCK) ||
                 logined.getType().equals(UserType.MANGAL_COCK)))
             throw new UserAccessException("Only coock can set such state");
         if (state.equals(DenominationState.READY))
@@ -162,14 +167,15 @@ public class BarmenService implements IBarmenService {
     }
 
     public Dish removeDish(Dish dish, User logined) throws UserAccessException {
-        if (!(logined.getType().equals(UserType.BARMEN)&&!dish.getType().equals(DishType.DISH))) throw new UserAccessException("Barmen can remove only bar dishes");
+        if (!(logined.getType().equals(UserType.BARMEN) && !dish.getType().equals(DishType.DISH)))
+            throw new UserAccessException("Barmen can remove only bar dishes");
         return dishDAO.removeDish(dish);
     }
 
     @Override
     public Ordering removeOrdering(Ordering source, User logined) throws UserAccessException {
         if (!logined.getType().equals(UserType.ADMIN)) throw new UserAccessException("Only admin can remove orderings");
-        return  orderingDAO.removeOrdering(source);
+        return orderingDAO.removeOrdering(source);
     }
 
     public Ordering setWhoServesOrder(Ordering ordering, User user) throws OrderingAlreadyServingException, NoOrderingWithIdException, UserAccessException {
@@ -213,12 +219,18 @@ public class BarmenService implements IBarmenService {
     @Override
     public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
         DenominationState state = null;
-        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin())||!logined.getType().equals(UserType.ADMIN))
+        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin()) || !logined.getType().equals(UserType.ADMIN))
             throw new UserAccessException("You can`t cancel, you don`n serve, admin can");
         if (logined.getType().equals(UserType.BARMEN)) state = DenominationState.CANCELED_BY_BARMEN;
         if (logined.getType().equals(UserType.WAITER)) state = DenominationState.CANCELED_BY_WAITER;
         if (logined.getType().equals(UserType.ADMIN)) state = DenominationState.CANCELED_BY_ADMIN;
         changeDenominationState(selectedDenomination, state, logined);
     }
+
+    @Override
+    public void sentUIobjectToValidator(User user, Object ui) {
+        validator.setObjectToUser(user,ui);
+    }
+
 
 }

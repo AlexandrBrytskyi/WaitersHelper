@@ -3,6 +3,7 @@ package server.view.admin;
 import org.apache.log4j.Logger;
 import server.model.user.User;
 import server.service.IAdminService;
+import server.validator.Loginable;
 import server.view.account.AccountFrame;
 import server.view.barmen.BarmenUIDecorator;
 import server.view.dishes.AllDishPanel;
@@ -15,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public class AdminUI extends BarmenUIDecorator {
+public class AdminUI extends BarmenUIDecorator implements Loginable {
 
     private JPanel usersPanel;
     private JTabbedPane productsMenuPane;
@@ -99,4 +100,10 @@ public class AdminUI extends BarmenUIDecorator {
     protected void setChangeListener() {
         super.accountPane.addChangeListener(MymenuTabChangeListener);
     }
+
+    @Override
+    public void sendUIToLoginedList() {
+        service.sentUIobjectToValidator(loggedUser,this);
+    }
+
 }
