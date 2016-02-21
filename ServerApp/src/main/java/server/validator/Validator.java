@@ -77,7 +77,9 @@ public class Validator implements IValidator {
     }
 
     public ICookService getCookService(User user) {
-        if (loggedUsers.contains(user) && user.getType().equals(UserType.COOK)) {
+        if (loggedUsers.contains(user) && (user.getType().equals(UserType.HOT_KITCHEN_COCK)||
+                user.getType().equals(UserType.COLD_KITCHEN_COCK)||
+        user.getType().equals(UserType.MANGAL_COCK))) {
             LOGGER.info("Cook service was given to user " + user.getName());
             return cookService;
         } else {

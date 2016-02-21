@@ -152,7 +152,9 @@ public class BarmenService implements IBarmenService {
     @Override
     public Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException {
         if ((state.equals(DenominationState.IS_COOKING) || state.equals(DenominationState.READY) || state.equals(DenominationState.WAITING_FOR_COCK))
-                && !logined.getType().equals(UserType.COOK))
+                && !(logined.getType().equals(UserType.HOT_KITCHEN_COCK)||
+                logined.getType().equals(UserType.COLD_KITCHEN_COCK)||
+                logined.getType().equals(UserType.MANGAL_COCK)))
             throw new UserAccessException("Only coock can set such state");
         if (state.equals(DenominationState.READY))
             throw new UserAccessException("Dish is already ready! Can`t change state");

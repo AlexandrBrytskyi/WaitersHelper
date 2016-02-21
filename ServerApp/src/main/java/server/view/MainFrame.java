@@ -76,7 +76,9 @@ public class MainFrame extends JFrame {
     private void defineUI(User logged) {
         if (logged.getType().equals(UserType.ADMIN)) new AdminUI(validator.getAdminService(logged), logged);
         if (logged.getType().equals(UserType.WAITER)) new WaiterUI(validator.getWaitersService(logged), logged);
-        if (logged.getType().equals(UserType.COOK)) return;
+        if (logged.getType().equals(UserType.HOT_KITCHEN_COCK)||
+                logged.getType().equals(UserType.COLD_KITCHEN_COCK)||
+                logged.getType().equals(UserType.MANGAL_COCK)) return;
         if (logged.getType().equals(UserType.BARMEN)) new BarmenUI(validator.getBarmenService(logged), logged);
     }
 

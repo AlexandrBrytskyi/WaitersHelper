@@ -14,19 +14,20 @@ import java.awt.*;
 
 
 public class BarmenUI extends JFrame {
-    private static final Logger LOGGER = Logger.getLogger(BarmenUI.class);
+    protected static Logger LOGGER = Logger.getLogger(BarmenUI.class);
 
     private JPanel mainPanel;
-    private JTabbedPane accountPane;
+    protected JTabbedPane accountPane;
     private JPanel ordersPanel;
-    private JPanel dishesPanel;
-    private JTabbedPane dishesPane;
+    protected JPanel dishesPanel;
+    protected JTabbedPane dishesPane;
     private JTabbedPane ordersPane;
-    private JPanel accountPanel;
-    private AllDishPanel allDishPanel;
-    private AllOrderingsPanel allOrderingsPanel;
-    private JPanel myOrderingsPanel;
-    private User loggedUser;
+    protected JPanel accountPanel;
+    protected AllDishPanel allDishPanel;
+    protected AllOrderingsPanel allOrderingsPanel;
+    protected JPanel myOrderingsPanel;
+    protected User loggedUser;
+    protected Object sentService;
 
 
     private IBarmenService service;
@@ -45,12 +46,11 @@ public class BarmenUI extends JFrame {
         initAllDishPanel();
         initAllOrdersPanel();
         accountPane.addChangeListener(menuTabChangeListener);
-
     }
 
 
-    private void initAllDishPanel() {
-        allDishPanel = new AllDishPanel(service, LOGGER,loggedUser);
+    protected void initAllDishPanel() {
+        allDishPanel = new AllDishPanel(service,loggedUser);
         dishesPane.addTab("All Dishes", allDishPanel.getAllDishesPanel());
     }
 
@@ -87,7 +87,7 @@ public class BarmenUI extends JFrame {
                 LOGGER.info("initialized all dishes panel");
             }
             if (accountPanel.isShowing()) {
-                AccountFrame.getAddOrderFrame(service, loggedUser);
+                AccountFrame.getAccountFrame(service, loggedUser);
                 LOGGER.info("initialized account frame");
             }
         }

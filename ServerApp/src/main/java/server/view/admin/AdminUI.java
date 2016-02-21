@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import server.model.user.User;
 import server.service.IAdminService;
 import server.view.account.AccountFrame;
+import server.view.barmen.BarmenUIDecorator;
 import server.view.dishes.AllDishPanel;
-import server.view.orderings.AllOrderingsPanel;
 import server.view.products.AllProductPanel;
 import server.view.reports.ReportsPanel;
 
@@ -15,88 +15,53 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public class AdminUI extends JFrame {
-    private static final Logger LOGGER = Logger.getLogger(AdminUI.class);
+public class AdminUI extends BarmenUIDecorator {
 
-    private JPanel mainPanel;
-    private JTabbedPane accountPane;
     private JPanel usersPanel;
-    private JPanel ordersPanel;
-    private JPanel dishesPanel;
-    private JPanel productsPanel;
     private JTabbedPane productsMenuPane;
-    private JTabbedPane dishesPane;
-    private JTabbedPane ordersPane;
-    private JPanel accountPanel;
-    private JPanel reportsPanel;
     private AllProductPanel allProductsPanel;
-    private AllDishPanel allDishPanel;
-    private AllOrderingsPanel allOrderingsPanel;
     private AllUsersPanel allUsersPanel;
-    private ReportsPanel reportsPanell;
-
-    private User loggedUser;
-    private JPanel myOrderingsPanel;
+    private ReportsPanel reportsPanel;
 
 
     private IAdminService service;
 
 
     public AdminUI(IAdminService service, User logged) throws HeadlessException {
-        super();
+        super(service, logged);
+        System.out.println("creating view");
+        LOGGER = Logger.getLogger(AdminUI.class);
         this.service = service;
-        this.loggedUser = logged;
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        setSize(900, 700);
-        setResizable(false);
         setTitle("Administrator");
-        setVisible(true);
-        add(mainPanel);
-        initAllProductsPanel();
         initAllDishPanel();
-        initAllOrdersPanel();
+        initAllProductsPanel();
         initAllUsersPanel();
         initReportsPanel();
-        accountPane.addChangeListener(menuTabChangeListener);
-
+        setChangeListener();
     }
 
+
     private void initAllProductsPanel() {
+        productsMenuPane = new JTabbedPane(SwingConstants.TOP);
+        accountPane.addTab("Products", productsMenuPane);
         allProductsPanel = new AllProductPanel(service, LOGGER);
         productsMenuPane.addTab("All Products", allProductsPanel.getAllProductsPanel());
     }
 
-    private void initAllDishPanel() {
-        allDishPanel = new AllDishPanel(service, LOGGER);
+
+    /*this method should be realised by ovverriding, but all dishes panel require concrette service
+    * so we need IAdminService to run this method correct, but superclass has in constructor IBarmenService,
+    * it would be better if method will be invoked after super(), such as IAdminService won`t be null*/
+    protected void initAllDishPanel() {
+        if (service == null) return;
+        allDishPanel = new AllDishPanel(service, loggedUser);
         dishesPane.addTab("All Dishes", allDishPanel.getAllDishesPanel());
     }
 
-    private void initAllOrdersPanel() {
-        allOrderingsPanel = new AllOrderingsPanel(LOGGER, service, loggedUser);
-        ordersPane.addTab("AllOrders", allOrderingsPanel.getAllOrderingsPanel());
-        myOrderingsPanel = allOrderingsPanel.getFilteredOrdersPanelUserServesOrdering();
-        JScrollPane pane = new JScrollPane(myOrderingsPanel);
-        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        ordersPane.addTab("Orders I Serve", pane);
-        allOrderingsPanel.initialiseAllOrdersPanel();
-        LOGGER.info("initialized all orders panel");
-        ordersPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (ordersPane.getTabRunCount() == 1) {
-                    myOrderingsPanel = allOrderingsPanel.getFilteredOrdersPanelUserServesOrdering();
-                    LOGGER.info("initialized my orderings panel");
-                }
-                if (ordersPane.getTabRunCount() == 0) {
-                    allOrderingsPanel.initialiseAllOrdersPanel();
-                    LOGGER.info("initialized all orders panel");
-                }
-            }
-
-        });
-    }
 
     private void initAllUsersPanel() {
+        usersPanel = new JPanel();
+        accountPane.addTab("Users", usersPanel);
         allUsersPanel = new AllUsersPanel(service);
         usersPanel.setLayout(new BorderLayout());
         usersPanel.add(allUsersPanel.getAllUsersPanel(), BorderLayout.PAGE_START);
@@ -104,23 +69,24 @@ public class AdminUI extends JFrame {
     }
 
     private void initReportsPanel() {
-        reportsPanell = new ReportsPanel(service);
-        reportsPanel.add(reportsPanell.getMainPanel());
-        reportsPanel.updateUI();
+        reportsPanel = new ReportsPanel(service);
+        accountPane.addTab("Reports", reportsPanel.getMainPanel());
+        accountPane.updateUI();
     }
 
-    private ChangeListener menuTabChangeListener = new ChangeListener() {
+    protected ChangeListener MymenuTabChangeListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
-            if (productsPanel.isShowing()) {
+            if (productsMenuPane.isShowing()) {
                 allProductsPanel.initialiseAllProductsPanel();
                 LOGGER.info("initialized all product panel");
             }
             if (dishesPanel.isShowing()) {
                 allDishPanel.initialiseAllDishesPanel();
+                dishesPanel.updateUI();
                 LOGGER.info("initialized all dishes panel");
             }
             if (accountPanel.isShowing()) {
-                AccountFrame.getAddOrderFrame(service, loggedUser);
+                AccountFrame.getAccountFrame(service, loggedUser);
                 LOGGER.info("initialized account frame");
             }
             if (usersPanel.isShowing()) {
@@ -130,4 +96,7 @@ public class AdminUI extends JFrame {
     };
 
 
+    protected void setChangeListener() {
+        super.accountPane.addChangeListener(MymenuTabChangeListener);
+    }
 }

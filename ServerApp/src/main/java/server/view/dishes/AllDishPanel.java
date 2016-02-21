@@ -56,32 +56,29 @@ public class AllDishPanel {
     private IAdminService adminService;
     private IBarmenService barmenService;
     private IWaitersService waitersService;
-    private Logger LOGGER;
+    private static final Logger LOGGER = Logger.getLogger(AllDishPanel.class);
     private boolean isAlreadyInitialised = false;
     private DishTableModel dishTableModel;
     private IngridientTableModel ingridientTableModel;
     private User logined;
 
 
-    public AllDishPanel(IAdminService service, Logger LOGGER, User logined) {
+    public AllDishPanel(IAdminService service, User logined) {
         this.logined = logined;
         this.adminService = service;
-        this.LOGGER = LOGGER;
     }
 
-    public AllDishPanel(IBarmenService service, Logger LOGGER, User logined) {
+    public AllDishPanel(IBarmenService service, User logined) {
         this.logined = logined;
         this.barmenService = service;
-        this.LOGGER = LOGGER;
         allDishesPanel.remove(dishIngridientScrolPane);
         allDishesPanel.remove(leybaIngridients);
         allDishesPanel.remove(addChangeIngridientPanel);
         initIsDishAvailablePanel();
     }
 
-    public AllDishPanel(IWaitersService service, Logger LOGGER) {
+    public AllDishPanel(IWaitersService service) {
         this.waitersService = service;
-        this.LOGGER = LOGGER;
         allDishesPanel.remove(addChangeIngridientPanel);
         addDishButton.setVisible(false);
         changeDishButton.setVisible(false);
@@ -380,7 +377,8 @@ public class AllDishPanel {
 
 
         public int getRowCount() {
-            return dishs.size();
+            if (dishs != null) return dishs.size();
+            return 0;
         }
 
         public int getColumnCount() {

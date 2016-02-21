@@ -94,7 +94,7 @@ public class AccountFrame extends JFrame {
 
     }
 
-    public static void getAddOrderFrame(IBarmenService service, User logged) {
+    public static void getAccountFrame(IBarmenService service, User logged) {
         if (isAlreadyInited) {
             frame.pack();
             frame.toFront();
