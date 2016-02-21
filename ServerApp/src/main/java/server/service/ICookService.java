@@ -1,14 +1,11 @@
 package server.service;
 
+import server.exceptions.UserAccessException;
 import server.model.denomination.Denomination;
-import server.model.denomination.DenominationState;
+import server.model.user.User;
 
-/**
- * User: huyti
- * Date: 14.01.2016
- */
+
 public interface ICookService {
 
-    Denomination setDenominationState(DenominationState state, Denomination denomination);
-
+    Denomination cancelDenomination(Denomination denomination, User logined) throws UserAccessException;
 }

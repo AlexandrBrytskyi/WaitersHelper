@@ -213,8 +213,8 @@ public class BarmenService implements IBarmenService {
     @Override
     public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
         DenominationState state = null;
-        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin())&&!logined.getType().equals(UserType.ADMIN))
-            throw new UserAccessException("You can`t cancel, you don`n serve");
+        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin())||!logined.getType().equals(UserType.ADMIN))
+            throw new UserAccessException("You can`t cancel, you don`n serve, admin can");
         if (logined.getType().equals(UserType.BARMEN)) state = DenominationState.CANCELED_BY_BARMEN;
         if (logined.getType().equals(UserType.WAITER)) state = DenominationState.CANCELED_BY_WAITER;
         if (logined.getType().equals(UserType.ADMIN)) state = DenominationState.CANCELED_BY_ADMIN;
