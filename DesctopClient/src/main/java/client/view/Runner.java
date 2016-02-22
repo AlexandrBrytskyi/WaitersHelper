@@ -6,6 +6,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Runner {
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:client-app-context.xml");
     }
 }

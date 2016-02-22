@@ -8,7 +8,7 @@ import java.io.Serializable;
 //one order = one fund
 
 @Entity
-@Table
+@Table(name = "fund")
 public class Fund implements Serializable {
 
     @Column

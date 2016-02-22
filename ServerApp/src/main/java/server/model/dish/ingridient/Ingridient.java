@@ -6,7 +6,7 @@ import server.model.dish.Dish;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "ingridient")
 public class Ingridient extends IdAutoGenerator {
 
     @Column

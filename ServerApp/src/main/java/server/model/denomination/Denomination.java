@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 //denomination is entity which is used like wrapper for dish to link one with order
 
 @Entity
-@Table
+@Table(name = "denomanation")
 public class Denomination extends IdAutoGenerator {
 
     @ManyToOne()

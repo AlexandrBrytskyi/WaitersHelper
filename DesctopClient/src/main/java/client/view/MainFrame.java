@@ -12,6 +12,7 @@ import server.exceptions.WrongPasswordException;
 import server.model.user.User;
 import server.model.user.UserType;
 import server.service.password_utils.Password;
+import server.validator.IValidator;
 import server.validator.Loginable;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ public class MainFrame extends JFrame {
 
     @Autowired
     @Qualifier("LoginValidator")
-    client.validator.IValidator validator;
+    IValidator validator;
 
     private JLabel topLabel;
     private JPanel mainPanel;

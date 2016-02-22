@@ -23,7 +23,12 @@
 
     <bean id="LoginValidator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
         <property name="serviceUrl" value="rmi://localhost:9999/LoginValidator"/>
-        <property name="serviceInterface" value="client.validator.IValidator"/>
+        <property name="serviceInterface" value="server.validator.IValidator"/>
+    </bean>
+
+    <bean id="remoteService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:9999/RemoteService"/>
+        <property name="serviceInterface" value="service.IRemoteService"/>
     </bean>
 
 

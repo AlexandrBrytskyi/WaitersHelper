@@ -12,13 +12,11 @@ import server.model.user.User;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface IBarmenService {
-
-
-
+public interface IBarmenService extends Serializable {
 
     Ordering addOrder(Ordering ordering);
 

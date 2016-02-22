@@ -9,7 +9,7 @@ public class RunServer {
 
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:server-app-context.xml");
     }
 
 }

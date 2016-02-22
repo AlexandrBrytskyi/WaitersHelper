@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "dish")
 public class Dish extends IdAutoGenerator {
 
     @Column
