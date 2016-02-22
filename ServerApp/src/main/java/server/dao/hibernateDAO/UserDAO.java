@@ -12,8 +12,10 @@ import server.exceptions.WrongPasswordException;
 import server.model.user.User;
 import server.service.password_utils.Password;
 
+import java.io.Serializable;
+
 @Repository("hibernateUserDAO")
-public class UserDAO implements IUserDAO {
+public class UserDAO implements IUserDAO,Serializable {
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class);
 
     @Autowired(required = true)

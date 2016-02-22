@@ -5,13 +5,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import server.dao.IProductDAO;
-import server.exceptions.IngridientWithIDNotFoundException;
 import server.exceptions.ProductByIdNotFoundException;
-import server.model.dish.Dish;
-import server.model.dish.ingridient.Ingridient;
 import server.model.dish.ingridient.Mesuarment;
 import server.model.dish.ingridient.Product;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -20,7 +18,7 @@ import java.util.List;
  */
 
 @Repository("hibernateProductDAO")
-public class ProductDAO implements IProductDAO {
+public class ProductDAO implements IProductDAO,Serializable {
     private static final Logger LOGGER = Logger.getLogger(ProductDAO.class);
 
     @Autowired(required = true)

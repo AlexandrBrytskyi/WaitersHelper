@@ -2,7 +2,8 @@ package server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IIngredientDAO;
 import server.dao.IProductDAO;
@@ -19,9 +20,12 @@ import server.model.order.Ordering;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service(value = "waitersService")
+@Component(value = "waitersService")
 @Transactional
-public class WaitersService extends BarmenService implements IWaitersService {
+@Scope("singleton")
+public class WaitersService extends BarmenService implements IWaitersService{
+
+
     @Autowired(required = true)
     @Qualifier(value = "hibernateProductDAO")
     IProductDAO productDAO;

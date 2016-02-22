@@ -2,7 +2,8 @@ package server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
 import server.exceptions.UserAccessException;
@@ -10,10 +11,13 @@ import server.model.denomination.Denomination;
 import server.model.denomination.DenominationState;
 import server.model.user.User;
 
+import java.io.Serializable;
 
-@Service("cookService")
+
+@Component("cookService")
 @Transactional
-public class CookService implements ICookService {
+@Scope("singleton")
+public class CookService implements ICookService, Serializable {
 
     @Autowired
     @Qualifier("hibernateDenominationDAO")

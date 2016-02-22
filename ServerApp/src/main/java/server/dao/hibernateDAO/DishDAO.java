@@ -10,6 +10,7 @@ import server.model.dish.Dish;
 import server.model.dish.DishType;
 import server.model.dish.ingridient.Ingridient;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 @Repository(value = "hibernateDishDAO")
-public class DishDAO implements IDishDAO {
+public class DishDAO implements IDishDAO ,Serializable {
     private static final Logger LOGGER = Logger.getLogger(DishDAO.class);
 
     @Autowired(required = true)

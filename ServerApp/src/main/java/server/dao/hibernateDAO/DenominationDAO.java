@@ -11,6 +11,7 @@ import server.model.denomination.DenominationState;
 import server.model.dish.Dish;
 import server.model.order.Ordering;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * Date: 10.01.2016
  */
 @Repository("hibernateDenominationDAO")
-public class DenominationDAO implements IDenominationDAO {
+public class DenominationDAO implements IDenominationDAO, Serializable {
     private static final Logger LOGGER = Logger.getLogger(DenominationDAO.class);
 
     @Autowired(required = true)

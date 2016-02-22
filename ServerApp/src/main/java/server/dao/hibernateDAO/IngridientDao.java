@@ -10,6 +10,7 @@ import server.model.dish.Dish;
 import server.model.dish.ingridient.Ingridient;
 import server.model.dish.ingridient.Product;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  * Date: 27.12.2015
  */
 @Repository(value = "hibernateIngridientDAO")
-public class IngridientDao implements IIngredientDAO {
+public class IngridientDao implements IIngredientDAO,Serializable {
     private static final Logger LOGGER = Logger.getLogger(ProductDAO.class);
 
     @Autowired(required = true)

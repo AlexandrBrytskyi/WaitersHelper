@@ -16,6 +16,7 @@ import server.model.order.OrderType;
 import server.model.order.Ordering;
 import server.model.user.User;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,7 +24,7 @@ import java.util.List;
 
 
 @Repository(value = "Ordering_hibernate_dao")
-public class OrderingDAO implements IOrderingDAO {
+public class OrderingDAO implements IOrderingDAO,Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(OrderingDAO.class);
 

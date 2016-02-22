@@ -2,7 +2,8 @@ package server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
 import server.dao.IDishDAO;
@@ -23,18 +24,20 @@ import server.validator.IValidator;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @Transactional
-@Service("barmenService")
-public class BarmenService implements IBarmenService {
+@Component("barmenService")
+@Scope("singleton")
+public class BarmenService implements IBarmenService, Serializable {
 
-    @Autowired
+    @Autowired(required = true)
     @Qualifier("hibernateDenominationDAO")
     IDenominationDAO denominationDAO;
 
-    @Autowired
+    @Autowired (required = true)
     @Qualifier("Ordering_hibernate_dao")
     IOrderingDAO orderingDAO;
 

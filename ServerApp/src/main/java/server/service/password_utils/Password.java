@@ -3,7 +3,9 @@ package server.service.password_utils;
 
 import server.exceptions.WrongPasswordException;
 
-public class Password {
+import java.io.Serializable;
+
+public class Password implements Serializable {
 
     private String pass;
 

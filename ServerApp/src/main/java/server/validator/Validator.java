@@ -4,7 +4,10 @@ package server.validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IUserDAO;
 import server.exceptions.AccountBlockedException;
@@ -18,12 +21,14 @@ import server.service.ICookService;
 import server.service.IWaitersService;
 import server.service.password_utils.Password;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 @Transactional
-@Component("myValidator")
-public class Validator implements IValidator {
+@Service("myValidator")
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON, proxyMode = ScopedProxyMode.INTERFACES)
+public class Validator implements IValidator, Serializable {
     private final static Logger LOGGER = Logger.getLogger(Validator.class);
 
     @Autowired(required = true)
@@ -56,7 +61,7 @@ public class Validator implements IValidator {
 
     public User login(String login, Password pass) throws WrongLoginException, WrongPasswordException, AccountBlockedException {
         User logged = userDAO.getUser(login, pass);
-        loggedUsers.put(logged,null);
+        loggedUsers.put(logged, null);
         LOGGER.info("user " + logged.getName() + " has loged in");
         return logged;
     }
@@ -106,11 +111,14 @@ public class Validator implements IValidator {
 
     @Override
     public void setObjectToUser(User user, Object ui) {
-        if (loggedUsers.containsKey(user)) loggedUsers.put(user,ui);
+        if (loggedUsers.containsKey(user)) loggedUsers.put(user, ui);
         System.out.println(loggedUsers.toString());
     }
 
     public Map<User, Object> getLoggedUsers() {
         return loggedUsers;
     }
+
+
+
 }
