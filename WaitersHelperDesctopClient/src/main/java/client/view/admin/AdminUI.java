@@ -8,6 +8,7 @@ import client.view.products.AllProductPanel;
 import client.view.reports.ReportsPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.user.User;
+import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 
 import javax.swing.*;
@@ -103,7 +104,9 @@ public class AdminUI extends BarmenUIDecorator implements Loginable {
 
 
     public void sendUIToLoginedList() {
-        service.sentUIobjectToValidator(loggedUser,this);
+        loginLabel = new LoginLabel(loggedUser, loggedUser.getType().toString());
+        service.sentUIobjectToValidator(loginLabel);
     }
+
 
 }

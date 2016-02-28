@@ -2,8 +2,13 @@ package client.view;
 
 
 import client.service.IAdminService;
+import client.service.IBarmenService;
+import client.service.IWaitersService;
+import client.service.loginUtils.LoginLabelSender;
 import client.validator.IValidator;
 import client.view.admin.AdminUI;
+import client.view.barmen.BarmenUI;
+import client.view.waiter.WaiterUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +17,7 @@ import transferFiles.exceptions.WrongLoginException;
 import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
+import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 
 import javax.swing.*;
@@ -76,7 +82,6 @@ public class MainFrame extends JFrame {
                 defineUI(logged);
             }
         });
-        System.out.println("i am after adding main panel");
         add(mainPanel);
 
     }
@@ -85,12 +90,22 @@ public class MainFrame extends JFrame {
     private void defineUI(User logged) {
         Loginable ui = null;
         if (logged.getType().equals(UserType.ADMIN)) ui = new AdminUI((IAdminService) appContext.getBean("adminService"), logged);
-        if (logged.getType().equals(UserType.WAITER)) return;
+        if (logged.getType().equals(UserType.WAITER))
+            ui = new WaiterUI((IWaitersService) appContext.getBean("adminService"), logged);
         if (logged.getType().equals(UserType.HOT_KITCHEN_COCK) ||
                 logged.getType().equals(UserType.COLD_KITCHEN_COCK) ||
                 logged.getType().equals(UserType.MANGAL_COCK)) return;
-        if (logged.getType().equals(UserType.BARMEN)) return;
-//        if (ui != null) ui.sendUIToLoginedList();
+        if (logged.getType().equals(UserType.BARMEN)) ui = new BarmenUI((IBarmenService) appContext.getBean("adminService"), logged);
+        if (ui != null){
+            ui.sendUIToLoginedList();
+            runLoginLableSender(ui.getLoginLable());
+            this.dispose();
+        }
+    }
+
+    private void runLoginLableSender(LoginLabel loginLable) {
+        Thread loginLableSenderThread = new Thread(new LoginLabelSender(validator,loginLable));
+        loginLableSenderThread.start();
     }
 
 

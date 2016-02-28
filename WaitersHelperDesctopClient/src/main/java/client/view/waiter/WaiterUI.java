@@ -6,14 +6,14 @@ import client.view.barmen.BarmenUIDecorator;
 import client.view.dishes.AllDishPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.user.User;
-import transferFiles.to.Loginable;
+import transferFiles.to.LoginLabel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public class WaiterUI extends BarmenUIDecorator implements Loginable {
+public class WaiterUI extends BarmenUIDecorator {
     private static final Logger LOGGER = Logger.getLogger(WaiterUI.class);
 
     private IWaitersService service;
@@ -56,6 +56,8 @@ public class WaiterUI extends BarmenUIDecorator implements Loginable {
 
     @Override
     public void sendUIToLoginedList() {
-        service.sentUIobjectToValidator(loggedUser,this);
+        loginLabel = new LoginLabel(loggedUser, loggedUser.getType().toString());
+        service.sentUIobjectToValidator(loginLabel);
     }
+
 }

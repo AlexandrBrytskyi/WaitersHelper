@@ -10,20 +10,18 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IUserDAO;
-import server.service.IAdminService;
-import server.service.IBarmenService;
-import server.service.ICookService;
-import server.service.IWaitersService;
 import transferFiles.exceptions.AccountBlockedException;
 import transferFiles.exceptions.WrongLoginException;
 import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
-import transferFiles.model.user.UserType;
 import transferFiles.password_utils.Password;
+import transferFiles.to.LoginLabel;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Transactional
@@ -36,91 +34,62 @@ public class Validator implements IValidator, Serializable {
     @Qualifier("hibernateUserDAO")
     IUserDAO userDAO;
 
-    @Autowired(required = true)
-    @Qualifier("adminService")
-    IAdminService adminService;
 
-    @Autowired(required = true)
-    @Qualifier("waitersService")
-    IWaitersService waitersService;
-
-    @Autowired(required = true)
-    @Qualifier("cookService")
-    ICookService cookService;
-
-    @Autowired(required = true)
-    @Qualifier("barmenService")
-    IBarmenService barmenService;
-
+    public Validator() {
+        Thread thread = new Thread(new LoginedChecker());
+        thread.start();
+    }
 
     /*while login called method "login" first, it returns logged User
-    * having logged user MainFrame try transferFiles.to get transferFiles.service from validator
-    * after transferFiles.service got it try transferFiles.to create UIFrame,
-    * UIFrame must implement Loginable so it realises method sendUIToLoginedList()
-    * ui is UIFrame, so if UIFrame is null, user will not be logined more
-    */
-    private Map<User, Object> loggedUsers = new HashMap<User, Object>();
+        * having logged user MainFrame try transferFiles.to get transferFiles.service from validator
+        * after transferFiles.service got it try transferFiles.to create UIFrame,
+        * UIFrame must implement Loginable so it realises method sendUIToLoginedList()
+        * ui is UIFrame, so if UIFrame is null, user will not be logined more
+        */
+
+    private Map<LoginLabel,Long> loggedUsersLabels = Collections.synchronizedMap(new HashMap<LoginLabel, Long>());
 
     public User login(String login, String pass) throws WrongLoginException, WrongPasswordException, AccountBlockedException, RemoteException {
         User logged = userDAO.getUser(login, new Password(pass));
-        loggedUsers.put(logged, null);
+        loggedUsersLabels.put(new LoginLabel(logged, logged.getType().toString()),System.currentTimeMillis());
         LOGGER.info("user " + logged.getName() + " has loged in");
         return logged;
     }
 
 
-    public IAdminService getAdminService(User user) {
-        if (loggedUsers.containsKey(user) && user.getType().equals(UserType.ADMIN)) {
-            LOGGER.info("admin transferFiles.service was given transferFiles.to user " + user.getName());
-            return adminService;
-        } else {
-            LOGGER.error("problem with giving transferFiles.service transferFiles.to " + user.toString());
-            return null;
-        }
-    }
-
-    public IWaitersService getWaitersService(User user) {
-        if (loggedUsers.containsKey(user) && user.getType().equals(UserType.WAITER)) {
-            LOGGER.info("waiter transferFiles.service was given transferFiles.to user " + user.getName());
-            return waitersService;
-        } else {
-            LOGGER.error("problem with giving transferFiles.service transferFiles.to " + user.toString());
-            return null;
-        }
-    }
-
-    public ICookService getCookService(User user) {
-        if (loggedUsers.containsKey(user) && (user.getType().equals(UserType.HOT_KITCHEN_COCK) ||
-                user.getType().equals(UserType.COLD_KITCHEN_COCK) ||
-                user.getType().equals(UserType.MANGAL_COCK))) {
-            LOGGER.info("Cook transferFiles.service was given transferFiles.to user " + user.getName());
-            return cookService;
-        } else {
-            LOGGER.error("problem with giving transferFiles.service transferFiles.to " + user.toString());
-            return null;
-        }
-    }
-
-
-    public IBarmenService getBarmenService(User user) {
-        if (loggedUsers.containsKey(user) && user.getType().equals(UserType.BARMEN)) {
-            LOGGER.info("Barmen transferFiles.service was given transferFiles.to user " + user.getName());
-            return barmenService;
-        } else {
-            LOGGER.error("problem with giving transferFiles.service transferFiles.to " + user.toString());
-            return null;
-        }
-    }
-
     @Override
-    public void setObjectToUser(User user, Object ui) {
-
+    public void sendLabelToValidator(LoginLabel loginLable) {
+        loggedUsersLabels.put(loginLable, System.currentTimeMillis());
     }
 
 
-    public Map<User, Object> getLoggedUsers() {
-        return loggedUsers;
+    public Map<LoginLabel, Long> getLoggedUsersLabels() {
+        return loggedUsersLabels;
     }
 
+    private class LoginedChecker implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.currentThread().sleep(30000);
+                    checkTimePassAfterLabelsUpdated();
+                    System.out.println(getLoggedUsersLabels());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private void checkTimePassAfterLabelsUpdated() {
+            Iterator<Map.Entry<LoginLabel,Long>> iterator = loggedUsersLabels.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<LoginLabel,Long> pair = iterator.next();
+                if ((System.currentTimeMillis() - pair.getValue()) > 40000)
+                    iterator.remove();
+            }
+        }
+    }
 
 }

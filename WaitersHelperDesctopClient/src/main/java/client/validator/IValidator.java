@@ -5,6 +5,7 @@ import transferFiles.exceptions.AccountBlockedException;
 import transferFiles.exceptions.WrongLoginException;
 import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
+import transferFiles.to.LoginLabel;
 
 import java.rmi.RemoteException;
 
@@ -20,5 +21,5 @@ public interface IValidator {
 //
 //    IBarmenService getBarmenService(User user);
 
-    void setObjectToUser(User user, Object ui);
+    void sendLabelToValidator(LoginLabel loginLable);
 }

@@ -6,6 +6,7 @@ import client.view.dishes.AllDishPanel;
 import client.view.orderings.AllOrderingsPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.user.User;
+import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class BarmenUI extends JFrame implements Loginable {
     protected AllOrderingsPanel allOrderingsPanel;
     protected JPanel myOrderingsPanel;
     protected User loggedUser;
-    protected Object sentService;
+    protected LoginLabel loginLabel;
 
 
     private IBarmenService service;
@@ -51,7 +52,7 @@ public class BarmenUI extends JFrame implements Loginable {
 
 
     protected void initAllDishPanel() {
-        allDishPanel = new AllDishPanel(service,loggedUser);
+        allDishPanel = new AllDishPanel(service, loggedUser);
         dishesPane.addTab("All Dishes", allDishPanel.getAllDishesPanel());
     }
 
@@ -96,6 +97,13 @@ public class BarmenUI extends JFrame implements Loginable {
 
 
     public void sendUIToLoginedList() {
-        service.sentUIobjectToValidator(loggedUser,this);
+        loginLabel = new LoginLabel(loggedUser, loggedUser.getType().toString());
+        service.sentUIobjectToValidator(loginLabel);
     }
+
+    @Override
+    public LoginLabel getLoginLable() {
+        return loginLabel;
+    }
+
 }

@@ -8,6 +8,7 @@ import transferFiles.model.dish.DishType;
 import transferFiles.model.fund.Fund;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
+import transferFiles.to.LoginLabel;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
@@ -74,6 +75,6 @@ public interface IBarmenService extends Serializable {
 
     void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
 
-    void sentUIobjectToValidator(User user, Object ui);
+    void sentUIobjectToValidator(LoginLabel loginLable);
 
 }

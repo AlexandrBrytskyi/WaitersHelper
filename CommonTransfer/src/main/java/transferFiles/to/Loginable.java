@@ -7,4 +7,7 @@ package transferFiles.to;
 public interface Loginable {
 
     void sendUIToLoginedList();
+
+    LoginLabel getLoginLable();
+
 }
