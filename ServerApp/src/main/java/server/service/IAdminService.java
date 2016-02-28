@@ -1,11 +1,12 @@
 package server.service;
 
-import server.exceptions.UserFieldIsEmptyException;
-import server.exceptions.WrongLoginException;
-import server.model.denomination.Denomination;
-import server.model.dish.ingridient.Ingridient;
-import server.model.order.Ordering;
-import server.model.user.User;
+
+import transferFiles.exceptions.UserFieldIsEmptyException;
+import transferFiles.exceptions.WrongLoginException;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.order.Ordering;
+import transferFiles.model.user.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,7 @@ public interface IAdminService extends IWaitersService {
 
     Ordering removeOrdering(Ordering ordering);
 
-    /*User service*/
+    /*User transferFiles.service*/
 
     User addNewUser(User user) throws UserFieldIsEmptyException, WrongLoginException;
 

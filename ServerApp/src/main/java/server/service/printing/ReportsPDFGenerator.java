@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import server.model.denomination.Denomination;
-import server.model.dish.ingridient.Ingridient;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.dish.ingridient.Ingridient;
 import server.service.IAdminService;
 
 import java.io.*;

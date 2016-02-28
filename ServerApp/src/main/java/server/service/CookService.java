@@ -6,10 +6,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
-import server.exceptions.UserAccessException;
-import server.model.denomination.Denomination;
-import server.model.denomination.DenominationState;
-import server.model.user.User;
+import transferFiles.exceptions.UserAccessException;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.denomination.DenominationState;
+import transferFiles.model.user.User;
+import transferFiles.service.IRemoteService;
 
 import java.io.Serializable;
 
@@ -22,6 +23,9 @@ public class CookService implements ICookService, Serializable {
     @Autowired
     @Qualifier("hibernateDenominationDAO")
     IDenominationDAO denominationDAO;
+
+    @Autowired
+    IRemoteService converter;
 
 
     @Override

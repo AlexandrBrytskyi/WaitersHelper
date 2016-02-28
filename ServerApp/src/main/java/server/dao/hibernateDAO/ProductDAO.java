@@ -5,9 +5,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import server.dao.IProductDAO;
-import server.exceptions.ProductByIdNotFoundException;
-import server.model.dish.ingridient.Mesuarment;
-import server.model.dish.ingridient.Product;
+import transferFiles.exceptions.ProductByIdNotFoundException;
+import transferFiles.model.dish.ingridient.Mesuarment;
+import transferFiles.model.dish.ingridient.Product;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,8 +1,9 @@
 package server.service;
 
-import server.exceptions.UserAccessException;
-import server.model.denomination.Denomination;
-import server.model.user.User;
+
+import transferFiles.exceptions.UserAccessException;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.user.User;
 
 import java.io.Serializable;
 

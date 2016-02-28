@@ -5,10 +5,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import server.dao.IIngredientDAO;
-import server.exceptions.IngridientWithIDNotFoundException;
-import server.model.dish.Dish;
-import server.model.dish.ingridient.Ingridient;
-import server.model.dish.ingridient.Product;
+import transferFiles.exceptions.IngridientWithIDNotFoundException;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.dish.ingridient.Product;
 
 import java.io.Serializable;
 import java.util.List;

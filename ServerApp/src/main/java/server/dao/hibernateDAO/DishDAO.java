@@ -5,10 +5,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import server.dao.IDishDAO;
-import server.exceptions.NoDishWithIdFoundedException;
-import server.model.dish.Dish;
-import server.model.dish.DishType;
-import server.model.dish.ingridient.Ingridient;
+import transferFiles.exceptions.NoDishWithIdFoundedException;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.DishType;
+import transferFiles.model.dish.ingridient.Ingridient;
 
 import java.io.Serializable;
 import java.util.List;

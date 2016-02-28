@@ -1,13 +1,13 @@
 package server.dao;
 
-import server.exceptions.NoOrderingWithIdException;
-import server.exceptions.OrderingAlreadyServingException;
-import server.exceptions.OrderingNotServingByYouException;
-import server.model.denomination.Denomination;
-import server.model.fund.Fund;
-import server.model.order.OrderType;
-import server.model.order.Ordering;
-import server.model.user.User;
+import transferFiles.exceptions.NoOrderingWithIdException;
+import transferFiles.exceptions.OrderingAlreadyServingException;
+import transferFiles.exceptions.OrderingNotServingByYouException;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.fund.Fund;
+import transferFiles.model.order.OrderType;
+import transferFiles.model.order.Ordering;
+import transferFiles.model.user.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

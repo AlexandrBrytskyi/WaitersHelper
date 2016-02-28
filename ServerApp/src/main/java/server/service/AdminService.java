@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import server.exceptions.UserAccessException;
-import server.exceptions.UserFieldIsEmptyException;
-import server.exceptions.WrongLoginException;
-import server.model.denomination.Denomination;
-import server.model.dish.Dish;
-import server.model.dish.ingridient.Ingridient;
-import server.model.order.Ordering;
-import server.model.user.User;
-import server.model.user.UserType;
 import server.service.printing.ReportsPDFGenerator;
+import transferFiles.exceptions.UserAccessException;
+import transferFiles.exceptions.UserFieldIsEmptyException;
+import transferFiles.exceptions.WrongLoginException;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.order.Ordering;
+import transferFiles.model.user.User;
+import transferFiles.model.user.UserType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,7 +41,7 @@ public class AdminService extends WaitersService implements IAdminService {
     }
 
     public Dish removeDish(Dish dish, User logined) throws UserAccessException {
-        if (logined.getType()!= UserType.ADMIN) throw new UserAccessException("Only admin can delete");
+        if (logined.getType() != UserType.ADMIN) throw new UserAccessException("Only admin can delete");
         return dishDAO.removeDish(dish);
     }
 
@@ -106,10 +106,10 @@ public class AdminService extends WaitersService implements IAdminService {
 
 
     @Override
-    public List<Ingridient> countIngridientsForReport(List<Denomination> denominations) {
+    public List<Ingridient> countIngridientsForReport(List<Denomination> denominationss) {
         Map<Integer, Ingridient> result = new HashMap<Integer, Ingridient>();
-        if (denominations != null)
-            for (Denomination denomination : denominations) {
+        if (denominationss != null) {
+            for (Denomination denomination : denominationss) {
                 for (Ingridient ingridient : denomination.getDish().getIngridients()) {
                     Ingridient newIngr = new Ingridient();
                     newIngr.setDish(ingridient.getDish());
@@ -123,6 +123,7 @@ public class AdminService extends WaitersService implements IAdminService {
                     }
                 }
             }
+        }
         return new LinkedList<Ingridient>(result.values());
     }
 

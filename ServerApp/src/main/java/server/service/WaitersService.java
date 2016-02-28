@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IIngredientDAO;
 import server.dao.IProductDAO;
-import server.exceptions.*;
-import server.model.denomination.Denomination;
-import server.model.dish.Dish;
-import server.model.dish.DishType;
-import server.model.dish.ingridient.Ingridient;
-import server.model.dish.ingridient.Mesuarment;
-import server.model.dish.ingridient.Product;
-import server.model.order.OrderType;
-import server.model.order.Ordering;
+import transferFiles.exceptions.*;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.DishType;
+import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.dish.ingridient.Mesuarment;
+import transferFiles.model.dish.ingridient.Product;
+import transferFiles.model.order.OrderType;
+import transferFiles.model.order.Ordering;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
 @Component(value = "waitersService")
 @Transactional
 @Scope("singleton")
-public class WaitersService extends BarmenService implements IWaitersService{
+public class WaitersService extends BarmenService implements IWaitersService {
 
 
     @Autowired(required = true)
@@ -33,9 +33,6 @@ public class WaitersService extends BarmenService implements IWaitersService{
     @Autowired(required = true)
     @Qualifier(value = "hibernateIngridientDAO")
     IIngredientDAO ingredientDao;
-
-
-
 
 
     /*products*/
@@ -101,7 +98,6 @@ public class WaitersService extends BarmenService implements IWaitersService{
     /*Dishes*/
 
 
-
     public List<Dish> findDishByName(String name) {
         return dishDAO.findDishByName(name);
     }
@@ -115,7 +111,7 @@ public class WaitersService extends BarmenService implements IWaitersService{
     }
 
     public Dish setPriceForPortionToDish(double price, Dish dish) {
-        return dishDAO.setPriceForPortionToDish(price, dish);
+        return  dishDAO.setPriceForPortionToDish(price, dish);
     }
 
     public Dish setDescriptionOfDish(String description, Dish dish) {
@@ -147,11 +143,11 @@ public class WaitersService extends BarmenService implements IWaitersService{
     }
 
     public Denomination setDish(Dish dish, Denomination denomination) {
-        return denominationDAO.setDish(dish, denomination);
+        return  denominationDAO.setDish(dish, denomination);
     }
 
     public Denomination setOrder(Ordering ordering, Denomination denomination) {
-        return denominationDAO.setOrder(ordering, denomination);
+        return  denominationDAO.setOrder(ordering, denomination);
     }
 
     public Denomination setPortion(double portion, Denomination denomination) {
@@ -171,7 +167,6 @@ public class WaitersService extends BarmenService implements IWaitersService{
     /*orderings*/
 
 
-
     public Ordering getOrderingById(int id) throws NoOrderingWithIdException {
         return orderingDAO.getOrderingById(id);
     }
@@ -186,17 +181,13 @@ public class WaitersService extends BarmenService implements IWaitersService{
     }
 
 
-
     public Ordering setDescription(String description, Ordering ordering) {
         return orderingDAO.setDescription(description, ordering);
     }
 
     public Ordering setAmountOfPeople(int amount, Ordering ordering) {
-        return orderingDAO.setAmountOfPeople(amount, ordering);
+        return orderingDAO.setAmountOfPeople(amount,ordering);
     }
-
-
-
 
 
 }

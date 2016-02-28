@@ -9,22 +9,24 @@ import server.dao.IDenominationDAO;
 import server.dao.IDishDAO;
 import server.dao.IOrderingDAO;
 import server.dao.IUserDAO;
-import server.exceptions.*;
-import server.model.denomination.Denomination;
-import server.model.denomination.DenominationState;
-import server.model.dish.Dish;
-import server.model.dish.DishType;
-import server.model.fund.Fund;
-import server.model.order.Ordering;
-import server.model.user.User;
-import server.model.user.UserType;
 import server.service.printing.FundPdfGenerator;
 import server.service.printing.PdfPrinter;
 import server.validator.IValidator;
+import transferFiles.exceptions.*;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.denomination.DenominationState;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.DishType;
+import transferFiles.model.fund.Fund;
+import transferFiles.model.order.Ordering;
+import transferFiles.model.user.User;
+import transferFiles.model.user.UserType;
+import transferFiles.password_utils.Password;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class BarmenService implements IBarmenService, Serializable {
     @Qualifier("hibernateDenominationDAO")
     IDenominationDAO denominationDAO;
 
-    @Autowired (required = true)
+    @Autowired(required = true)
     @Qualifier("Ordering_hibernate_dao")
     IOrderingDAO orderingDAO;
 
@@ -64,6 +66,7 @@ public class BarmenService implements IBarmenService, Serializable {
 
     @Override
     public Dish updateDish(Dish dish) {
+
         return dishDAO.updateDish(dish);
     }
 
@@ -124,8 +127,8 @@ public class BarmenService implements IBarmenService, Serializable {
     }
 
     @Override
-    public User changePassword(User user, String password) throws WrongPasswordException {
-        user.setPass(password);
+    public User changePassword(User user, String password) throws WrongPasswordException, RemoteException {
+        user.setPass(new Password(password).hashCode());
         return userDAO.mergeUser(user);
     }
 
@@ -182,9 +185,9 @@ public class BarmenService implements IBarmenService, Serializable {
     }
 
     public Ordering setWhoServesOrder(Ordering ordering, User user) throws OrderingAlreadyServingException, NoOrderingWithIdException, UserAccessException {
-        Ordering updated = orderingDAO.setWhoServesOrder(ordering, user);
+        Ordering updated = orderingDAO.getOrderingById(ordering.getId());
         if (updated.getDateClientsCome().toLocalDate().equals(LocalDate.now())) {
-            return updated;
+            return orderingDAO.setWhoServesOrder(updated, user);
         } else {
             throw new UserAccessException("You can serve only orders of today");
         }
@@ -206,9 +209,9 @@ public class BarmenService implements IBarmenService, Serializable {
 
     @Override
     public Ordering setWhoServesOrderNull(Ordering ordering, User user) throws OrderingNotServingByYouException, NoOrderingWithIdException, UserAccessException {
-        Ordering updated = orderingDAO.setWhoServesOrderNull(ordering, user);
+        Ordering updated = orderingDAO.getOrderingById(ordering.getId());
         if (updated.getDateClientsCome().toLocalDate().equals(LocalDate.now())) {
-            return updated;
+            return orderingDAO.setWhoServesOrderNull(updated,user);
         } else {
             throw new UserAccessException("You can drop serving only orders of today");
         }
@@ -232,7 +235,7 @@ public class BarmenService implements IBarmenService, Serializable {
 
     @Override
     public void sentUIobjectToValidator(User user, Object ui) {
-        validator.setObjectToUser(user,ui);
+        validator.setObjectToUser(user, ui);
     }
 
 

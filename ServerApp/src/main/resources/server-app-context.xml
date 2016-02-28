@@ -12,19 +12,19 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="server"/>
+    <context:component-scan base-package="server, transferFiles"/>
 
     <tx:annotation-driven/>
 
 
-    <!--singletons (server.dao,service,view,EntityManagerFactory...)-->
+    <!--singletons (server.dao,transferFiles.service,view,EntityManagerFactory...)-->
 
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/waitersHelper"/>
         <property name="username" value="root"/>
-        <property name="password" value=""/>
+        <property name="password" value="root"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" scope="singleton">
@@ -32,6 +32,7 @@
         <property name="packagesToScan">
             <list>
                 <value>server</value>
+                <value>transferFiles</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -54,13 +55,20 @@
         <property name="service" ref="myValidator"/>
         <property name="serviceInterface" value="server.validator.IValidator"/>
         <property name="registryPort" value="9999"/>
-
     </bean>
+
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="AdminService"/>
+        <property name="service" ref="adminService"/>
+        <property name="serviceInterface" value="server.service.IAdminService"/>
+        <property name="registryPort" value="9999"/>
+    </bean>
+
 
     <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
         <property name="serviceName" value="RemoteService"/>
         <property name="service" ref="iRemoteServiceImpl"/>
-        <property name="serviceInterface" value="service.IRemoteService"/>
+        <property name="serviceInterface" value="transferFiles.service.IRemoteService"/>
         <property name="registryPort" value="9999"/>
     </bean>
 

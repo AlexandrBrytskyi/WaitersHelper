@@ -1,22 +1,20 @@
 package server.service;
 
-import server.exceptions.*;
-import server.model.denomination.Denomination;
-import server.model.dish.Dish;
-import server.model.dish.DishType;
-import server.model.dish.ingridient.Ingridient;
-import server.model.dish.ingridient.Mesuarment;
-import server.model.dish.ingridient.Product;
-import server.model.order.OrderType;
-import server.model.order.Ordering;
+
+import transferFiles.exceptions.*;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.DishType;
+import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.dish.ingridient.Mesuarment;
+import transferFiles.model.dish.ingridient.Product;
+import transferFiles.model.order.OrderType;
+import transferFiles.model.order.Ordering;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * User: huyti
- * Date: 14.01.2016
- */
+
 public interface IWaitersService extends IBarmenService {
 
     Product addProduct(Product product);

@@ -1,11 +1,11 @@
 package server.dao;
 
-import server.exceptions.AccountBlockedException;
-import server.exceptions.UserFieldIsEmptyException;
-import server.exceptions.WrongLoginException;
-import server.exceptions.WrongPasswordException;
-import server.model.user.User;
-import server.service.password_utils.Password;
+import transferFiles.exceptions.AccountBlockedException;
+import transferFiles.exceptions.UserFieldIsEmptyException;
+import transferFiles.exceptions.WrongLoginException;
+import transferFiles.exceptions.WrongPasswordException;
+import transferFiles.model.user.User;
+import transferFiles.password_utils.Password;
 
 
 public interface IUserDAO {

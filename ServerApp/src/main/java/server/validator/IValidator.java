@@ -1,27 +1,24 @@
 package server.validator;
 
 
-import server.exceptions.AccountBlockedException;
-import server.exceptions.WrongLoginException;
-import server.exceptions.WrongPasswordException;
-import server.model.user.User;
-import server.service.IAdminService;
-import server.service.IBarmenService;
-import server.service.ICookService;
-import server.service.IWaitersService;
-import server.service.password_utils.Password;
+import transferFiles.exceptions.AccountBlockedException;
+import transferFiles.exceptions.WrongLoginException;
+import transferFiles.exceptions.WrongPasswordException;
+import transferFiles.model.user.User;
+
+import java.rmi.RemoteException;
 
 public interface IValidator {
 
-    User login(String login, Password pass) throws WrongLoginException, WrongPasswordException, AccountBlockedException;
+    User login(String login, String pass) throws WrongLoginException, WrongPasswordException, AccountBlockedException, RemoteException;
 
-    IAdminService getAdminService(User user);
-
-    IWaitersService getWaitersService(User user);
-
-    ICookService getCookService(User user);
-
-    IBarmenService getBarmenService(User user);
+//    IAdminService getAdminService(User user);
+//
+//    IWaitersService getWaitersService(User user);
+//
+//    ICookService getCookService(User user);
+//
+//    IBarmenService getBarmenService(User user);
 
     void setObjectToUser(User user, Object ui);
 }

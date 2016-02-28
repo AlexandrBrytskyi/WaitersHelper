@@ -1,9 +1,9 @@
 package server.dao;
 
-import server.exceptions.IngridientWithIDNotFoundException;
-import server.model.dish.Dish;
-import server.model.dish.ingridient.Ingridient;
-import server.model.dish.ingridient.Product;
+import transferFiles.exceptions.IngridientWithIDNotFoundException;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.dish.ingridient.Product;
 
 import java.util.List;
 

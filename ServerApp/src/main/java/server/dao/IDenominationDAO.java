@@ -1,10 +1,10 @@
 package server.dao;
 
-import server.exceptions.DenominationWithIdNotFoundException;
-import server.model.denomination.Denomination;
-import server.model.denomination.DenominationState;
-import server.model.dish.Dish;
-import server.model.order.Ordering;
+import transferFiles.exceptions.DenominationWithIdNotFoundException;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.denomination.DenominationState;
+import transferFiles.model.dish.Dish;
+import transferFiles.model.order.Ordering;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import server.model.denomination.Denomination;
-import server.model.fund.Fund;
-import server.model.order.Ordering;
+import transferFiles.model.denomination.Denomination;
+import transferFiles.model.fund.Fund;
+import transferFiles.model.order.Ordering;
 import server.service.IBarmenService;
 
 import java.io.*;
@@ -59,7 +59,7 @@ public class FundPdfGenerator implements Serializable {
         paragraph.add(new Phrase("  "));
         try {
             PdfContentByte canvas = writer.getDirectContentUnder();
-            Image image = Image.getInstance("ServerApp/src/main/java/server/service/printing/backgroung.gif");
+            Image image = Image.getInstance("ServerApp/src/main/java/server/transferFiles.service/printing/backgroung.gif");
             image.scaleAbsolute(PageSize.A5);
             image.setAbsolutePosition(0, 0);
             canvas.addImage(image);
@@ -209,7 +209,7 @@ public class FundPdfGenerator implements Serializable {
 
             Image background = null;
             try {
-                background = Image.getInstance("ServerApp/src/main/java/server/service/printing/backgroung.gif");
+                background = Image.getInstance("ServerApp/src/main/java/server/transferFiles.service/printing/backgroung.gif");
             } catch (BadElementException e) {
                 e.printStackTrace();
             } catch (IOException e) {

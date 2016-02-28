@@ -1,9 +1,9 @@
 package server.dao;
 
 
-import server.exceptions.ProductByIdNotFoundException;
-import server.model.dish.ingridient.Mesuarment;
-import server.model.dish.ingridient.Product;
+import transferFiles.exceptions.ProductByIdNotFoundException;
+import transferFiles.model.dish.ingridient.Mesuarment;
+import transferFiles.model.dish.ingridient.Product;
 
 import java.util.List;
 
