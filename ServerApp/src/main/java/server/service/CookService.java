@@ -10,7 +10,6 @@ import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
 import transferFiles.model.user.User;
-import transferFiles.service.IRemoteService;
 
 import java.io.Serializable;
 
@@ -24,8 +23,6 @@ public class CookService implements ICookService, Serializable {
     @Qualifier("hibernateDenominationDAO")
     IDenominationDAO denominationDAO;
 
-    @Autowired
-    IRemoteService converter;
 
 
     @Override

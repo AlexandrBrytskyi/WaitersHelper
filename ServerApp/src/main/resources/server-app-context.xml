@@ -55,6 +55,7 @@
         <property name="service" ref="myValidator"/>
         <property name="serviceInterface" value="server.validator.IValidator"/>
         <property name="registryPort" value="9999"/>
+        <!--<property name="registryHost" value="192.168.250.52"/>-->
     </bean>
 
     <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
@@ -62,16 +63,8 @@
         <property name="service" ref="adminService"/>
         <property name="serviceInterface" value="server.service.IAdminService"/>
         <property name="registryPort" value="9999"/>
+        <!--<property name="registryHost" value="192.168.250.52"/>-->
     </bean>
-
-
-    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-        <property name="serviceName" value="RemoteService"/>
-        <property name="service" ref="iRemoteServiceImpl"/>
-        <property name="serviceInterface" value="transferFiles.service.IRemoteService"/>
-        <property name="registryPort" value="9999"/>
-    </bean>
-
 
 
 </beans>
