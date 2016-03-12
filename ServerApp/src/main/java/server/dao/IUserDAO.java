@@ -7,6 +7,8 @@ import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
 import transferFiles.password_utils.Password;
 
+import java.util.List;
+
 
 public interface IUserDAO {
 
@@ -18,4 +20,7 @@ public interface IUserDAO {
 
     User mergeUser(User user);
 
+    User getUser(String userCoockingLogin);
+
+    List<User> getAllUsers();
 }

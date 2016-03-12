@@ -8,15 +8,15 @@ import transferFiles.model.dish.DishType;
 import transferFiles.model.fund.Fund;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
+import transferFiles.to.IAccountable;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface IBarmenService extends Serializable {
+public interface IBarmenService extends Serializable,ICookService {
 
     Ordering addOrder(Ordering ordering);
 
@@ -39,10 +39,6 @@ public interface IBarmenService extends Serializable {
     Ordering updateOrdering(Ordering orderingSource);
 
     Ordering setWhoServesOrder(Ordering ordering, User user) throws OrderingAlreadyServingException, NoOrderingWithIdException, UserAccessException;
-
-    User changeName(User user, String name);
-
-    User changePassword(User user, String password) throws WrongPasswordException, RemoteException;
 
     Denomination addDenomination(Denomination denomination, User logined) throws UserAccessException, NoOrderingWithIdException;
 
@@ -74,6 +70,7 @@ public interface IBarmenService extends Serializable {
 
     void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
 
-    void sentUIobjectToValidator(User user, Object ui);
+    List<Denomination> getMessages(User user);
+
 
 }

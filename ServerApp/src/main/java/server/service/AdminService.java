@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 @Component("adminService")
-@Transactional
 @Scope("singleton")
 public class AdminService extends WaitersService implements IAdminService {
 

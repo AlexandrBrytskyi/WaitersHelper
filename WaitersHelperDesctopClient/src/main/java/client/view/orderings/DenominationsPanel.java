@@ -199,11 +199,19 @@ public class DenominationsPanel {
     }
 
     private void initPortionPriceField() {
+        portionField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkPortionField())
+                    priceField.setText(String.valueOf(((Dish) dishComboBox.getSelectedItem()).getPriceForPortion() * Double.valueOf(portionField.getText())));
+            }
+        });
         portionField.setEnabled(false);
         priceField.setEnabled(false);
 
 
     }
+
 
     private boolean checkPortionField() {
         try {

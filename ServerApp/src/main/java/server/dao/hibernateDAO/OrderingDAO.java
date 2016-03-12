@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import server.dao.IOrderingDAO;
 import transferFiles.exceptions.NoOrderingWithIdException;
 import transferFiles.exceptions.OrderingAlreadyServingException;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-
+@Transactional
 @Repository(value = "Ordering_hibernate_dao")
 public class OrderingDAO implements IOrderingDAO,Serializable {
 
@@ -62,7 +63,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
     public Ordering setTimeClientsCome(Ordering ordering, LocalDateTime time) {
         try {
             ordering.setDateClientsCome(time);
-            sessionFactory.getCurrentSession().update(ordering);
+            sessionFactory.getCurrentSession().merge(ordering);
             return ordering;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -103,7 +104,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
     public Ordering setOrderType(Ordering ordering, OrderType type) {
         try {
             ordering.setType(type);
-            sessionFactory.getCurrentSession().update(ordering);
+            sessionFactory.getCurrentSession().merge(ordering);
             return ordering;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -114,7 +115,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
     public Ordering addDenominationToOrder(Ordering ordering, Denomination denomination) {
         try {
             denomination.setOrder(ordering);
-            sessionFactory.getCurrentSession().update(denomination);
+            sessionFactory.getCurrentSession().merge(denomination);
             return sessionFactory.getCurrentSession().get(Ordering.class, ordering.getId());
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -125,7 +126,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
     public Ordering setDescription(String description, Ordering ordering) {
         try {
             ordering.setDescription(description);
-            sessionFactory.getCurrentSession().update(ordering);
+            sessionFactory.getCurrentSession().merge(ordering);
             return ordering;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -136,7 +137,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
     public Ordering setAmountOfPeople(int amount, Ordering ordering) {
         try {
             ordering.setAmountOfPeople(amount);
-            sessionFactory.getCurrentSession().update(ordering);
+            sessionFactory.getCurrentSession().merge(ordering);
             return ordering;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -148,7 +149,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
         try {
             Fund fund = ordering.getFund();
             fund.setKo(ko);
-            sessionFactory.getCurrentSession().update(fund);
+            sessionFactory.getCurrentSession().merge(fund);
             return ordering;
         } catch (Throwable e) {
             LOGGER.error(e);

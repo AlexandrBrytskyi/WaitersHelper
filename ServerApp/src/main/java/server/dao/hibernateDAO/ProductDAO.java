@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import server.dao.IProductDAO;
 import transferFiles.exceptions.ProductByIdNotFoundException;
 import transferFiles.model.dish.ingridient.Mesuarment;
@@ -12,11 +13,7 @@ import transferFiles.model.dish.ingridient.Product;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * User: huyti
- * Date: 07.12.2015
- */
-
+@Transactional
 @Repository("hibernateProductDAO")
 public class ProductDAO implements IProductDAO,Serializable {
     private static final Logger LOGGER = Logger.getLogger(ProductDAO.class);

@@ -9,28 +9,33 @@ import server.dao.IDenominationDAO;
 import server.dao.IDishDAO;
 import server.dao.IOrderingDAO;
 import server.dao.IUserDAO;
+import server.service.CoocksMonitor.CoocksMonitor;
 import server.service.printing.FundPdfGenerator;
 import server.service.printing.PdfPrinter;
 import server.validator.IValidator;
 import transferFiles.exceptions.*;
+import transferFiles.model.denomination.CurrentDenomination;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
 import transferFiles.model.dish.Dish;
 import transferFiles.model.dish.DishType;
 import transferFiles.model.fund.Fund;
+import transferFiles.model.order.OrderType;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
 import transferFiles.password_utils.Password;
+import transferFiles.to.LoginLabel;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
-@Transactional
+
 @Component("barmenService")
 @Scope("singleton")
 public class BarmenService implements IBarmenService, Serializable {
@@ -56,8 +61,12 @@ public class BarmenService implements IBarmenService, Serializable {
     IValidator validator;
 
     @Autowired(required = true)
+    CoocksMonitor coocksMonitor;
+
+    @Autowired(required = true)
     @Qualifier("fundGenerator")
     private FundPdfGenerator fundPdfGenerator;
+
 
     @Override
     public Dish addDish(Dish dish) {
@@ -134,11 +143,19 @@ public class BarmenService implements IBarmenService, Serializable {
 
     public Denomination addDenomination(Denomination denomination, User logined) throws UserAccessException, NoOrderingWithIdException {
         if (orderingDAO.getOrderingById(denomination.getOrder().getId()).getWhoServesOrder() != null) {
-            if (orderingDAO.getOrderingById(denomination.getOrder().getId()).getWhoServesOrder().getLogin().equals(logined.getLogin()))
-                return denominationDAO.addDenomination(denomination);
+            if (orderingDAO.getOrderingById(denomination.getOrder().getId()).getWhoServesOrder().getLogin().equals(logined.getLogin())) {
+                Denomination addedDenenom = denominationDAO.addDenomination(denomination);
+                if (addedDenenom.getOrder().getType().equals(OrderType.CURRENT)) {
+                    CurrentDenomination curDen = new CurrentDenomination(addedDenenom.getId(), logined.getLogin(), null);
+                    coocksMonitor.addNewCurrentDenomination(curDen);
+                    return addedDenenom;
+                }
+            }
             throw new UserAccessException("Only user who serves can add denomination now");
         } else {
-            return denominationDAO.addDenomination(denomination);
+            if (denomination.getOrder().getType().equals(OrderType.PREVIOUS))
+                return denominationDAO.addDenomination(denomination);
+            throw new UserAccessException("Somebody must serve current order to add denominations");
         }
     }
 
@@ -157,19 +174,35 @@ public class BarmenService implements IBarmenService, Serializable {
         if (!logined.getType().equals(UserType.ADMIN)) throw new UserAccessException("Only admin can delete");
         if (denomination.getOrder().getWhoServesOrder() != null)
             throw new UserAccessException("Can`t remove, ordering is already serving");
-        return denominationDAO.removeDenomination(denomination);
+        Denomination removed = denominationDAO.removeDenomination(denomination);
+        coocksMonitor.removeDenomination(removed);
+        return removed;
     }
 
+
+    //  look
     @Override
     public Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException {
-        if ((state.equals(DenominationState.IS_COOKING) || state.equals(DenominationState.READY) || state.equals(DenominationState.WAITING_FOR_COCK))
+        if ((state.equals(DenominationState.IS_COOKING) || state.equals(DenominationState.READY))
                 && !(logined.getType().equals(UserType.HOT_KITCHEN_COCK) ||
                 logined.getType().equals(UserType.COLD_KITCHEN_COCK) ||
-                logined.getType().equals(UserType.MANGAL_COCK)))
+                logined.getType().equals(UserType.MANGAL_COCK) ||
+                logined.getType().equals(UserType.BARMEN)))
             throw new UserAccessException("Only coock can set such state");
-        if (state.equals(DenominationState.READY))
+        if (denomination.getState().equals(DenominationState.READY))
             throw new UserAccessException("Dish is already ready! Can`t change state");
-        return denominationDAO.setDenominationState(state, denomination);
+        if (state.equals(DenominationState.CANCELED_BY_ADMIN) && logined.getType().equals(UserType.ADMIN))
+            return coocksMonitor.setCurrDenomStateCanceledByAdmin(denomination);
+        if (state.equals(DenominationState.CANCELED_BY_WAITER) && logined.getType().equals(UserType.WAITER))
+            return coocksMonitor.setCurrDenomStateCanceledByWaiter(denomination);
+        if (state.equals(DenominationState.CANCELED_BY_BARMEN) && logined.getType().equals(UserType.BARMEN))
+            return coocksMonitor.setCurrDenomStateCanceledByBarmen(denomination);
+        if (state.equals(DenominationState.CANCELED_BY_COCK) && (logined.getType().equals(UserType.COLD_KITCHEN_COCK) ||
+                logined.getType().equals(UserType.HOT_KITCHEN_COCK) ||
+                logined.getType().equals(UserType.MANGAL_COCK)))
+            return coocksMonitor.setCurrDenomStateCanceledByCoock(denomination);
+        if (state.equals(DenominationState.READY)) return coocksMonitor.setCurrDenomStateReady(denomination);
+        return denomination;
     }
 
     public Dish removeDish(Dish dish, User logined) throws UserAccessException {
@@ -211,7 +244,7 @@ public class BarmenService implements IBarmenService, Serializable {
     public Ordering setWhoServesOrderNull(Ordering ordering, User user) throws OrderingNotServingByYouException, NoOrderingWithIdException, UserAccessException {
         Ordering updated = orderingDAO.getOrderingById(ordering.getId());
         if (updated.getDateClientsCome().toLocalDate().equals(LocalDate.now())) {
-            return orderingDAO.setWhoServesOrderNull(updated,user);
+            return orderingDAO.setWhoServesOrderNull(updated, user);
         } else {
             throw new UserAccessException("You can drop serving only orders of today");
         }
@@ -222,6 +255,7 @@ public class BarmenService implements IBarmenService, Serializable {
         PdfPrinter.print(fundPdfGenerator.generatePdf(ordering));
     }
 
+    //    this is for denominations you serve
     @Override
     public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
         DenominationState state = null;
@@ -234,9 +268,45 @@ public class BarmenService implements IBarmenService, Serializable {
     }
 
     @Override
-    public void sentUIobjectToValidator(User user, Object ui) {
-        validator.setObjectToUser(user, ui);
+    public List<Denomination> getMessages(User user) {
+        return coocksMonitor.getMessage(user);
     }
 
+    //    this is for denomination you coock
+    @Override
+    public Denomination cancelDenomination(Denomination denomination, User logined) throws UserAccessException {
+        if (denomination.getDish().getWhoCoockDishType().equals(logined.getType()))
+            return coocksMonitor.setCurrDenomStateCanceledByBarmen(denomination);
+        throw new UserAccessException("You cant cancel");
+    }
+
+    @Override
+    public Denomination setDenomStateReady(Denomination denomination) throws UserAccessException {
+        Denomination den = null;
+        try {
+            den = denominationDAO.getDenominationById(denomination.getId());
+        } catch (DenominationWithIdNotFoundException e) {
+            throw new UserAccessException("Already removed");
+        }
+        if (!(den.getState().equals(DenominationState.CANCELED_BY_ADMIN) ||
+                den.getState().equals(DenominationState.CANCELED_BY_WAITER)))
+            return coocksMonitor.setCurrDenomStateReady(denomination);
+        throw new UserAccessException("Cancelled already by " + den.getState());
+    }
+
+    @Override
+    public void sentUIobjectToValidator(LoginLabel loginLabel) {
+
+    }
+
+    @Override
+    public List<Denomination> getWorkingDenoms(User user) {
+        return coocksMonitor.getWorkingTask(user);
+    }
+
+    @Override
+    public List<Denomination> getNewDenominations(User user) {
+        return coocksMonitor.getNewTask(user);
+    }
 
 }

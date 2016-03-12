@@ -2,12 +2,15 @@ package client.view.cook.denomination;
 
 import client.service.ICookService;
 import client.view.cook.Timer;
+import client.view.cook.WorkPanel;
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.dish.ingridient.Ingridient;
 import transferFiles.model.user.User;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,11 +30,18 @@ public class Denomination {
     private ICookService service;
     private Timer timer;
     private User logined;
+    private WorkPanel workPanel;
 
-    public Denomination(transferFiles.model.denomination.Denomination denomination, ICookService service, User logined) {
+    public Denomination(transferFiles.model.denomination.Denomination denomination, ICookService service, User logined, WorkPanel workPanel) {
         this.denomination = denomination;
         this.service = service;
+        this.workPanel = workPanel;
+        this.logined = logined;
         initComponents();
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 
     private void initComponents() {
@@ -49,10 +59,14 @@ public class Denomination {
         readyButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-
-                    service.setDenomStateReady();
+                try {
+                    service.setDenomStateReady(denomination);
                     timer.stopConting();
-
+                    JOptionPane.showMessageDialog(mainPanel, "SettedReady");
+                } catch (UserAccessException e1) {
+                    JOptionPane.showMessageDialog(mainPanel, e1);
+                }
+                workPanel.removeCurrentDenom(denomination);
             }
         });
 
@@ -62,9 +76,11 @@ public class Denomination {
                 try {
                     service.cancelDenomination(denomination, logined);
                     timer.stopConting();
+                    workPanel.removeCurrentDenom(denomination);
                 } catch (UserAccessException e1) {
-                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(mainPanel, e1);
                 }
+                JOptionPane.showMessageDialog(mainPanel, "CancelledSuccess");
             }
         });
     }
@@ -81,5 +97,12 @@ public class Denomination {
         userLabel.setText(denomination.getOrder().getWhoServesOrder().getName());
         timeAddedLabel.setText(denomination.getTimeWhenAdded().toLocalTime().toString());
         timeAddedLabel.setToolTipText(denomination.getTimeWhenAdded().toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Denomination{" +
+                "denomination=" + denomination +
+                '}';
     }
 }

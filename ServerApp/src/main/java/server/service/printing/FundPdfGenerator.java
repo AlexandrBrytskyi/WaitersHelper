@@ -59,7 +59,7 @@ public class FundPdfGenerator implements Serializable {
         paragraph.add(new Phrase("  "));
         try {
             PdfContentByte canvas = writer.getDirectContentUnder();
-            Image image = Image.getInstance("ServerApp/src/main/java/server/transferFiles.service/printing/backgroung.gif");
+            Image image = Image.getInstance("ServerApp/src/main/java/server/service/printing/backgroung.gif");
             image.scaleAbsolute(PageSize.A5);
             image.setAbsolutePosition(0, 0);
             canvas.addImage(image);
@@ -159,6 +159,8 @@ public class FundPdfGenerator implements Serializable {
         PdfPCell cell = new PdfPCell();
         cell.setColspan(3);
         cell.setRowspan(4);
+        cell.setBorderWidthLeft(0);
+        cell.setBorderWidthBottom(0);
         denominations.addCell(cell);
         font = (FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.ITALIC));
         denominations.addCell(new PdfPCell(new Phrase("Price ", font)));
@@ -184,7 +186,7 @@ public class FundPdfGenerator implements Serializable {
 
     private void setColNames(PdfPTable denominations) {
         try {
-            denominations.setWidths(new float[]{2f, 8f, 3f, 4f, 5f});
+            denominations.setWidths(new float[]{2f, 8f, 4f, 4f, 5f});
         } catch (DocumentException e) {
             LOGGER.error(e);
         }
@@ -209,7 +211,7 @@ public class FundPdfGenerator implements Serializable {
 
             Image background = null;
             try {
-                background = Image.getInstance("ServerApp/src/main/java/server/transferFiles.service/printing/backgroung.gif");
+                background = Image.getInstance("ServerApp/src/main/java/server/service/printing/backgroung.gif");
             } catch (BadElementException e) {
                 e.printStackTrace();
             } catch (IOException e) {

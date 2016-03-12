@@ -4,8 +4,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
 import transferFiles.exceptions.DenominationWithIdNotFoundException;
+import transferFiles.model.denomination.CurrentDenomination;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
 import transferFiles.model.dish.Dish;
@@ -21,6 +23,7 @@ import java.util.List;
  * Date: 10.01.2016
  */
 @Repository("hibernateDenominationDAO")
+@Transactional
 public class DenominationDAO implements IDenominationDAO, Serializable {
     private static final Logger LOGGER = Logger.getLogger(DenominationDAO.class);
 
@@ -198,5 +201,58 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
             LOGGER.error(e);
             return null;
         }
+    }
+
+    @Override
+    public List<CurrentDenomination> getCurrentDenominations() {
+        try {
+           return sessionFactory.getCurrentSession().createQuery("SELECT d FROM CurrentDenomination d").list();
+        }catch (Throwable e) {
+           LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public CurrentDenomination getCurrentDenomination(int id) {
+        CurrentDenomination founded = null;
+        try {
+            founded = sessionFactory.getCurrentSession().get(CurrentDenomination.class,id);
+        }catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return founded;
+    }
+
+    @Override
+    public CurrentDenomination removeCurrentDenomination(int id) {
+        CurrentDenomination founded = getCurrentDenomination(id);
+        try {
+            if (founded!=null) sessionFactory.getCurrentSession().delete(founded);
+        }catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return founded;
+    }
+
+    @Override
+    public CurrentDenomination mergeCurrentDenomination(CurrentDenomination currentDenomination) {
+        try {
+           return (CurrentDenomination) sessionFactory.getCurrentSession().merge(currentDenomination);
+        }catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
+
+    @Override
+    public CurrentDenomination addCurrentDenomination(CurrentDenomination currentDenomination) {
+        try {
+            sessionFactory.getCurrentSession().save(currentDenomination);
+            return currentDenomination;
+        }catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
     }
 }

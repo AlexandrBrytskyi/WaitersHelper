@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
 import transferFiles.password_utils.Password;
+import transferFiles.to.IAccountable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,11 +25,11 @@ public class AccountFrame extends JFrame {
     private JLabel passwordLabel;
     private JPanel changePanel;
     private static final Logger LOGGER = Logger.getLogger(AccountFrame.class);
-    private IBarmenService service;
+    private IAccountable service;
     private User loginedUser;
     private static JFrame frame;
 
-    public AccountFrame(IBarmenService service, User loginedUser) throws HeadlessException {
+    public AccountFrame(IAccountable service, User loginedUser) throws HeadlessException {
         super();
         setSize(500, 250);
         setResizable(false);
@@ -99,7 +100,7 @@ public class AccountFrame extends JFrame {
 
     }
 
-    public static void getAccountFrame(IBarmenService service, User logged) {
+    public static void getAccountFrame(IAccountable service, User logged) {
         if (isAlreadyInited) {
             frame.pack();
             frame.toFront();

@@ -229,18 +229,19 @@ public class OrderingPanel extends JPanel {
         double ko = 0;
         for (int i = 0; i < 30; i++) {
             koComboBox.addItem(ko);
-            ko += 0.05;
+            ko += 0.01;
         }
         priceField.setEnabled(false);
         pricePlusKOField.setEnabled(false);
         countButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                service.setKO((Double) koComboBox.getSelectedItem(), orderingSource);
+                orderingSource = service.setKO((Double) koComboBox.getSelectedItem(), orderingSource);
                 Fund counted = service.getFinalFund(orderingSource);
                 priceField.setText(String.valueOf(counted.getPrice()));
                 pricePlusKOField.setText(String.valueOf(counted.getFinalPrice() + orderingSource.getAdvancePayment()));
                 finalPriceFild.setText(String.valueOf(counted.getFinalPrice()));
+                orderingSource.setFund(counted);
             }
         });
         printButton.addActionListener(new ActionListener() {

@@ -9,10 +9,10 @@ import transferFiles.exceptions.IngridientWithIDNotFoundException;
 import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.dish.Dish;
 import transferFiles.model.dish.DishType;
-import transferFiles.model.dish.WhoCoockDishType;
 import transferFiles.model.dish.ingridient.Ingridient;
 import transferFiles.model.dish.ingridient.Product;
 import transferFiles.model.user.User;
+import transferFiles.model.user.UserType;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -155,7 +155,7 @@ public class AllDishPanel {
             for (DishType type : DishType.values()) {
                 dishTypeComboBox.addItem(type);
             }
-            for (WhoCoockDishType whoCoockDishType : WhoCoockDishType.values()) {
+            for (UserType whoCoockDishType : UserType.valuesWhoCoock()) {
                 whoCookComboBox.addItem(whoCoockDishType);
             }
         }
@@ -163,7 +163,7 @@ public class AllDishPanel {
             for (DishType type : DishType.values()) {
                 if (!type.equals(DishType.DISH)) dishTypeComboBox.addItem(type);
             }
-            whoCookComboBox.addItem(WhoCoockDishType.BARMEN);
+            whoCookComboBox.addItem(UserType.BARMEN);
         }
         changeDishButton.setEnabled(false);
         removeDishButton.setEnabled(false);
@@ -202,7 +202,7 @@ public class AllDishPanel {
                     dish.setType((DishType) dishTypeComboBox.getSelectedItem());
                     dish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
                     dish.setDescription(dishDescriptionField.getText());
-                    dish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
+                    dish.setWhoCoockDishType((UserType) whoCookComboBox.getSelectedItem());
                     if (adminService != null) adminService.addDish(dish);
                     if (barmenService != null) barmenService.addDish(dish);
                     dishTableModel.updateList();
@@ -239,7 +239,7 @@ public class AllDishPanel {
                         selectedDish.setType((DishType) dishTypeComboBox.getSelectedItem());
                         selectedDish.setPriceForPortion(Double.valueOf(dishPriceField.getText()));
                         selectedDish.setDescription(dishDescriptionField.getText());
-                        selectedDish.setWhoCoockDishType((WhoCoockDishType) whoCookComboBox.getSelectedItem());
+                        selectedDish.setWhoCoockDishType((UserType) whoCookComboBox.getSelectedItem());
                         if (adminService != null) adminService.updateDish(selectedDish);
                         if (barmenService != null) barmenService.updateDish(selectedDish);
                     }

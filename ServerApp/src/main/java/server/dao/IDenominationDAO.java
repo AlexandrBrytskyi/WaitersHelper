@@ -1,6 +1,7 @@
 package server.dao;
 
 import transferFiles.exceptions.DenominationWithIdNotFoundException;
+import transferFiles.model.denomination.CurrentDenomination;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
 import transferFiles.model.dish.Dish;
@@ -39,4 +40,14 @@ public interface IDenominationDAO {
     List<Denomination> getDenominationsByDate(LocalDateTime concreteDate);
 
     List<Denomination> getDenominationsByDate(LocalDateTime periodStart, LocalDateTime periodEnd);
+
+    List<CurrentDenomination> getCurrentDenominations();
+
+    CurrentDenomination getCurrentDenomination(int id);
+
+    CurrentDenomination removeCurrentDenomination(int id);
+
+    CurrentDenomination mergeCurrentDenomination(CurrentDenomination currentDenomination);
+
+    CurrentDenomination addCurrentDenomination(CurrentDenomination currentDenomination);
 }

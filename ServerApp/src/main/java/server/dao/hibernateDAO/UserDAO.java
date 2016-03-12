@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import server.dao.IUserDAO;
 import transferFiles.exceptions.AccountBlockedException;
 import transferFiles.exceptions.UserFieldIsEmptyException;
@@ -13,9 +14,11 @@ import transferFiles.model.user.User;
 import transferFiles.password_utils.Password;
 
 import java.io.Serializable;
+import java.util.List;
 
+@Transactional
 @Repository("hibernateUserDAO")
-public class UserDAO implements IUserDAO,Serializable {
+public class UserDAO implements IUserDAO, Serializable {
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class);
 
     @Autowired(required = true)
@@ -72,5 +75,25 @@ public class UserDAO implements IUserDAO,Serializable {
         return user;
     }
 
+    @Override
+    public User getUser(String userCoockingLogin) {
+        User founded = null;
+        try {
+            founded = sessionFactory.getCurrentSession().get(User.class, userCoockingLogin);
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return founded;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        try {
+            return sessionFactory.getCurrentSession().createQuery("SELECT u FROM User u").list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
+        }
+        return null;
+    }
 
 }

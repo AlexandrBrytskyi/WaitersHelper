@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component(value = "waitersService")
-@Transactional
 @Scope("singleton")
 public class WaitersService extends BarmenService implements IWaitersService {
 

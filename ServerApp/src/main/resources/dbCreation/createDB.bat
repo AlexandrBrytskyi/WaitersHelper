@@ -1,1 +1,1 @@
-mysql -u root -proot < waitershelperdump.sql
+create database waitershelper;

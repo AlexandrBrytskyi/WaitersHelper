@@ -66,5 +66,13 @@
         <!--<property name="registryHost" value="192.168.250.52"/>-->
     </bean>
 
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="CoockService"/>
+        <property name="service" ref="cookService"/>
+        <property name="serviceInterface" value="server.service.ICookService"/>
+        <property name="registryPort" value="9999"/>
+        <!--<property name="registryHost" value="192.168.250.52"/>-->
+    </bean>
+
 
 </beans>

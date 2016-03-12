@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDishDAO;
 import transferFiles.exceptions.NoDishWithIdFoundedException;
 import transferFiles.model.dish.Dish;
@@ -13,11 +14,8 @@ import transferFiles.model.dish.ingridient.Ingridient;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * User: huyti
- * Date: 27.12.2015
- */
 
+@Transactional
 @Repository(value = "hibernateDishDAO")
 public class DishDAO implements IDishDAO ,Serializable {
     private static final Logger LOGGER = Logger.getLogger(DishDAO.class);

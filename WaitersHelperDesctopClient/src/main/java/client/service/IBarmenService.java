@@ -1,6 +1,9 @@
 package client.service;
 
-import transferFiles.exceptions.*;
+import transferFiles.exceptions.NoOrderingWithIdException;
+import transferFiles.exceptions.OrderingAlreadyServingException;
+import transferFiles.exceptions.OrderingNotServingByYouException;
+import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
 import transferFiles.model.dish.Dish;
@@ -8,16 +11,14 @@ import transferFiles.model.dish.DishType;
 import transferFiles.model.fund.Fund;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
-import transferFiles.to.LoginLabel;
 
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface IBarmenService extends Serializable {
+public interface IBarmenService extends Serializable,ICookService {
 
     Ordering addOrder(Ordering ordering);
 
@@ -40,10 +41,6 @@ public interface IBarmenService extends Serializable {
     Ordering updateOrdering(Ordering orderingSource);
 
     Ordering setWhoServesOrder(Ordering ordering, User user) throws OrderingAlreadyServingException, NoOrderingWithIdException, UserAccessException;
-
-    User changeName(User user, String name);
-
-    User changePassword(User user, String password) throws WrongPasswordException, RemoteException;
 
     Denomination addDenomination(Denomination denomination, User logined) throws UserAccessException, NoOrderingWithIdException;
 
@@ -75,6 +72,7 @@ public interface IBarmenService extends Serializable {
 
     void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
 
-    void sentUIobjectToValidator(LoginLabel loginLable);
+    List<Denomination> getMessages(User user);
+
 
 }

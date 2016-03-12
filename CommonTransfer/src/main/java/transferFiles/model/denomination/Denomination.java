@@ -7,10 +7,10 @@ import transferFiles.model.order.Ordering;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-//denomination is entity which is used like wrapper for dish transferFiles.to link one with order
+//denomination is entity which is used like wrapper for dish to link one with order
 
 @Entity
-@Table(name = "denomanation")
+@Table(name = "denomination")
 public class Denomination extends IdAutoGenerator {
 
     @ManyToOne()
@@ -114,13 +114,10 @@ public class Denomination extends IdAutoGenerator {
         if (Double.compare(that.portion, portion) != 0) return false;
         if (Double.compare(that.price, price) != 0) return false;
         if (dish != null ? !dish.equals(that.dish) : that.dish != null) return false;
-        if (order != null ? !order.equals(that.order) : that.order != null) return false;
         if (timeWhenAdded != null ? !timeWhenAdded.equals(that.timeWhenAdded) : that.timeWhenAdded != null)
             return false;
-        if (timeWhenIsReady != null ? !timeWhenIsReady.equals(that.timeWhenIsReady) : that.timeWhenIsReady != null)
-            return false;
-        return state == that.state;
 
+        return true;
     }
 
     @Override

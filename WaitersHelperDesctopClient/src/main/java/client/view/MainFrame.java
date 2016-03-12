@@ -3,11 +3,13 @@ package client.view;
 
 import client.service.IAdminService;
 import client.service.IBarmenService;
+import client.service.ICookService;
 import client.service.IWaitersService;
 import client.service.loginUtils.LoginLabelSender;
 import client.validator.IValidator;
 import client.view.admin.AdminUI;
 import client.view.barmen.BarmenUI;
+import client.view.cook.CoockUI;
 import client.view.waiter.WaiterUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +35,7 @@ public class MainFrame extends JFrame {
     @Autowired(required = true)
     private ApplicationContext appContext;
 
-    @Autowired (required = true)
+    @Autowired(required = true)
     @Qualifier("LoginValidator")
     IValidator validator;
 
@@ -44,7 +46,6 @@ public class MainFrame extends JFrame {
     private JButton connectButton;
     private JLabel loginLabel;
     private JLabel passportLabel;
-
 
 
     public MainFrame() throws HeadlessException {
@@ -89,14 +90,17 @@ public class MainFrame extends JFrame {
 
     private void defineUI(User logged) {
         Loginable ui = null;
-        if (logged.getType().equals(UserType.ADMIN)) ui = new AdminUI((IAdminService) appContext.getBean("adminService"), logged);
+        if (logged.getType().equals(UserType.ADMIN))
+            ui = new AdminUI((IAdminService) appContext.getBean("adminService"), logged);
         if (logged.getType().equals(UserType.WAITER))
             ui = new WaiterUI((IWaitersService) appContext.getBean("adminService"), logged);
         if (logged.getType().equals(UserType.HOT_KITCHEN_COCK) ||
                 logged.getType().equals(UserType.COLD_KITCHEN_COCK) ||
-                logged.getType().equals(UserType.MANGAL_COCK)) return;
-        if (logged.getType().equals(UserType.BARMEN)) ui = new BarmenUI((IBarmenService) appContext.getBean("adminService"), logged);
-        if (ui != null){
+                logged.getType().equals(UserType.MANGAL_COCK))
+            ui = new CoockUI((ICookService) appContext.getBean("coockService"), logged);
+        if (logged.getType().equals(UserType.BARMEN))
+            ui = new BarmenUI((IBarmenService) appContext.getBean("adminService"), logged);
+        if (ui != null) {
             ui.sendUIToLoginedList();
             runLoginLableSender(ui.getLoginLable());
             this.dispose();
@@ -104,7 +108,7 @@ public class MainFrame extends JFrame {
     }
 
     private void runLoginLableSender(LoginLabel loginLable) {
-        Thread loginLableSenderThread = new Thread(new LoginLabelSender(validator,loginLable));
+        Thread loginLableSenderThread = new Thread(new LoginLabelSender(validator, loginLable));
         loginLableSenderThread.start();
     }
 

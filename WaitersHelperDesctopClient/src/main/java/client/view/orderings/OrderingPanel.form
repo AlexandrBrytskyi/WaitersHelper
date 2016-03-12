@@ -232,7 +232,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <editable value="false"/>
+            </properties>
           </component>
           <component id="63e06" class="javax.swing.JTextField" binding="pricePlusKOField">
             <constraints>
@@ -240,7 +242,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <editable value="false"/>
+            </properties>
           </component>
           <component id="e417f" class="javax.swing.JLabel" binding="koLabel">
             <constraints>
@@ -307,7 +311,9 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <editable value="false"/>
+            </properties>
           </component>
           <component id="b13ad" class="javax.swing.JLabel" binding="minusAvanceLabel">
             <constraints>

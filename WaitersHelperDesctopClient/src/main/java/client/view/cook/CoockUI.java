@@ -1,14 +1,13 @@
-package client.view.barmen;
+package client.view.cook;
 
 import client.service.IBarmenService;
+import client.service.ICookService;
 import client.view.account.AccountFrame;
-import client.view.cook.WorkPanel;
 import client.view.dishes.AllDishPanel;
 import client.view.orderings.AllOrderingsPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.user.User;
-import transferFiles.model.user.UserType;
 import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 
@@ -17,49 +16,39 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 
-public class BarmenUI extends JFrame implements Loginable {
-    protected static Logger LOGGER = Logger.getLogger(BarmenUI.class);
+public class CoockUI extends JFrame implements Loginable {
+    protected static Logger LOGGER = Logger.getLogger(CoockUI.class);
 
     private JPanel mainPanel;
-    protected JTabbedPane accountPane;
-    private JPanel ordersPanel;
-    protected JPanel dishesPanel;
-    protected JTabbedPane dishesPane;
-    private JTabbedPane ordersPane;
-    protected JPanel accountPanel;
+    private JTabbedPane accountPane;
     private JPanel workPanel;
+    private JTabbedPane workPane;
+    private JPanel accountPanel;
+    private User loggedUser;
+    private LoginLabel loginLabel;
     private WorkPanel workPanelExemp;
-    protected AllDishPanel allDishPanel;
-    protected AllOrderingsPanel allOrderingsPanel;
-    protected JPanel myOrderingsPanel;
-    protected User loggedUser;
-    protected LoginLabel loginLabel;
     private JScrollPane scrollPane;
 
 
-    private IBarmenService service;
+    private ICookService service;
 
 
-    public BarmenUI(IBarmenService service, User logged) throws HeadlessException {
+    public CoockUI(ICookService service, User logged) throws HeadlessException {
         super();
         this.service = service;
         this.loggedUser = logged;
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(900, 700);
         setResizable(false);
-        setTitle("Barmen " + logged.getName());
+        setTitle("Cooker " + logged.getName());
         setVisible(true);
         add(mainPanel);
-        initAllDishPanel();
-        initAllOrdersPanel();
+        initWorkPanel();
+        mainPanel.updateUI();
         accountPane.addChangeListener(menuTabChangeListener);
-        if (logged.getType().equals(UserType.BARMEN)) {
-            initWorkPanel();
-        } else {
-            accountPane.remove(0);
-        }
         initMessageGetter();
     }
 
@@ -68,7 +57,8 @@ public class BarmenUI extends JFrame implements Loginable {
         thread.start();
     }
 
-    private void initWorkPanel() {
+
+    protected void initWorkPanel() {
         workPanelExemp = new WorkPanel(service, loggedUser);
         workPanel.setLayout(new BorderLayout());
         scrollPane = new JScrollPane(workPanelExemp.getMainPanel());
@@ -82,43 +72,8 @@ public class BarmenUI extends JFrame implements Loginable {
     }
 
 
-    protected void initAllDishPanel() {
-        allDishPanel = new AllDishPanel(service, loggedUser);
-        dishesPane.addTab("All Dishes", allDishPanel.getAllDishesPanel());
-    }
-
-    private void initAllOrdersPanel() {
-        allOrderingsPanel = new AllOrderingsPanel(LOGGER, service, loggedUser);
-        ordersPane.addTab("AllOrders", allOrderingsPanel.getAllOrderingsPanel());
-        myOrderingsPanel = allOrderingsPanel.getFilteredOrdersPanelUserServesOrdering();
-        JScrollPane pane = new JScrollPane(myOrderingsPanel);
-        pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        ordersPane.addTab("Orders I Serve", pane);
-        allOrderingsPanel.initialiseAllOrdersPanel();
-        LOGGER.info("initialized all orders panel");
-        ordersPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (ordersPane.getTabRunCount() == 1) {
-                    myOrderingsPanel = allOrderingsPanel.getFilteredOrdersPanelUserServesOrdering();
-                    LOGGER.info("initialized my orderings panel");
-                }
-                if (ordersPane.getTabRunCount() == 0) {
-                    allOrderingsPanel.initialiseAllOrdersPanel();
-                    LOGGER.info("initialized all orders panel");
-                }
-            }
-
-        });
-    }
-
-
     private ChangeListener menuTabChangeListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
-            if (dishesPanel.isShowing()) {
-                allDishPanel.initialiseAllDishesPanel();
-                LOGGER.info("initialized all dishes panel");
-            }
             if (accountPanel.isShowing()) {
                 AccountFrame.getAccountFrame(service, loggedUser);
                 LOGGER.info("initialized account frame");
@@ -131,6 +86,7 @@ public class BarmenUI extends JFrame implements Loginable {
         loginLabel = new LoginLabel(loggedUser, loggedUser.getType().toString());
         service.sentUIobjectToValidator(loginLabel);
     }
+
 
     @Override
     public LoginLabel getLoginLable() {
@@ -153,14 +109,13 @@ public class BarmenUI extends JFrame implements Loginable {
             }
         }
 
-        private void executeMessages(java.util.List<Denomination> newMessage) {
+        private void executeMessages(List<Denomination> newMessage) {
             if (newMessage != null && !newMessage.isEmpty()) {
                 String result = "";
                 for (Denomination denomination : newMessage) {
-                    if (loggedUser.getType().equals(UserType.BARMEN))
-                        workPanelExemp.removeCurrentDenom(denomination);
+                    workPanelExemp.removeCurrentDenom(denomination);
                     result += denomination.getDish().getName() + ", " + denomination.getPortion() + ", " +
-                            denomination.getOrder().getDescription() + " state changed on " + denomination.getState() + "\n";
+                            denomination.getOrder().getWhoServesOrder() + " state changed on " + denomination.getState() + "\n";
                 }
                 JOptionPane.showMessageDialog(mainPanel, result);
             }

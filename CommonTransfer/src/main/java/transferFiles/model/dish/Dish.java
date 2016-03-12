@@ -3,6 +3,7 @@ package transferFiles.model.dish;
 
 import transferFiles.model.IdUtil.IdAutoGenerator;
 import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.model.user.UserType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Dish extends IdAutoGenerator {
     private DishType type;
 
     @Column
-    private WhoCoockDishType whoCoockDishType;
+    private UserType whoCoockDishType;
 
     @Column
     private double priceForPortion;
@@ -85,11 +86,11 @@ public class Dish extends IdAutoGenerator {
         this.ingridients = ingridients;
     }
 
-    public WhoCoockDishType getWhoCoockDishType() {
+    public UserType getWhoCoockDishType() {
         return whoCoockDishType;
     }
 
-    public void setWhoCoockDishType(WhoCoockDishType whoCoockDishType) {
+    public void setWhoCoockDishType(UserType whoCoockDishType) {
         this.whoCoockDishType = whoCoockDishType;
     }
 
