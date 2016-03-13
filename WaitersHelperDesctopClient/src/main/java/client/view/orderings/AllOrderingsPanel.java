@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 
@@ -41,6 +43,7 @@ public class AllOrderingsPanel {
     private java.util.List<Ordering> filteredOrderings;
     private AllOrderingsPanel thiss;
     private JPanel myOrderings = new JPanel();
+    private Map<Integer,DenominationsPanel> denomsTobeUpdated = new HashMap<Integer, DenominationsPanel>();
 
     public AllOrderingsPanel(final Logger logger, final IBarmenService service, final User logged) {
         this.logined = logged;
@@ -114,7 +117,7 @@ public class AllOrderingsPanel {
         }
         filteredOrdersPanel.setLayout(new GridLayout(rows, 1));
         for (Ordering filteredOrdering : orderingTreeSet) {
-            OrderingPanel orderingPanel = new OrderingPanel(filteredOrdering, service, this, logined);
+            OrderingPanel orderingPanel = new OrderingPanel(filteredOrdering, service, this, logined, denomsTobeUpdated);
             filteredOrdersPanel.add(orderingPanel.getOrderingPanel());
         }
         filteredOrdersPanel.updateUI();
@@ -201,5 +204,9 @@ public class AllOrderingsPanel {
         filteredOrderings = service.getOrderingsUserServes(logined,LocalDate.now().minusDays(1),LocalDate.now());
         buildFilteredOrdersPanel(myOrderings);
         return myOrderings;
+    }
+
+    public Map<Integer, DenominationsPanel> getDenomsTobeUpdated() {
+        return denomsTobeUpdated;
     }
 }

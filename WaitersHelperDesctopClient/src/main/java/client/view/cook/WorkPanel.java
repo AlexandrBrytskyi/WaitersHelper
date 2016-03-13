@@ -19,7 +19,7 @@ public class WorkPanel {
     private ICookService service;
     private User logined;
     private JPanel mainPanel;
-    private JScrollPane scrollPane;
+
 
     public WorkPanel(ICookService service, User logined) {
         mainPanel = new JPanel();
@@ -52,9 +52,11 @@ public class WorkPanel {
     }
 
     public void removeCurrentDenom(transferFiles.model.denomination.Denomination denomination) {
-        mainPanel.remove(denominations.get(denomination.getId()).getMainPanel());
-        denominations.remove(denomination.getId());
-        mainPanel.updateUI();
+        if (denominations.containsKey(denomination.getId())) {
+            mainPanel.remove(denominations.get(denomination.getId()).getMainPanel());
+            denominations.remove(denomination.getId());
+            mainPanel.updateUI();
+        }
     }
 
     private void fillSetDenoms(List<transferFiles.model.denomination.Denomination> currDenoms) {

@@ -28,4 +28,17 @@
         </plugins>
     </build>
 
+    <properties>
+        <spring.version>4.2.4.RELEASE</spring.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+    </dependencies>
 </project>

@@ -58,6 +58,7 @@ public class DenominationsPanel {
     private User logined;
     private Ordering orderingSource;
     private DenominationsTableModel denominationsTableModel;
+    private DenominationsPanel me;
 
 
     /*every time when showDenominations combo box from ordering panel is selected
@@ -69,6 +70,7 @@ public class DenominationsPanel {
         initTable();
         initAddRemovePanel();
         LOGGER.trace("Creating Denominations panel for ordering" + ordering.getId());
+        me = this;
     }
 
     public JPanel getMainPanel() {
@@ -389,5 +391,9 @@ public class DenominationsPanel {
 
     }
 
+    public void updateValuesOfTable() {
+        denominationsTableModel.updateList();
+        mainPanel.updateUI();
+    }
 
 }

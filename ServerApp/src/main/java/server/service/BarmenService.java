@@ -172,7 +172,7 @@ public class BarmenService implements IBarmenService, Serializable {
     @Override
     public Denomination removeDenomination(Denomination denomination, User logined) throws UserAccessException {
         if (!logined.getType().equals(UserType.ADMIN)) throw new UserAccessException("Only admin can delete");
-        if (denomination.getOrder().getWhoServesOrder() != null)
+        if (denomination.getOrder().getWhoServesOrder().getLogin() != logined.getLogin())
             throw new UserAccessException("Can`t remove, ordering is already serving");
         Denomination removed = denominationDAO.removeDenomination(denomination);
         coocksMonitor.removeDenomination(removed);
@@ -180,30 +180,6 @@ public class BarmenService implements IBarmenService, Serializable {
     }
 
 
-    //  look
-    @Override
-    public Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException {
-        if ((state.equals(DenominationState.IS_COOKING) || state.equals(DenominationState.READY))
-                && !(logined.getType().equals(UserType.HOT_KITCHEN_COCK) ||
-                logined.getType().equals(UserType.COLD_KITCHEN_COCK) ||
-                logined.getType().equals(UserType.MANGAL_COCK) ||
-                logined.getType().equals(UserType.BARMEN)))
-            throw new UserAccessException("Only coock can set such state");
-        if (denomination.getState().equals(DenominationState.READY))
-            throw new UserAccessException("Dish is already ready! Can`t change state");
-        if (state.equals(DenominationState.CANCELED_BY_ADMIN) && logined.getType().equals(UserType.ADMIN))
-            return coocksMonitor.setCurrDenomStateCanceledByAdmin(denomination);
-        if (state.equals(DenominationState.CANCELED_BY_WAITER) && logined.getType().equals(UserType.WAITER))
-            return coocksMonitor.setCurrDenomStateCanceledByWaiter(denomination);
-        if (state.equals(DenominationState.CANCELED_BY_BARMEN) && logined.getType().equals(UserType.BARMEN))
-            return coocksMonitor.setCurrDenomStateCanceledByBarmen(denomination);
-        if (state.equals(DenominationState.CANCELED_BY_COCK) && (logined.getType().equals(UserType.COLD_KITCHEN_COCK) ||
-                logined.getType().equals(UserType.HOT_KITCHEN_COCK) ||
-                logined.getType().equals(UserType.MANGAL_COCK)))
-            return coocksMonitor.setCurrDenomStateCanceledByCoock(denomination);
-        if (state.equals(DenominationState.READY)) return coocksMonitor.setCurrDenomStateReady(denomination);
-        return denomination;
-    }
 
     public Dish removeDish(Dish dish, User logined) throws UserAccessException {
         if (!(logined.getType().equals(UserType.BARMEN) && !dish.getType().equals(DishType.DISH)))
@@ -258,13 +234,11 @@ public class BarmenService implements IBarmenService, Serializable {
     //    this is for denominations you serve
     @Override
     public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
-        DenominationState state = null;
-        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin()) || !logined.getType().equals(UserType.ADMIN))
+        if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin()) && !logined.getType().equals(UserType.ADMIN))
             throw new UserAccessException("You can`t cancel, you don`n serve, admin can");
-        if (logined.getType().equals(UserType.BARMEN)) state = DenominationState.CANCELED_BY_BARMEN;
-        if (logined.getType().equals(UserType.WAITER)) state = DenominationState.CANCELED_BY_WAITER;
-        if (logined.getType().equals(UserType.ADMIN)) state = DenominationState.CANCELED_BY_ADMIN;
-        changeDenominationState(selectedDenomination, state, logined);
+        if (logined.getType().equals(UserType.BARMEN)) coocksMonitor.setCurrDenomStateCanceledByBarmen(selectedDenomination);
+        if (logined.getType().equals(UserType.WAITER)) coocksMonitor.setCurrDenomStateCanceledByWaiter(selectedDenomination);
+        if (logined.getType().equals(UserType.ADMIN)) coocksMonitor.setCurrDenomStateCanceledByAdmin(selectedDenomination);
     }
 
     @Override

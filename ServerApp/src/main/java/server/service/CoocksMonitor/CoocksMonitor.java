@@ -73,6 +73,7 @@ public class CoocksMonitor {
         while (!currentDenominationsQueue.isEmpty()) {
             try {
                 Denomination denom = denominationDAO.getDenominationById(currentDenominationsQueue.peek().getDenomId());
+                setCurrDenomStateWaitingForCoock(denom);
                 if (putNewDenomInTask(tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()), denom)) {
                     currentDenominationsQueue.remove();
                 } else {
@@ -82,7 +83,7 @@ public class CoocksMonitor {
                 LOGGER.error(e);
             }
         }
-        currentDenominationsQueue.addAll(curDemsWitoutWork);
+
         curDemsWitoutWork = null;
     }
 
@@ -99,7 +100,7 @@ public class CoocksMonitor {
             userTaskHashMap.get(mostLazyUser).addNewTask(denom);
             CurrentDenomination toUpdate = denominationDAO.getCurrentDenomination(denom.getId());
             toUpdate.setUserCoockingLogin(mostLazyUser.getLogin());
-            setCurrDenomStateWaitingForCoock(denom);
+            setCurrDenomStateIsCoocking(denom);
             denominationDAO.mergeCurrentDenomination(toUpdate);
             return true;
         }
@@ -174,7 +175,21 @@ public class CoocksMonitor {
 
     private void getCurrentDenominations() {
         List<CurrentDenomination> fromdb = denominationDAO.getCurrentDenominations();
-        if (fromdb != null) currentDenominationsQueue.addAll(fromdb);
+        if (fromdb != null) {
+            currentDenominationsQueue.addAll(fromdb);
+            findDeleted(currentDenominationsQueue);
+        }
+    }
+
+    private void findDeleted(Queue<CurrentDenomination> currentDenominationsQueue) {
+        for (CurrentDenomination denomination : currentDenominationsQueue) {
+            try {
+                Denomination den = denominationDAO.getDenominationById(denomination.getDenomId());
+            } catch (DenominationWithIdNotFoundException e) {
+                currentDenominationsQueue.remove(denomination);
+                denominationDAO.removeCurrentDenomination(denomination.getDenomId());
+            }
+        }
     }
 
     public void updateLoginedUsersList(List<User> loginedUsers) {
@@ -216,7 +231,9 @@ public class CoocksMonitor {
     //    message
     public Denomination setCurrDenomStateCanceledByWaiter(Denomination denom) {
         tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
-        messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
+        if (denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin() != null) {
+            messages.get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).add(denom);
+        }
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_WAITER, denom);
     }
 
@@ -229,10 +246,11 @@ public class CoocksMonitor {
 
     //    message
     public Denomination setCurrDenomStateCanceledByAdmin(Denomination denom) {
-        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
         messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
-        if (denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin() != null)
+        if (denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin() != null) {
             messages.get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).add(denom);
+        }
+        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_ADMIN, denom);
     }
 
@@ -284,9 +302,6 @@ public class CoocksMonitor {
 
         public List<Denomination> takeNewTask() {
             List<Denomination> res = new LinkedList<>(getNewTask());
-            for (Denomination denomination : res) {
-                setCurrDenomStateIsCoocking(denomination);
-            }
             workingTask.addAll(getNewTask());
             newTask.removeAll(newTask);
             return res;

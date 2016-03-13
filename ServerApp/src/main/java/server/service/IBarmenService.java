@@ -48,8 +48,6 @@ public interface IBarmenService extends Serializable,ICookService {
 
     Denomination removeDenomination(Denomination denomination, User logined) throws UserAccessException;
 
-    Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException;
-
     Dish addDish(Dish dish);
 
     Dish updateDish(Dish dish);

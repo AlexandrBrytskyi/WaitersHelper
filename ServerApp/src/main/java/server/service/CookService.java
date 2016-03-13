@@ -46,7 +46,7 @@ public class CookService implements ICookService, Serializable {
     public Denomination cancelDenomination(Denomination denomination, User logined) throws UserAccessException {
         if (denomination.getState().equals(DenominationState.READY))
             throw new UserAccessException("Can`t change state, already ready, admin can cancel");
-        return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_COCK, denomination);
+        return coocksMonitor.setCurrDenomStateCanceledByCoock(denomination);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CookService implements ICookService, Serializable {
 
     @Override
     public List<Denomination> getNewDenominations(User user) {
-        return coocksMonitor.getWorkingTask(user);
+        return coocksMonitor.getNewTask(user);
     }
 
     @Override

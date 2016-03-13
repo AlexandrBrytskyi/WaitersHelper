@@ -5,6 +5,7 @@ import client.view.account.AccountFrame;
 import client.view.cook.WorkPanel;
 import client.view.dishes.AllDishPanel;
 import client.view.orderings.AllOrderingsPanel;
+import client.view.orderings.DenominationsPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.user.User;
@@ -17,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 
 public class BarmenUI extends JFrame implements Loginable {
@@ -156,13 +158,26 @@ public class BarmenUI extends JFrame implements Loginable {
         private void executeMessages(java.util.List<Denomination> newMessage) {
             if (newMessage != null && !newMessage.isEmpty()) {
                 String result = "";
+                List<Integer> ordersToUpdate = new LinkedList<Integer>();
                 for (Denomination denomination : newMessage) {
                     if (loggedUser.getType().equals(UserType.BARMEN))
                         workPanelExemp.removeCurrentDenom(denomination);
+                    ordersToUpdate.add(denomination.getOrder().getId());
                     result += denomination.getDish().getName() + ", " + denomination.getPortion() + ", " +
                             denomination.getOrder().getDescription() + " state changed on " + denomination.getState() + "\n";
                 }
+                updateOrders(ordersToUpdate);
                 JOptionPane.showMessageDialog(mainPanel, result);
+            }
+        }
+
+        private void updateOrders(List<Integer> ordersToUpdate) {
+            Map<Integer, DenominationsPanel> views = allOrderingsPanel.getDenomsTobeUpdated();
+            System.out.println(views);
+            for (Integer integer : ordersToUpdate) {
+                if (views.containsKey(integer) && views.get(integer) != null) {
+                    views.get(integer).updateValuesOfTable();
+                }
             }
         }
     }

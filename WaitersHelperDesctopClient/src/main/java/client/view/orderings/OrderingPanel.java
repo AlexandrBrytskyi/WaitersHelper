@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 
 public class OrderingPanel extends JPanel {
@@ -73,13 +74,16 @@ public class OrderingPanel extends JPanel {
     private IBarmenService service;
     private AllOrderingsPanel allOrderingsPanel;
     private User logined;
+    private DenominationsPanel denominationssPanel;
+    private Map<Integer, DenominationsPanel> denomsTobeUpdated;
 
 
-    public OrderingPanel(Ordering ordering, IBarmenService service, AllOrderingsPanel allOrderingsPanel, User logined) {
+    public OrderingPanel(Ordering ordering, IBarmenService service, AllOrderingsPanel allOrderingsPanel, User logined, Map<Integer, DenominationsPanel> denomsTobeUpdated) {
         this.logined = logined;
         orderingSource = ordering;
         this.service = service;
         this.allOrderingsPanel = allOrderingsPanel;
+        this.denomsTobeUpdated = denomsTobeUpdated;
         initPanels();
     }
 
@@ -99,6 +103,7 @@ public class OrderingPanel extends JPanel {
         initTakeServePanel();
     }
 
+
     private void initTakeServePanel() {
         if (orderingSource.getWhoServesOrder() == null) {
             serveButton.setEnabled(true);
@@ -106,6 +111,7 @@ public class OrderingPanel extends JPanel {
         } else {
             serveButton.setEnabled(false);
             dropButton.setEnabled(true);
+
         }
         serveButton.addActionListener(new ActionListener() {
 
@@ -272,11 +278,13 @@ public class OrderingPanel extends JPanel {
 
             public void actionPerformed(ActionEvent e) {
                 if (hideDenominationsCheckBox.isSelected()) {
-                    DenominationsPanel denominationsPanel = new DenominationsPanel(service, orderingSource, logined);
-                    orderDenominationsPanel.add(denominationsPanel.getMainPanel(), BorderLayout.PAGE_START);
+                    denominationssPanel = new DenominationsPanel(service, orderingSource, logined);
+                    denomsTobeUpdated.put(orderingSource.getId(), denominationssPanel);
+                    orderDenominationsPanel.add(denominationssPanel.getMainPanel(), BorderLayout.PAGE_START);
                     orderDenominationsPanel.setVisible(true);
                     mainPanel.updateUI();
                 } else {
+                    denomsTobeUpdated.remove(orderingSource.getId());
                     orderDenominationsPanel.removeAll();
                     orderDenominationsPanel.setVisible(false);
                 }
@@ -317,5 +325,7 @@ public class OrderingPanel extends JPanel {
         typeLabel.setText(typeLabel.getText() + " " + orderingSource.getType());
     }
 
-
+    public DenominationsPanel getDenominationsPanel() {
+        return denominationssPanel;
+    }
 }
