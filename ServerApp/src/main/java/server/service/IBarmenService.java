@@ -66,7 +66,7 @@ public interface IBarmenService extends Serializable,ICookService {
 
     void generatePrintPdf(Ordering ordering) throws IOException, PrinterException;
 
-    void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
+    void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException, DenominationWithIdNotFoundException;
 
     List<Denomination> getMessages(User user);
 

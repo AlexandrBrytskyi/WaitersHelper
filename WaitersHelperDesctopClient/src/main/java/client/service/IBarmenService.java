@@ -1,11 +1,7 @@
 package client.service;
 
-import transferFiles.exceptions.NoOrderingWithIdException;
-import transferFiles.exceptions.OrderingAlreadyServingException;
-import transferFiles.exceptions.OrderingNotServingByYouException;
-import transferFiles.exceptions.UserAccessException;
+import transferFiles.exceptions.*;
 import transferFiles.model.denomination.Denomination;
-import transferFiles.model.denomination.DenominationState;
 import transferFiles.model.dish.Dish;
 import transferFiles.model.dish.DishType;
 import transferFiles.model.fund.Fund;
@@ -50,8 +46,6 @@ public interface IBarmenService extends Serializable,ICookService {
 
     Denomination removeDenomination(Denomination denomination, User logined) throws UserAccessException;
 
-    Denomination changeDenominationState(Denomination denomination, DenominationState state, User logined) throws UserAccessException;
-
     Dish addDish(Dish dish);
 
     Dish updateDish(Dish dish);
@@ -70,7 +64,7 @@ public interface IBarmenService extends Serializable,ICookService {
 
     void generatePrintPdf(Ordering ordering) throws IOException, PrinterException;
 
-    void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException;
+    void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException, DenominationWithIdNotFoundException;
 
     List<Denomination> getMessages(User user);
 

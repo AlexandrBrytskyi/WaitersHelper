@@ -19,18 +19,21 @@
 
 
     <bean id="LoginValidator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://192.168.1.2:9999/LoginValidator"/>
+        <property name="serviceUrl" value="rmi://192.168.205.50:9999/LoginValidator"/>
         <property name="serviceInterface" value="client.validator.IValidator"/>
+        <property name="refreshStubOnConnectFailure" value="true" />
     </bean>
 
     <bean id="adminService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://192.168.1.2:9999/AdminService"/>
+        <property name="serviceUrl" value="rmi://192.168.205.50:9999/AdminService"/>
         <property name="serviceInterface" value="client.service.IAdminService"/>
+        <property name="refreshStubOnConnectFailure" value="true" />
     </bean>
 
     <bean id="coockService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://192.168.1.2:9999/CoockService"/>
+        <property name="serviceUrl" value="rmi://192.168.205.50:9999/CoockService"/>
         <property name="serviceInterface" value="client.service.ICookService"/>
+        <property name="refreshStubOnConnectFailure" value="true" />
     </bean>
 
 </beans>

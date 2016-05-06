@@ -10,12 +10,8 @@ package server.service.CoocksMonitor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
 import server.dao.IUserDAO;
 import transferFiles.exceptions.DenominationWithIdNotFoundException;
@@ -73,7 +69,7 @@ public class CoocksMonitor {
         while (!currentDenominationsQueue.isEmpty()) {
             try {
                 Denomination denom = denominationDAO.getDenominationById(currentDenominationsQueue.peek().getDenomId());
-                setCurrDenomStateWaitingForCoock(denom);
+                if (!denom.getState().equals(DenominationState.IS_COOKING)) setCurrDenomStateWaitingForCoock(denom);
                 if (putNewDenomInTask(tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()), denom)) {
                     currentDenominationsQueue.remove();
                 } else {
@@ -83,15 +79,14 @@ public class CoocksMonitor {
                 LOGGER.error(e);
             }
         }
-
-        curDemsWitoutWork = null;
+        currentDenominationsQueue.addAll(curDemsWitoutWork);
     }
 
 
     //    here is pizda with putting
     private boolean putNewDenomInTask(HashMap<User, UserTask> userTaskHashMap, Denomination denom) {
         if (userTaskHashMap == null || userTaskHashMap.isEmpty()) return false;
-        if (!isInited) {
+        if (!isInited&&currentDenominationsQueue.peek().getUserCoockingLogin()!=null) {
             tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(currentDenominationsQueue.peek().getUserCoockingLogin())).addWorkingTask(denom);
             return true;
         }
@@ -117,7 +112,7 @@ public class CoocksMonitor {
                 work = userTaskEntry.getValue().getPortionsIDo();
                 wasFirst = true;
             }
-            if (userTaskEntry.getValue().getPortionsIDo() <= work &&
+            if (userTaskEntry.getValue().getPortionsIDo() <= work && loginedUsers!=null&&
                     loginedUsers.contains(userTaskEntry.getKey())) {
                 work = userTaskEntry.getValue().getPortionsIDo();
                 lazyUser = userTaskEntry.getKey();
@@ -223,48 +218,71 @@ public class CoocksMonitor {
 
     //    message
     public Denomination setCurrDenomStateCanceledByCoock(Denomination denom) {
-        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
         messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
+        smartRemoving(denom);
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_COCK, denom);
     }
 
     //    message
     public Denomination setCurrDenomStateCanceledByWaiter(Denomination denom) {
-        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
-        if (denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin() != null) {
+        CurrentDenomination den = denominationDAO.getCurrentDenomination(denom.getId());
+        if (den != null && den.getUserCoockingLogin() != null) {
             messages.get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).add(denom);
         }
+        smartRemoving(denom);
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_WAITER, denom);
+    }
+
+    protected void smartRemoving(Denomination denom) {
+        String loginOfCoocker = null;
+        CurrentDenomination currDenom = denominationDAO.getCurrentDenomination(denom.getId());
+        if (currDenom!=null) loginOfCoocker = currDenom.getUserCoockingLogin();
+        if (loginOfCoocker == null || loginOfCoocker.equals("")) {
+            currentDenominationsQueue.remove(denom);
+            denominationDAO.removeCurrentDenomination(denom.getId());
+        } else {
+            tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(loginOfCoocker)).removeTask(denom);
+        }
     }
 
     //    message
     public Denomination setCurrDenomStateCanceledByBarmen(Denomination denom) {
-        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
         messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
+        smartRemoving(denom);
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_BARMEN, denom);
     }
 
     //    message
     public Denomination setCurrDenomStateCanceledByAdmin(Denomination denom) {
         messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
-        if (denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin() != null) {
+        CurrentDenomination den = denominationDAO.getCurrentDenomination(denom.getId());
+        if (den != null && den.getUserCoockingLogin() != null) {
             messages.get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).add(denom);
         }
-        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
+        smartRemoving(denom);
         return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_ADMIN, denom);
     }
 
     //    message
     public Denomination setCurrDenomStateReady(Denomination denom) {
-        tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).removeTask(denom);
+        removeTask(denom);
         messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
         return denominationDAO.setDenominationState(DenominationState.READY, denom);
+    }
+
+    protected void removeTask(Denomination denom) {
+        smartRemoving(denom);
     }
 
     //    message
     public void removeDenomination(Denomination denom) {
         messages.get(denom.getOrder().getWhoServesOrder()).add(denom);
         tasksByWhoCoockingType.get(denom.getDish().getWhoCoockDishType()).get(denom.getOrder().getWhoServesOrder()).removeTask(denom);
+    }
+
+    public User putNewMessageKey(User newUser) {
+        messages.put(newUser, new LinkedList<Denomination>());
+        return newUser;
     }
 
     private void fillMessagesKeys() {

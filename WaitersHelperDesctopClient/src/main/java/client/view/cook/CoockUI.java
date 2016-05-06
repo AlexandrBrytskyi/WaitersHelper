@@ -1,10 +1,8 @@
 package client.view.cook;
 
-import client.service.IBarmenService;
 import client.service.ICookService;
 import client.view.account.AccountFrame;
-import client.view.dishes.AllDishPanel;
-import client.view.orderings.AllOrderingsPanel;
+import client.view.dialog.JDialogExt;
 import org.apache.log4j.Logger;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.user.User;
@@ -15,7 +13,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 
 
@@ -31,6 +28,7 @@ public class CoockUI extends JFrame implements Loginable {
     private LoginLabel loginLabel;
     private WorkPanel workPanelExemp;
     private JScrollPane scrollPane;
+    private JFrame me;
 
 
     private ICookService service;
@@ -50,6 +48,7 @@ public class CoockUI extends JFrame implements Loginable {
         mainPanel.updateUI();
         accountPane.addChangeListener(menuTabChangeListener);
         initMessageGetter();
+        me = this;
     }
 
     private void initMessageGetter() {
@@ -104,7 +103,8 @@ public class CoockUI extends JFrame implements Loginable {
                     newMessage = service.getMessages(loggedUser);
                     executeMessages(newMessage);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.error(e);
+                    Thread.currentThread().start();
                 }
             }
         }
@@ -117,7 +117,7 @@ public class CoockUI extends JFrame implements Loginable {
                     result += denomination.getDish().getName() + ", " + denomination.getPortion() + ", " +
                             denomination.getOrder().getWhoServesOrder() + " state changed on " + denomination.getState() + "\n";
                 }
-                JOptionPane.showMessageDialog(mainPanel, result);
+                new JDialogExt(me.getOwner(),"Job", result);
             }
         }
     }

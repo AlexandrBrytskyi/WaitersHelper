@@ -2,6 +2,7 @@ package client.view.cook;
 
 import client.service.ICookService;
 import client.view.cook.denomination.Denomination;
+import client.view.dialog.JDialogExt;
 import org.apache.log4j.Logger;
 import transferFiles.model.user.User;
 
@@ -82,6 +83,7 @@ public class WorkPanel {
                     putOnView(newTasks);
                 } catch (InterruptedException e) {
                     LOGGER.error(e);
+                    Thread.currentThread().start();
                 }
             }
         }
@@ -94,7 +96,7 @@ public class WorkPanel {
                     message = message + newTask.getDish().getName() + ", " + newTask.getPortion() + ", " + newTask.getOrder().getWhoServesOrder() + "\n";
                 }
 //                here must be single
-                JOptionPane.showMessageDialog(mainPanel, "New Job :)" + "\n" + message);
+                new JDialogExt(SwingUtilities.windowForComponent(mainPanel), "New Job :)",message);
             }
         }
     }

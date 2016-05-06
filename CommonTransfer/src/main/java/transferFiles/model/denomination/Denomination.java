@@ -137,4 +137,5 @@ public class Denomination extends IdAutoGenerator {
                 ", state=" + state +
                 "} " + super.toString();
     }
+
 }

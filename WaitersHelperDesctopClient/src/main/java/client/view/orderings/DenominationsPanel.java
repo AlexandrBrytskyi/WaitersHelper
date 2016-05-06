@@ -2,6 +2,7 @@ package client.view.orderings;
 
 import client.service.IBarmenService;
 import org.apache.log4j.Logger;
+import transferFiles.exceptions.DenominationWithIdNotFoundException;
 import transferFiles.exceptions.NoOrderingWithIdException;
 import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.denomination.Denomination;
@@ -145,6 +146,8 @@ public class DenominationsPanel {
                                 service.cancelDenomination(logined, denominationsTableModel.getSelectedDenomination());
                             } catch (UserAccessException e2) {
                                 JOptionPane.showMessageDialog(mainPanel, e2);
+                            } catch (DenominationWithIdNotFoundException e2) {
+                                denominationsTableModel.updateList();
                             }
                     }
                     updateValues();

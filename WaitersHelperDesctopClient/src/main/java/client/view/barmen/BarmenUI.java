@@ -3,6 +3,7 @@ package client.view.barmen;
 import client.service.IBarmenService;
 import client.view.account.AccountFrame;
 import client.view.cook.WorkPanel;
+import client.view.dialog.JDialogExt;
 import client.view.dishes.AllDishPanel;
 import client.view.orderings.AllOrderingsPanel;
 import client.view.orderings.DenominationsPanel;
@@ -17,8 +18,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class BarmenUI extends JFrame implements Loginable {
@@ -39,6 +41,7 @@ public class BarmenUI extends JFrame implements Loginable {
     protected User loggedUser;
     protected LoginLabel loginLabel;
     private JScrollPane scrollPane;
+    private JFrame me;
 
 
     private IBarmenService service;
@@ -46,6 +49,7 @@ public class BarmenUI extends JFrame implements Loginable {
 
     public BarmenUI(IBarmenService service, User logged) throws HeadlessException {
         super();
+        me = this;
         this.service = service;
         this.loggedUser = logged;
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -149,8 +153,9 @@ public class BarmenUI extends JFrame implements Loginable {
                     Thread.currentThread().sleep(10000);
                     newMessage = service.getMessages(loggedUser);
                     executeMessages(newMessage);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
+                    LOGGER.error(e);
+                    Thread.currentThread().start();
                 }
             }
         }
@@ -167,7 +172,7 @@ public class BarmenUI extends JFrame implements Loginable {
                             denomination.getOrder().getDescription() + " state changed on " + denomination.getState() + "\n";
                 }
                 updateOrders(ordersToUpdate);
-                JOptionPane.showMessageDialog(mainPanel, result);
+                new JDialogExt(SwingUtilities.windowForComponent(mainPanel),"Something changed", result);
             }
         }
 
@@ -181,4 +186,5 @@ public class BarmenUI extends JFrame implements Loginable {
             }
         }
     }
+
 }

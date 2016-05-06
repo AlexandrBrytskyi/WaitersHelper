@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import server.service.printing.ReportsPDFGenerator;
 import transferFiles.exceptions.UserAccessException;
 import transferFiles.exceptions.UserFieldIsEmptyException;
@@ -46,7 +45,7 @@ public class AdminService extends WaitersService implements IAdminService {
 
     /*users */
     public User addNewUser(User user) throws UserFieldIsEmptyException, WrongLoginException {
-        return userDAO.addNewUser(user);
+        return coocksMonitor.putNewMessageKey(userDAO.addNewUser(user));
     }
 
     public User removeUser(User user) {

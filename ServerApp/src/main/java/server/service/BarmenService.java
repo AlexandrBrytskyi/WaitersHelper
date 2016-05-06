@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
 import server.dao.IDishDAO;
 import server.dao.IOrderingDAO;
@@ -32,7 +31,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -145,11 +143,9 @@ public class BarmenService implements IBarmenService, Serializable {
         if (orderingDAO.getOrderingById(denomination.getOrder().getId()).getWhoServesOrder() != null) {
             if (orderingDAO.getOrderingById(denomination.getOrder().getId()).getWhoServesOrder().getLogin().equals(logined.getLogin())) {
                 Denomination addedDenenom = denominationDAO.addDenomination(denomination);
-                if (addedDenenom.getOrder().getType().equals(OrderType.CURRENT)) {
-                    CurrentDenomination curDen = new CurrentDenomination(addedDenenom.getId(), logined.getLogin(), null);
-                    coocksMonitor.addNewCurrentDenomination(curDen);
-                    return addedDenenom;
-                }
+                CurrentDenomination curDen = new CurrentDenomination(addedDenenom.getId(), logined.getLogin(), null);
+                coocksMonitor.addNewCurrentDenomination(curDen);
+                return addedDenenom;
             }
             throw new UserAccessException("Only user who serves can add denomination now");
         } else {
@@ -178,7 +174,6 @@ public class BarmenService implements IBarmenService, Serializable {
         coocksMonitor.removeDenomination(removed);
         return removed;
     }
-
 
 
     public Dish removeDish(Dish dish, User logined) throws UserAccessException {
@@ -233,12 +228,19 @@ public class BarmenService implements IBarmenService, Serializable {
 
     //    this is for denominations you serve
     @Override
-    public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException {
+    public void cancelDenomination(User logined, Denomination selectedDenomination) throws UserAccessException, DenominationWithIdNotFoundException {
         if (!selectedDenomination.getOrder().getWhoServesOrder().getLogin().equals(logined.getLogin()) && !logined.getType().equals(UserType.ADMIN))
             throw new UserAccessException("You can`t cancel, you don`n serve, admin can");
-        if (logined.getType().equals(UserType.BARMEN)) coocksMonitor.setCurrDenomStateCanceledByBarmen(selectedDenomination);
-        if (logined.getType().equals(UserType.WAITER)) coocksMonitor.setCurrDenomStateCanceledByWaiter(selectedDenomination);
-        if (logined.getType().equals(UserType.ADMIN)) coocksMonitor.setCurrDenomStateCanceledByAdmin(selectedDenomination);
+        if (logined.getType().equals(UserType.BARMEN) || logined.getType().equals(UserType.WAITER))
+
+                if (denominationDAO.getDenominationById(selectedDenomination.getId()).getState().equals(DenominationState.READY)) {
+                    throw new UserAccessException("Already ready, only admin can cancel");
+                } else {
+                    coocksMonitor.setCurrDenomStateCanceledByWaiter(selectedDenomination);
+                }
+
+        if (logined.getType().equals(UserType.ADMIN))
+            coocksMonitor.setCurrDenomStateCanceledByAdmin(selectedDenomination);
     }
 
     @Override

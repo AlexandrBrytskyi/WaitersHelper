@@ -47,6 +47,14 @@
             <artifactId>forms</artifactId>
             <version>1.0.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.soundlibs</groupId>
+            <artifactId>jlayer</artifactId>
+            <version>1.0.1-1</version>
+        </dependency>
+
+
     </dependencies>
 
 
