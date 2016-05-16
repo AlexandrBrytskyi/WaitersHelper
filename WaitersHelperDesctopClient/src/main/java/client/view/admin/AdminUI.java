@@ -1,6 +1,5 @@
 package client.view.admin;
 
-import client.service.IAdminService;
 import client.view.account.AccountFrame;
 import client.view.barmen.BarmenUIDecorator;
 import client.view.dishes.AllDishPanel;
@@ -8,6 +7,7 @@ import client.view.products.AllProductPanel;
 import client.view.reports.ReportsPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IAdminService;
 import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 

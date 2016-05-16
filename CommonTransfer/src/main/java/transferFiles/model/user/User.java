@@ -1,28 +1,29 @@
 package transferFiles.model.user;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
 
-@Entity
-@Table(name = "user")
+
+@JsonDeserialize(as = User.class)
+@JsonSerialize(as = User.class)
 public class User implements Serializable {
 
-    @Column
     private String name;
-
-    @Column
-    @Id
     private String login = "standardlogin";
-
-    @Column
     private int pass;
-
-    @Column
-    @Enumerated
     private UserType type;
-
-    @Column
     private boolean locked = false;
+
+    public User(String name, String login, int pass, UserType type, boolean locked) {
+        this.name = name;
+        this.login = login;
+        this.pass = pass;
+        this.type = type;
+        this.locked = locked;
+    }
+
 
 
     public User() {

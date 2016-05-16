@@ -1,10 +1,11 @@
 package client.view.products;
 
-import client.service.IAdminService;
+
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.ProductByIdNotFoundException;
 import transferFiles.model.dish.ingridient.Mesuarment;
 import transferFiles.model.dish.ingridient.Product;
+import transferFiles.service.rmiService.IAdminService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

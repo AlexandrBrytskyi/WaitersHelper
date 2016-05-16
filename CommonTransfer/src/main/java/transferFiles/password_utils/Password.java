@@ -4,13 +4,12 @@ package transferFiles.password_utils;
 import transferFiles.exceptions.WrongPasswordException;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public class Password implements Serializable {
 
     private String pass;
 
-    public Password(String pass) throws WrongPasswordException, RemoteException {
+    public Password(String pass) throws WrongPasswordException {
         if (pass.length() < 5) throw new WrongPasswordException("Pass length must be more than 4");
         validateCharacters(pass);
         this.pass = pass;

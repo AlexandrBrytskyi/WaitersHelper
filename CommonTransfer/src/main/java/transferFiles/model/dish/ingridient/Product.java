@@ -1,25 +1,25 @@
 package transferFiles.model.dish.ingridient;
 
-import transferFiles.model.IdUtil.IdAutoGenerator;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import transferFiles.model.IdUtil.IdSupport;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+@JsonDeserialize(as = Product.class)
+@JsonSerialize(as = Product.class)
+public class Product extends IdSupport {
 
-@Entity
-@Table(name = "product")
-public class Product extends IdAutoGenerator {
-
-    @Column
     private String name;
-
-
-    @Column
-    @Enumerated
     private Mesuarment mesuarment;
 
+    @JsonCreator
     public Product() {
+    }
+
+    public Product(int id, String name, Mesuarment mesuarment) {
+        this.setId(id);
+        this.name = name;
+        this.mesuarment = mesuarment;
     }
 
     public String getName() {
@@ -38,8 +38,9 @@ public class Product extends IdAutoGenerator {
         this.mesuarment = mesuarment;
     }
 
+
     @Override
     public String toString() {
-        return  name + ", "  + mesuarment.toString();
+        return name + ", " + mesuarment.toString();
     }
 }

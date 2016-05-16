@@ -1,6 +1,7 @@
 package client.view.orderings;
 
-import client.service.IBarmenService;
+
+import client.service.dateUtils.ConvertDate;
 import net.sourceforge.jdatepicker.impl.SqlDateModel;
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.NoOrderingWithIdException;
@@ -10,6 +11,7 @@ import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.fund.Fund;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IBarmenService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -204,7 +206,7 @@ public class OrderingPanel extends JPanel {
         orderingSource.setDescription(descriptionField.getText());
         LocalDateTime modelDateTime = LocalDateTime.of(model.getYear(), model.getMonth() + 1, model.getDay(),
                 (Integer) hoursComboBox.getSelectedItem(), (Integer) minutesComboBox.getSelectedItem());
-        orderingSource.setDateClientsCome(modelDateTime);
+        orderingSource.setDateClientsCome(ConvertDate.toJoda(modelDateTime));
         orderingSource = service.updateOrdering(orderingSource);
     }
 
@@ -314,7 +316,7 @@ public class OrderingPanel extends JPanel {
     }
 
     private void initDatePanel() {
-        createdDateLabel.setText(orderingSource.getDateOrderCreated().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        createdDateLabel.setText(ConvertDate.toJavaFromJoda(orderingSource.getDateOrderCreated()).format(DateTimeFormatter.ISO_LOCAL_DATE));
         model = DateUtils.initDateWhenPeopleComePanel(datePanell, hoursComboBox, minutesComboBox, orderingSource);
         enableDatePanel(false);
     }

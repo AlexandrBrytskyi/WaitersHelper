@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDishDAO;
+import server.persistentModel.dish.Dish;
+import server.persistentModel.dish.ingridient.Ingridient;
 import transferFiles.exceptions.NoDishWithIdFoundedException;
-import transferFiles.model.dish.Dish;
 import transferFiles.model.dish.DishType;
-import transferFiles.model.dish.ingridient.Ingridient;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Transactional
 @Repository(value = "hibernateDishDAO")
-public class DishDAO implements IDishDAO ,Serializable {
+public class DishDAO implements IDishDAO,Serializable {
     private static final Logger LOGGER = Logger.getLogger(DishDAO.class);
 
     @Autowired(required = true)
@@ -74,7 +74,7 @@ public class DishDAO implements IDishDAO ,Serializable {
     public Dish setDishType(Dish dish, DishType dishType) {
         try {
             dish.setType(dishType);
-            sessionFactory.getCurrentSession().update(dish);
+            sessionFactory.getCurrentSession().merge(dish);
             return dish;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -85,7 +85,7 @@ public class DishDAO implements IDishDAO ,Serializable {
     public Dish setPriceForPortionToDish(double price, Dish dish) {
         try {
             dish.setPriceForPortion(price);
-            sessionFactory.getCurrentSession().update(dish);
+            sessionFactory.getCurrentSession().merge(dish);
             return dish;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -96,7 +96,7 @@ public class DishDAO implements IDishDAO ,Serializable {
     public Dish setDescriptionOfDish(String description, Dish dish) {
         try {
             dish.setDescription(description);
-            sessionFactory.getCurrentSession().update(dish);
+            sessionFactory.getCurrentSession().merge(dish);
             return dish;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -109,8 +109,8 @@ public class DishDAO implements IDishDAO ,Serializable {
         try {
             dish.getIngridients().add(ingridient);
             ingridient.setDish(dish);
-            sessionFactory.getCurrentSession().update(ingridient);
-            sessionFactory.getCurrentSession().update(dish);
+            sessionFactory.getCurrentSession().merge(ingridient);
+            sessionFactory.getCurrentSession().merge(dish);
             return dish;
         } catch (Throwable e) {
             LOGGER.error(e);

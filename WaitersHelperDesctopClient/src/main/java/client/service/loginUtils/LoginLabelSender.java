@@ -1,7 +1,8 @@
 package client.service.loginUtils;
 
 
-import client.validator.IValidator;
+import org.springframework.remoting.RemoteLookupFailureException;
+import transferFiles.validator.rmiValidator.IValidator;
 import org.apache.log4j.Logger;
 import transferFiles.to.LoginLabel;
 
@@ -22,7 +23,11 @@ public class LoginLabelSender implements Runnable {
         while (true) {
             try {
                 Thread.currentThread().sleep(30000);
-                validator.sendLabelToValidator(loginLabel);
+                try {
+                    validator.sendLabelToValidator(loginLabel);
+                } catch (RemoteLookupFailureException e) {
+                    Thread.currentThread().sleep(20000);
+                }
             } catch (Throwable e) {
                 LOGGER.error(e);
                 Thread.currentThread().start();

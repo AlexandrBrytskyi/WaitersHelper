@@ -1,6 +1,6 @@
 package client.view.barmen;
 
-import client.service.IBarmenService;
+
 import client.view.account.AccountFrame;
 import client.view.cook.WorkPanel;
 import client.view.dialog.JDialogExt;
@@ -8,9 +8,11 @@ import client.view.dishes.AllDishPanel;
 import client.view.orderings.AllOrderingsPanel;
 import client.view.orderings.DenominationsPanel;
 import org.apache.log4j.Logger;
+import org.springframework.remoting.RemoteLookupFailureException;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
+import transferFiles.service.rmiService.IBarmenService;
 import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 
@@ -151,11 +153,14 @@ public class BarmenUI extends JFrame implements Loginable {
             while (true) {
                 try {
                     Thread.currentThread().sleep(10000);
-                    newMessage = service.getMessages(loggedUser);
-                    executeMessages(newMessage);
+                    try{
+                        newMessage = service.getMessages(loggedUser);
+                        executeMessages(newMessage);
+                    }     catch (RemoteLookupFailureException e) {
+                        Thread.currentThread().sleep(20000);
+                    }
                 } catch (Throwable e) {
                     LOGGER.error(e);
-                    Thread.currentThread().start();
                 }
             }
         }

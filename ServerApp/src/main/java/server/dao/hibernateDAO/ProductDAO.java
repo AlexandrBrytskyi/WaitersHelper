@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IProductDAO;
+import server.persistentModel.dish.ingridient.Product;
 import transferFiles.exceptions.ProductByIdNotFoundException;
 import transferFiles.model.dish.ingridient.Mesuarment;
-import transferFiles.model.dish.ingridient.Product;
 
 import java.io.Serializable;
 import java.util.List;

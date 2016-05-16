@@ -1,6 +1,6 @@
 package client.view.orderings;
 
-import client.service.IBarmenService;
+
 import net.sourceforge.jdatepicker.impl.DateComponentFormatter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -8,6 +8,7 @@ import net.sourceforge.jdatepicker.impl.SqlDateModel;
 import org.apache.log4j.Logger;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IBarmenService;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

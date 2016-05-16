@@ -1,3 +1,5 @@
+package server.service;
+
 //package server.transferFiles.service;
 //
 //import org.junit.BeforeClass;
@@ -16,30 +18,39 @@
 //import transferFiles.model.order.Ordering;
 //import transferFiles.model.user.User;
 //import transferFiles.model.user.UserType;
-//import server.validator.IValidator;
+//import transferFiles.validator.IValidator;
 //
 //import java.rmi.RemoteException;
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
+//import org.joda.timeLocalDate;
+//import org.joda.timeLocalDateTime;
 //import java.util.LinkedList;
 //import java.util.List;
 //
-//
+////
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(AppRunner.class)
+//@WebIntegrationTest
 //public class UserServiceTest {
 //
-//    private static IAdminService transferFiles.service;
+//    @Autowired
+//    private static IAdminService service;
+//
+//    @Autowired
 //    private static IValidator validator;
 //
+
 //    @BeforeClass
 //    public static void intitService() {
-//        ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
-//        transferFiles.service = (IAdminService) context.getBean("adminService");
+//
+//        service = (IAdminService) context.getBean("adminService");
 //        validator = (IValidator) context.getBean("myValidator");
 //    }
-//
+
+    //
 //    public UserServiceTest() {
 //    }
 //
+//    //
 //    @Test
 //    @Ignore
 //    public void productAddTest() {
@@ -94,7 +105,7 @@
 //    }
 //
 //
-//    /*WARN! possible transferFiles.to save ingridient with product existing in db*/
+//    /*WARN! possible to save ingridient with product existing in db*/
 //    @Test
 //    @Ignore
 //    public void addIngridientTest() {
@@ -107,7 +118,7 @@
 //        transferFiles.service.addIngridient(product, 150);
 //        transferFiles.service.addIngridient(product, 200);
 //    }
-//
+////
 //    /*WARN! possible transferFiles.to save ingridient with product and dish existing in db*/
 //    @Test
 //    @Ignore
@@ -264,7 +275,7 @@
 //
 //    @Test
 //    public void getAllDishesTest() {
-//        System.out.println(transferFiles.service.getAllDishes().toString());
+//        System.out.println(service.getAllDishes().toString());
 //    }
 //
 //

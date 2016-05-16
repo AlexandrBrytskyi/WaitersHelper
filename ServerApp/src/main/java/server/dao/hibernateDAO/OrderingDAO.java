@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IOrderingDAO;
+import server.persistentModel.denomination.Denomination;
+import server.persistentModel.fund.Fund;
+import server.persistentModel.order.Ordering;
+import server.persistentModel.user.User;
 import transferFiles.exceptions.NoOrderingWithIdException;
 import transferFiles.exceptions.OrderingAlreadyServingException;
 import transferFiles.exceptions.OrderingNotServingByYouException;
-import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
-import transferFiles.model.fund.Fund;
 import transferFiles.model.order.OrderType;
-import transferFiles.model.order.Ordering;
-import transferFiles.model.user.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @Transactional
 @Repository(value = "Ordering_hibernate_dao")
-public class OrderingDAO implements IOrderingDAO,Serializable {
+public class OrderingDAO implements IOrderingDAO, Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(OrderingDAO.class);
 
@@ -81,7 +81,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
             } catch (Throwable e) {
                 LOGGER.error(e);
             }
-        } else throw new OrderingAlreadyServingException(ordering);
+        } else throw new OrderingAlreadyServingException(ordering.toTransferOrdering());
         return null;
     }
 
@@ -95,7 +95,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
             } catch (Throwable e) {
                 LOGGER.error(e);
             }
-        } else throw new OrderingNotServingByYouException(ordering);
+        } else throw new OrderingNotServingByYouException(ordering.toTransferOrdering());
 
 
         return null;
@@ -147,7 +147,7 @@ public class OrderingDAO implements IOrderingDAO,Serializable {
 
     public Ordering setKO(double ko, Ordering ordering) {
         try {
-            Fund fund = ordering.getFund();
+            Fund fund = sessionFactory.getCurrentSession().get(Fund.class, ordering.getId());
             fund.setKo(ko);
             sessionFactory.getCurrentSession().merge(fund);
             return ordering;

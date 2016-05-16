@@ -1,26 +1,37 @@
 package transferFiles.model.dish.ingridient;
 
-import transferFiles.model.IdUtil.IdAutoGenerator;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import transferFiles.model.IdUtil.IdSupport;
 import transferFiles.model.dish.Dish;
 
-import javax.persistence.*;
+@JsonDeserialize(as = Ingridient.class)
+@JsonSerialize(as = Ingridient.class)
+public class Ingridient extends IdSupport {
 
-@Entity
-@Table(name = "ingridient")
-public class Ingridient extends IdAutoGenerator {
-
-    @Column
     private double amount;
-
-    @ManyToOne()
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
-
-    @ManyToOne(targetEntity = Dish.class)
+    @JsonBackReference
     private Dish dish;
 
 
+    public Ingridient(int id, double amount, Product product, Dish dish) {
+        this.setId(id);
+        this.amount = amount;
+        this.product = product;
+        this.dish = dish;
+    }
+
+    @JsonCreator
     public Ingridient() {
+    }
+
+    public Ingridient(int id, double amount, Product product) {
+        this.setId(id);
+        this.amount = amount;
+        this.product = product;
     }
 
     public double getAmount() {

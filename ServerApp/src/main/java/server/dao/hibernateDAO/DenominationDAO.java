@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IDenominationDAO;
+import server.persistentModel.denomination.CurrentDenomination;
+import server.persistentModel.denomination.Denomination;
+import server.persistentModel.dish.Dish;
+import server.persistentModel.order.Ordering;
 import transferFiles.exceptions.DenominationWithIdNotFoundException;
-import transferFiles.model.denomination.CurrentDenomination;
-import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
-import transferFiles.model.dish.Dish;
-import transferFiles.model.order.Ordering;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -34,6 +34,7 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
         try {
             if (denomination.getDish() != null && denomination.getPortion() != 0) countPrice(denomination);
             denomination.setTimeWhenAdded(LocalDateTime.now());
+            denomination.setState(DenominationState.JUST_ADDED);
             sessionFactory.getCurrentSession().save(denomination);
             return denomination;
         } catch (Throwable e) {
@@ -57,7 +58,7 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
         try {
             denomination.setDish(dish);
             if (denomination.getPortion() != 0) countPrice(denomination);
-            sessionFactory.getCurrentSession().update(denomination);
+            sessionFactory.getCurrentSession().merge(denomination);
             return denomination;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -68,7 +69,7 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
     public Denomination setOrder(Ordering ordering, Denomination denomination) {
         try {
             denomination.setOrder(ordering);
-            sessionFactory.getCurrentSession().update(denomination);
+            sessionFactory.getCurrentSession().merge(denomination);
             return denomination;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -80,7 +81,7 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
         try {
             denomination.setPortion(portion);
             countPrice(denomination);
-            sessionFactory.getCurrentSession().update(denomination);
+            sessionFactory.getCurrentSession().merge(denomination);
             return denomination;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -101,7 +102,8 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
         try {
             denomination.setState(state);
             if (state == DenominationState.READY) setTimeWhenIsReady(denomination);
-            sessionFactory.getCurrentSession().update(denomination);
+            System.out.println(denomination + ", " + state);
+            sessionFactory.getCurrentSession().merge(denomination);
             return denomination;
         } catch (Throwable e) {
             LOGGER.error(e);
@@ -206,9 +208,9 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
     @Override
     public List<CurrentDenomination> getCurrentDenominations() {
         try {
-           return sessionFactory.getCurrentSession().createQuery("SELECT d FROM CurrentDenomination d").list();
-        }catch (Throwable e) {
-           LOGGER.error(e);
+            return sessionFactory.getCurrentSession().createQuery("SELECT d FROM CurrentDenomination d").list();
+        } catch (Throwable e) {
+            LOGGER.error(e);
         }
         return null;
     }
@@ -217,8 +219,8 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
     public CurrentDenomination getCurrentDenomination(int id) {
         CurrentDenomination founded = null;
         try {
-            founded = sessionFactory.getCurrentSession().get(CurrentDenomination.class,id);
-        }catch (Throwable e) {
+            founded = sessionFactory.getCurrentSession().get(CurrentDenomination.class, id);
+        } catch (Throwable e) {
             LOGGER.error(e);
         }
         return founded;
@@ -228,8 +230,8 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
     public CurrentDenomination removeCurrentDenomination(int id) {
         CurrentDenomination founded = getCurrentDenomination(id);
         try {
-            if (founded!=null) sessionFactory.getCurrentSession().delete(founded);
-        }catch (Throwable e) {
+            if (founded != null) sessionFactory.getCurrentSession().delete(founded);
+        } catch (Throwable e) {
             LOGGER.error(e);
         }
         return founded;
@@ -238,8 +240,8 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
     @Override
     public CurrentDenomination mergeCurrentDenomination(CurrentDenomination currentDenomination) {
         try {
-           return (CurrentDenomination) sessionFactory.getCurrentSession().merge(currentDenomination);
-        }catch (Throwable e) {
+            return (CurrentDenomination) sessionFactory.getCurrentSession().merge(currentDenomination);
+        } catch (Throwable e) {
             LOGGER.error(e);
         }
         return null;
@@ -250,7 +252,7 @@ public class DenominationDAO implements IDenominationDAO, Serializable {
         try {
             sessionFactory.getCurrentSession().save(currentDenomination);
             return currentDenomination;
-        }catch (Throwable e) {
+        } catch (Throwable e) {
             LOGGER.error(e);
         }
         return null;

@@ -1,11 +1,11 @@
 package client.view.waiter;
 
-import client.service.IWaitersService;
 import client.view.account.AccountFrame;
 import client.view.barmen.BarmenUIDecorator;
 import client.view.dishes.AllDishPanel;
 import org.apache.log4j.Logger;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IWaitersService;
 import transferFiles.to.LoginLabel;
 
 import javax.swing.event.ChangeEvent;

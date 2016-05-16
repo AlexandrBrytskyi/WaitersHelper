@@ -1,12 +1,7 @@
 package client.view;
 
 
-import client.service.IAdminService;
-import client.service.IBarmenService;
-import client.service.ICookService;
-import client.service.IWaitersService;
 import client.service.loginUtils.LoginLabelSender;
-import client.validator.IValidator;
 import client.view.admin.AdminUI;
 import client.view.barmen.BarmenUI;
 import client.view.cook.CoockUI;
@@ -19,14 +14,18 @@ import transferFiles.exceptions.WrongLoginException;
 import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
+import transferFiles.service.rmiService.IAdminService;
+import transferFiles.service.rmiService.IBarmenService;
+import transferFiles.service.rmiService.ICookService;
+import transferFiles.service.rmiService.IWaitersService;
 import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
+import transferFiles.validator.rmiValidator.IValidator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 
 @org.springframework.stereotype.Component
@@ -72,10 +71,7 @@ public class MainFrame extends JFrame {
                     return;
                 } catch (AccountBlockedException e1) {
                     JOptionPane.showMessageDialog(mainPanel, e1.getMessage());
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
                 }
-
                 JOptionPane.showMessageDialog(mainPanel, logged.toString());
                 loginField.setText(null);
                 passwordField.setText(null);

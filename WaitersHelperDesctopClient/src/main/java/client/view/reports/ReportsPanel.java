@@ -1,12 +1,13 @@
 package client.view.reports;
 
-import client.service.IAdminService;
+
 import net.sourceforge.jdatepicker.impl.DateComponentFormatter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.SqlDateModel;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.dish.ingridient.Ingridient;
+import transferFiles.service.rmiService.IAdminService;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

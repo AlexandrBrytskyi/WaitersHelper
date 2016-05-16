@@ -4178,7 +4178,7 @@ Caused by: com.mysql.jdbc.transferFiles.exceptions.jdbc4.MySQLSyntaxErrorExcepti
 2016-02-01 00:37:12 INFO  TableGenerator:473 - HHH000398: Explicit segment value for id generator [hibernate_sequences.sequence_name] suggested; using default [default]
 2016-02-01 00:37:13 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
 2016-02-01 00:37:14 INFO  HibernateTransactionManager:357 - Using DataSource [org.springframework.jdbc.datasource.DriverManagerDataSource@38b972d7] of Hibernate SessionFactory for HibernateTransactionManager
-2016-02-01 00:37:14 ERROR OrderingDAO:178 - java.time.DateTimeException: Invalid value for HourOfDay (valid values 0 - 23): 24
+2016-02-01 00:37:14 ERROR OrderingDAO:178 - org.joda.timeDateTimeException: Invalid value for HourOfDay (valid values 0 - 23): 24
 2016-02-01 00:37:35 INFO  ClassPathXmlApplicationContext:577 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2aafb23c: startup date [Mon Feb 01 00:37:35 EET 2016]; root of context hierarchy
 2016-02-01 00:37:35 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [app-context.xml]
 2016-02-01 00:37:36 INFO  DriverManagerDataSource:133 - Loaded JDBC driver: com.mysql.jdbc.Driver

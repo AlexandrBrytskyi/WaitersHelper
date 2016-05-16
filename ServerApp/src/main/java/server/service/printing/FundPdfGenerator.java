@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import transferFiles.service.rmiService.IBarmenService;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.fund.Fund;
 import transferFiles.model.order.Ordering;
-import server.service.IBarmenService;
 
 import java.io.*;
 import java.net.MalformedURLException;

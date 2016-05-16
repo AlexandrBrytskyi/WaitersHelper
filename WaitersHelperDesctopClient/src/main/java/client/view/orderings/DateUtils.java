@@ -1,6 +1,7 @@
 package client.view.orderings;
 
 
+import client.service.dateUtils.ConvertDate;
 import net.sourceforge.jdatepicker.impl.DateComponentFormatter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 
 public abstract class DateUtils {
 
@@ -46,13 +48,14 @@ public abstract class DateUtils {
 
     public static SqlDateModel initDateWhenPeopleComePanel(JPanel datePanel, JComboBox hoursComboBox, JComboBox minutesComboBox, Ordering ordering) {
 
-        SqlDateModel model = new SqlDateModel(Date.valueOf(ordering.getDateClientsCome().toLocalDate()));
+        SqlDateModel model = new SqlDateModel(Date.valueOf(ConvertDate.toJavaFromJoda(ordering.getDateClientsCome()).toLocalDate()));
         JDatePanelImpl panel = new JDatePanelImpl(model);
         JDatePickerImpl picker = new JDatePickerImpl(panel, new DateComponentFormatter());
         datePanel.add(picker);
+        LocalTime time = ConvertDate.toJavaFromJoda(ordering.getDateClientsCome()).toLocalTime();
         addItemsToHoursMinutesComboBox(hoursComboBox, minutesComboBox,
-                ordering.getDateClientsCome().toLocalTime().getHour(),
-                ordering.getDateClientsCome().toLocalTime().getMinute());
+                time.getHour(),
+                time.getMinute());
         return model;
     }
 

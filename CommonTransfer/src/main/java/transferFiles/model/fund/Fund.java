@@ -1,31 +1,44 @@
 package transferFiles.model.fund;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import transferFiles.model.order.Ordering;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 //one order = one fund
 
-@Entity
-@Table(name = "fund")
+@JsonDeserialize(as = Fund.class)
+@JsonSerialize(as = Fund.class)
 public class Fund implements Serializable {
 
-    @Column
-    @Id
     private int id;
-
-    @OneToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JsonBackReference
     private Ordering order;
-
     private double ko;
-
     private Double price;
-
     private Double finalPrice;
 
+    public Fund(int id, Ordering order, double ko, Double price, Double finalPrice) {
+        this.id = id;
+        this.order = order;
+        this.ko = ko;
+        this.price = price;
+        this.finalPrice = finalPrice;
+    }
+
+
+    @JsonCreator
     public Fund() {
+    }
+
+    public Fund(int id, double ko, Double price, Double finalPrice) {
+        this.id = id;
+        this.ko = ko;
+        this.price = price;
+        this.finalPrice = finalPrice;
     }
 
     public Ordering getOrder() {

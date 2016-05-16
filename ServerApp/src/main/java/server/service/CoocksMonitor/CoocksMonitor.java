@@ -14,11 +14,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import server.dao.IDenominationDAO;
 import server.dao.IUserDAO;
+import server.persistentModel.denomination.CurrentDenomination;
+import server.persistentModel.denomination.Denomination;
+import server.persistentModel.user.User;
 import transferFiles.exceptions.DenominationWithIdNotFoundException;
-import transferFiles.model.denomination.CurrentDenomination;
-import transferFiles.model.denomination.Denomination;
 import transferFiles.model.denomination.DenominationState;
-import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
 
 import java.util.*;
@@ -230,7 +230,9 @@ public class CoocksMonitor {
             messages.get(userDAO.getUser(denominationDAO.getCurrentDenomination(denom.getId()).getUserCoockingLogin())).add(denom);
         }
         smartRemoving(denom);
-        return denominationDAO.setDenominationState(DenominationState.CANCELED_BY_WAITER, denom);
+        Denomination denomination = denominationDAO.setDenominationState(DenominationState.CANCELED_BY_WAITER, denom);
+        System.out.println(denomination);
+        return denomination;
     }
 
     protected void smartRemoving(Denomination denom) {

@@ -1,47 +1,55 @@
 package transferFiles.model.denomination;
 
-import transferFiles.model.IdUtil.IdAutoGenerator;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import transferFiles.model.IdUtil.IdSupport;
 import transferFiles.model.dish.Dish;
 import transferFiles.model.order.Ordering;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDateTime;
 
 //denomination is entity which is used like wrapper for dish to link one with order
 
-@Entity
-@Table(name = "denomination")
-public class Denomination extends IdAutoGenerator {
+@JsonDeserialize(as = Denomination.class)
+@JsonSerialize(as = Denomination.class)
+public class Denomination extends IdSupport {
 
-    @ManyToOne()
-    @JoinColumn(name = "dish_id", referencedColumnName = "id")
     private Dish dish;
-
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JsonBackReference
     private Ordering order;
-
-
-    @Column
     private double portion;
-
-
-    @Column
     private double price;
-
-
-    @Column
     private LocalDateTime timeWhenAdded;
-
-
-    @Column
     private LocalDateTime timeWhenIsReady;
-
-
-    @Column
     private DenominationState state;
 
+    public Denomination(int id, Dish dish, Ordering order, double portion,
+                        double price, LocalDateTime timeWhenAdded,
+                        LocalDateTime timeWhenIsReady, DenominationState state) {
+        this.setId(id);
+        this.dish = dish;
+        this.order = order;
+        this.portion = portion;
+        this.price = price;
+        this.timeWhenAdded = timeWhenAdded;
+        this.timeWhenIsReady = timeWhenIsReady;
+        this.state = state;
+    }
+
+    @JsonCreator
     public Denomination() {
+    }
+
+    public Denomination(int id, Dish dish, double portion, double price, LocalDateTime timeWhenAdded, LocalDateTime timeWhenIsReady, DenominationState state) {
+        this.setId(id);
+        this.dish = dish;
+        this.portion = portion;
+        this.price = price;
+        this.timeWhenAdded = timeWhenAdded;
+        this.timeWhenIsReady = timeWhenIsReady;
+        this.state = state;
     }
 
     public Dish getDish() {

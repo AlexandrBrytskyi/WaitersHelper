@@ -1,61 +1,79 @@
 package transferFiles.model.order;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.joda.time.LocalDateTime;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.fund.Fund;
 import transferFiles.model.user.User;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "ordering")
+
+@JsonDeserialize(as = Ordering.class)
+@JsonSerialize(as = Ordering.class)
 public class Ordering implements Serializable, Comparable {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
-
-    @Column(nullable = false)
     private LocalDateTime dateOrderCreated;
-
-    @Column(nullable = true)
     private LocalDateTime dateClientsCome;
-
-    @Column(nullable = true)
     private int amountOfPeople;
-
-    @Column(nullable = true)
     private String description;
-
-    @Column(nullable = true)
     private double advancePayment;
-
-    @ManyToOne()
-    @JoinColumn(name = "user_taken_id", referencedColumnName = "login")
     private User whoTakenOrder;
-
-
-    @ManyToOne()
-    @JoinColumn(name = "user_serving_id", referencedColumnName = "login")
     private User whoServesOrder;
-
-
-    @OneToOne(targetEntity = Fund.class, mappedBy = "order", cascade = {CascadeType.REMOVE},fetch = FetchType.EAGER)
+    @JsonBackReference
     private Fund fund;
-
-
-    @Column
-    @Enumerated
     private OrderType type;
-
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Denomination> denominations;
 
+    public Ordering(int id, LocalDateTime dateOrderCreated, LocalDateTime dateClientsCome,
+                    int amountOfPeople, String description, double advancePayment,
+                    User whoTakenOrder, User whoServesOrder, Fund fund, OrderType type,
+                    List<Denomination> denominations) {
+        this.id = id;
+        this.dateOrderCreated = dateOrderCreated;
+        this.dateClientsCome = dateClientsCome;
+        this.amountOfPeople = amountOfPeople;
+        this.description = description;
+        this.advancePayment = advancePayment;
+        this.whoTakenOrder = whoTakenOrder;
+        this.whoServesOrder = whoServesOrder;
+        this.fund = fund;
+        this.type = type;
+        this.denominations = denominations;
+    }
+
     public Ordering() {
+    }
+
+    public Ordering(int id, LocalDateTime dateOrderCreated, LocalDateTime dateClientsCome, int amountOfPeople, String description, double advancePayment, User whoTakenOrder, User whoServesOrder, Fund fund, OrderType type) {
+        this.id = id;
+        this.dateOrderCreated = dateOrderCreated;
+        this.dateClientsCome = dateClientsCome;
+        this.amountOfPeople = amountOfPeople;
+        this.description = description;
+        this.advancePayment = advancePayment;
+        this.whoTakenOrder = whoTakenOrder;
+        this.whoServesOrder = whoServesOrder;
+        this.fund = fund;
+        this.type = type;
+    }
+
+    public Ordering(int id, LocalDateTime dateOrderCreated, LocalDateTime dateClientsCome, int amountOfPeople, String description, double advancePayment, User whoTakenOrder, User whoServesOrder, OrderType type) {
+        this.id = id;
+        this.dateOrderCreated = dateOrderCreated;
+        this.dateClientsCome = dateClientsCome;
+        this.amountOfPeople = amountOfPeople;
+        this.description = description;
+        this.advancePayment = advancePayment;
+        this.whoTakenOrder = whoTakenOrder;
+        this.whoServesOrder = whoServesOrder;
+        this.type = type;
     }
 
     public double getAdvancePayment() {

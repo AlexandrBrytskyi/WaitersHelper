@@ -1,6 +1,5 @@
 package client.view.account;
 
-import client.service.IBarmenService;
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
@@ -72,10 +71,9 @@ public class AccountFrame extends JFrame {
                                 } else{
                                     JOptionPane.showMessageDialog(mainPanel, "Invalid Password");
                                 }
-                            } catch (RemoteException e1) {
-                                JOptionPane.showMessageDialog(mainPanel, e1);
+
                             } catch (WrongPasswordException e1) {
-                                e1.printStackTrace();
+                                JOptionPane.showMessageDialog(mainPanel, e1);
                             }
                         } else {
                             try {

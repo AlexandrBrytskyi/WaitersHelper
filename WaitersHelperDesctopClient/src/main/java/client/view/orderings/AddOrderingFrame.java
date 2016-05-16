@@ -1,11 +1,13 @@
 package client.view.orderings;
 
-import client.service.IBarmenService;
+
+import client.service.dateUtils.ConvertDate;
 import net.sourceforge.jdatepicker.impl.SqlDateModel;
 import org.apache.log4j.Logger;
 import transferFiles.model.order.OrderType;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IBarmenService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,10 +91,10 @@ public class AddOrderingFrame extends JFrame {
             if (validateFields()) {
                 if (JOptionPane.showConfirmDialog(mainPanel, "Really create new ordering?", "Create ordering?", JOptionPane.YES_NO_OPTION) == 0) {
                     Ordering ordering = new Ordering();
-                    ordering.setDateOrderCreated(LocalDateTime.now());
+                    ordering.setDateOrderCreated(ConvertDate.toJoda(LocalDateTime.now()));
                     LocalTime time = LocalTime.of((Integer) hoursComboBox.getSelectedItem(), (Integer) minutesCombobox.getSelectedItem());
                     LocalDateTime dateTime = LocalDateTime.of(model.getValue().toLocalDate(), time);
-                    ordering.setDateClientsCome(dateTime);
+                    ordering.setDateClientsCome(ConvertDate.toJoda(dateTime));
                     ordering.setType((OrderType) typeComboBox.getSelectedItem());
                     ordering.setDescription(descriptionField.getText());
                     ordering.setAmountOfPeople(Integer.valueOf(amountOfPeopleField.getText()));

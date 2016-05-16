@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import transferFiles.service.rmiService.IAdminService;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.dish.ingridient.Ingridient;
-import server.service.IAdminService;
 
 import java.io.*;
 import java.util.List;
@@ -24,8 +24,8 @@ public class ReportsPDFGenerator implements Serializable {
     @Qualifier("adminService")
     private IAdminService service;
 
-    private java.util.List<Denomination> denominations;
-    private java.util.List<Ingridient> ingridients;
+    private List<Denomination> denominations;
+    private List<Ingridient> ingridients;
 
     private String REPORTDIRECTOTY = "D:/temp/";
     private String headString = "";

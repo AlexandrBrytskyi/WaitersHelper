@@ -1,15 +1,18 @@
 package client.view.cook;
 
-import client.service.ICookService;
+
 import client.view.cook.denomination.Denomination;
 import client.view.dialog.JDialogExt;
 import org.apache.log4j.Logger;
+import org.springframework.remoting.RemoteLookupFailureException;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.ICookService;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class WorkPanel {
@@ -79,8 +82,12 @@ public class WorkPanel {
             while (true) {
                 try {
                     Thread.currentThread().sleep(10000);
-                    newTasks = service.getNewDenominations(logined);
-                    putOnView(newTasks);
+                    try {
+                        newTasks = service.getNewDenominations(logined);
+                        putOnView(newTasks);
+                    } catch (RemoteLookupFailureException e) {
+                        Thread.currentThread().sleep(20000);
+                    }
                 } catch (InterruptedException e) {
                     LOGGER.error(e);
                     Thread.currentThread().start();
@@ -96,7 +103,7 @@ public class WorkPanel {
                     message = message + newTask.getDish().getName() + ", " + newTask.getPortion() + ", " + newTask.getOrder().getWhoServesOrder() + "\n";
                 }
 //                here must be single
-                new JDialogExt(SwingUtilities.windowForComponent(mainPanel), "New Job :)",message);
+                new JDialogExt(SwingUtilities.windowForComponent(mainPanel), "New Job :)", message);
             }
         }
     }

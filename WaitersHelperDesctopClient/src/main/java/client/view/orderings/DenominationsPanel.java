@@ -1,6 +1,6 @@
 package client.view.orderings;
 
-import client.service.IBarmenService;
+import client.service.dateUtils.ConvertDate;
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.DenominationWithIdNotFoundException;
 import transferFiles.exceptions.NoOrderingWithIdException;
@@ -12,6 +12,7 @@ import transferFiles.model.dish.DishType;
 import transferFiles.model.order.OrderType;
 import transferFiles.model.order.Ordering;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IBarmenService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -136,14 +137,15 @@ public class DenominationsPanel {
         removeButton.setText("Remove");
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Denomination selectedDenom = denominationsTableModel.getSelectedDenomination();
                 if (JOptionPane.showConfirmDialog(addRemovePanel, "Really remove this denomination?", "Denomination removing",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
                     try {
-                        service.removeDenomination(denominationsTableModel.getSelectedDenomination(), logined);
+                        service.removeDenomination(selectedDenom, logined);
                     } catch (UserAccessException e1) {
                         if (JOptionPane.showConfirmDialog(mainPanel, e1 + ", but you can cancel it, would you like?", "Maybe cancel?", JOptionPane.YES_NO_OPTION) == 0)
                             try {
-                                service.cancelDenomination(logined, denominationsTableModel.getSelectedDenomination());
+                                service.cancelDenomination(logined, selectedDenom);
                             } catch (UserAccessException e2) {
                                 JOptionPane.showMessageDialog(mainPanel, e2);
                             } catch (DenominationWithIdNotFoundException e2) {
@@ -162,7 +164,7 @@ public class DenominationsPanel {
         denomination.setPortion(Double.valueOf(portionField.getText()));
         denomination.setState(DenominationState.JUST_ADDED);
         denomination.setOrder(orderingSource);
-        denomination.setTimeWhenAdded(LocalDateTime.now());
+        denomination.setTimeWhenAdded(ConvertDate.toJoda(LocalDateTime.now()));
         return denomination;
     }
 
@@ -318,9 +320,9 @@ public class DenominationsPanel {
                 portionField.setText(String.valueOf(selectedDenomination.getPortion()));
                 priceField.setText(String.valueOf(selectedDenomination.getPrice()));
                 if (getColumnCount() == 6) {
-                    addedDateField.setText(selectedDenomination.getTimeWhenAdded().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                    addedDateField.setText(ConvertDate.toJavaFromJoda(selectedDenomination.getTimeWhenAdded()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                     if (selectedDenomination.getTimeWhenIsReady() != null)
-                        readyDateField.setText(selectedDenomination.getTimeWhenIsReady().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                        readyDateField.setText(ConvertDate.toJavaFromJoda(selectedDenomination.getTimeWhenIsReady()).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                 }
                 addButton.setEnabled(true);
                 removeButton.setEnabled(true);

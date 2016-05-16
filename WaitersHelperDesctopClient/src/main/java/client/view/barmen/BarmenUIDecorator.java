@@ -1,8 +1,8 @@
 package client.view.barmen;
 
 
-import client.service.IBarmenService;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.IBarmenService;
 
 import java.awt.*;
 

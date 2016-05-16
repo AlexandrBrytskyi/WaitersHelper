@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dao.IIngredientDAO;
 import transferFiles.exceptions.IngridientWithIDNotFoundException;
-import transferFiles.model.dish.Dish;
-import transferFiles.model.dish.ingridient.Ingridient;
-import transferFiles.model.dish.ingridient.Product;
+import server.persistentModel.dish.Dish;
+import server.persistentModel.dish.ingridient.Ingridient;
+import server.persistentModel.dish.ingridient.Product;
 
 import java.io.Serializable;
 import java.util.List;

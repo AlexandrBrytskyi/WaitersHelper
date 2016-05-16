@@ -1,11 +1,12 @@
 package client.view.cook;
 
-import client.service.ICookService;
 import client.view.account.AccountFrame;
 import client.view.dialog.JDialogExt;
 import org.apache.log4j.Logger;
+import org.springframework.remoting.RemoteLookupFailureException;
 import transferFiles.model.denomination.Denomination;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.ICookService;
 import transferFiles.to.LoginLabel;
 import transferFiles.to.Loginable;
 
@@ -100,8 +101,12 @@ public class CoockUI extends JFrame implements Loginable {
             while (true) {
                 try {
                     Thread.currentThread().sleep(10000);
-                    newMessage = service.getMessages(loggedUser);
-                    executeMessages(newMessage);
+                    try {
+                        newMessage = service.getMessages(loggedUser);
+                        executeMessages(newMessage);
+                    } catch (RemoteLookupFailureException e) {
+                        Thread.currentThread().sleep(20000);
+                    }
                 } catch (InterruptedException e) {
                     LOGGER.error(e);
                     Thread.currentThread().start();
@@ -117,7 +122,7 @@ public class CoockUI extends JFrame implements Loginable {
                     result += denomination.getDish().getName() + ", " + denomination.getPortion() + ", " +
                             denomination.getOrder().getWhoServesOrder() + " state changed on " + denomination.getState() + "\n";
                 }
-                new JDialogExt(me.getOwner(),"Job", result);
+                new JDialogExt(me.getOwner(), "Job", result);
             }
         }
     }

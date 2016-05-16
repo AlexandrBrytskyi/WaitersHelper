@@ -10,7 +10,7 @@ import transferFiles.exceptions.AccountBlockedException;
 import transferFiles.exceptions.UserFieldIsEmptyException;
 import transferFiles.exceptions.WrongLoginException;
 import transferFiles.exceptions.WrongPasswordException;
-import transferFiles.model.user.User;
+import server.persistentModel.user.User;
 import transferFiles.password_utils.Password;
 
 import java.io.Serializable;

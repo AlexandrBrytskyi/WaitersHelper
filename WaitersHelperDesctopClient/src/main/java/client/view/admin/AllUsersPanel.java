@@ -1,7 +1,6 @@
 package client.view.admin;
 
 
-import client.service.IAdminService;
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.UserFieldIsEmptyException;
 import transferFiles.exceptions.WrongLoginException;
@@ -9,6 +8,7 @@ import transferFiles.exceptions.WrongPasswordException;
 import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
 import transferFiles.password_utils.Password;
+import transferFiles.service.rmiService.IAdminService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,7 +18,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +72,8 @@ public class AllUsersPanel {
                     newUser.setType((UserType) typeComboBox.getSelectedItem());
                     try {
                         newUser.setPass(new Password("00000").hashCode());
-                    }  catch (RemoteException e1) {
-                        LOGGER.error(e1);
-                    } catch (WrongPasswordException e1) {
-                        e1.printStackTrace();
+                    }   catch (WrongPasswordException e1) {
+                        JOptionPane.showMessageDialog(mainPanel, e1);
                     }
                     try {
                         service.addNewUser(newUser);
@@ -84,9 +81,9 @@ public class AllUsersPanel {
                         usersTable.updateUI();
                         JOptionPane.showMessageDialog(mainPanel, "Added successfully");
                     } catch (UserFieldIsEmptyException e1) {
-                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(mainPanel, e1);
                     } catch (WrongLoginException e1) {
-                        e1.printStackTrace();
+                        JOptionPane.showMessageDialog(mainPanel, e1);
                     }
                 }
             }

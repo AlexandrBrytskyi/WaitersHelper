@@ -1,16 +1,15 @@
 package client.view.cook.denomination;
 
-import client.service.ICookService;
+
 import client.view.cook.Timer;
 import client.view.cook.WorkPanel;
 import org.apache.log4j.Logger;
 import transferFiles.exceptions.UserAccessException;
 import transferFiles.model.dish.ingridient.Ingridient;
 import transferFiles.model.user.User;
+import transferFiles.service.rmiService.ICookService;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

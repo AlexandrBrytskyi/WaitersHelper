@@ -1,8 +1,5 @@
 package client.view.dishes;
 
-import client.service.IAdminService;
-import client.service.IBarmenService;
-import client.service.IWaitersService;
 import org.apache.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;
 import transferFiles.exceptions.IngridientWithIDNotFoundException;
@@ -13,6 +10,9 @@ import transferFiles.model.dish.ingridient.Ingridient;
 import transferFiles.model.dish.ingridient.Product;
 import transferFiles.model.user.User;
 import transferFiles.model.user.UserType;
+import transferFiles.service.rmiService.IAdminService;
+import transferFiles.service.rmiService.IBarmenService;
+import transferFiles.service.rmiService.IWaitersService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

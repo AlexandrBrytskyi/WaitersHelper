@@ -1,39 +1,54 @@
 package transferFiles.model.dish;
 
 
-import transferFiles.model.IdUtil.IdAutoGenerator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import transferFiles.model.IdUtil.IdSupport;
 import transferFiles.model.dish.ingridient.Ingridient;
 import transferFiles.model.user.UserType;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "dish")
-public class Dish extends IdAutoGenerator {
 
-    @Column
+@JsonDeserialize(as = Dish.class)
+@JsonSerialize(as = Dish.class)
+public class Dish extends IdSupport {
+
     private String name;
-
-    @Column
-    @Enumerated
     private DishType type;
-
-    @Column
     private UserType whoCoockDishType;
-
-    @Column
     private double priceForPortion;
-
-    @Column
     private String description;
-
-    @Column
     private boolean available = true;
 
-    @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Ingridient> ingridients;
 
+
+    public Dish(int id, String name, DishType type, UserType whoCoockDishType,
+                double priceForPortion, String description,
+                boolean available, List<Ingridient> ingridients) {
+        this.setId(id);
+        this.name = name;
+        this.type = type;
+        this.whoCoockDishType = whoCoockDishType;
+        this.priceForPortion = priceForPortion;
+        this.description = description;
+        this.available = available;
+        this.ingridients = ingridients;
+    }
+
+    public Dish(int id, String name, DishType type, UserType whoCoockDishType,
+                double priceForPortion, String description,
+                boolean available) {
+        this.setId(id);
+        this.name = name;
+        this.type = type;
+        this.whoCoockDishType = whoCoockDishType;
+        this.priceForPortion = priceForPortion;
+        this.description = description;
+        this.available = available;
+        this.ingridients = ingridients;
+    }
 
     public Dish() {
     }
