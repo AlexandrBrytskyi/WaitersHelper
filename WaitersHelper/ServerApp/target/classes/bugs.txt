@@ -1,0 +1,2 @@
+denoms in russian not print
+previous denom dont count in report and in fund

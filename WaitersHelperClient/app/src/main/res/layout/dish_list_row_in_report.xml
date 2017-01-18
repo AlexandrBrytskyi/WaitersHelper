@@ -1,0 +1,62 @@
+<LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+            android:id="@+id/dishNameInReportRow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/name"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffa30"/>
+
+    <TextView
+            android:id="@+id/dishTypeInReportRow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/type"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffa30"/>
+
+    <TextView
+            android:id="@+id/dishPortionInReportRow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/portions"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffa30"/>
+
+    <TextView
+            android:id="@+id/priceForPortionInReportRow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/priceForPortion"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffa30"/>
+
+    <TextView
+            android:id="@+id/dishPriceInReportRow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/priceForAll"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffa30"/>
+
+</LinearLayout>

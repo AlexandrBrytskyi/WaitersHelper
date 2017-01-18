@@ -1,0 +1,261 @@
+<LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center"
+        android:foregroundGravity="center" android:background="#99f8ff00">
+
+
+    <TableLayout android:layout_width="fill_parent"
+                 android:layout_height="match_parent" android:background="#990017ff" android:layout_margin="6px">
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1" android:layout_margin="0px">
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/order_num"
+                        android:id="@+id/orderingNumberInConcretteOrdering"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b14853ff" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginLeft="5px" android:layout_marginTop="5px" android:textColor="#fffc21"/>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/time_added"
+                        android:id="@+id/orderingCreatedInConcretteOrdering"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b14853ff" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginTop="5px" android:textColor="#fffc21"/>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/time_clients_come"
+                        android:id="@+id/orderingclientComeInConcretteOrdering"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b14853ff" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginRight="5px" android:layout_marginTop="5px" android:textColor="#fffc21"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1" android:layout_margin="0px">
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.5"
+                        android:id="@+id/orderingNumberInRow" android:layout_gravity="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_margin="2px"
+                        android:gravity="left" android:focusable="true" android:foregroundGravity="top|center"
+                        android:background="#b14853ff" android:textSize="15dp" android:layout_marginLeft="5px"
+                        android:textStyle="italic" android:textColor="#fffc21"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/orderingCreatedInRow" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:gravity="left" android:foregroundGravity="top|center" android:background="#b14853ff"
+                        android:textSize="15dp" android:textStyle="italic" android:textColor="#fffc21"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/orderingclientComeInRow"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b14853ff" android:textSize="15dp" android:layout_marginRight="5px"
+                        android:textStyle="italic" android:textColor="#fffc21"/>
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1" android:layout_margin="0px">
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/amount"
+                        android:id="@+id/orderingAmountInConcretteOrdering" android:layout_gravity="bottom|center"
+                        android:layout_margin="2px"
+                        android:foregroundGravity="center" android:gravity="bottom|center"
+                        android:background="#b14853ff" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginLeft="5px" android:textColor="#fffc21"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/who_taken"
+                        android:id="@+id/whoTakenInConcretteOrdering" android:layout_gravity="bottom|center"
+                        android:layout_margin="2px"
+                        android:foregroundGravity="center" android:gravity="bottom|center"
+                        android:background="#b14853ff" android:textStyle="bold" android:textSize="17dp"
+                        android:textColor="#fffc21"/>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/who_serves"
+                        android:id="@+id/whoServesInConcretteOrdering" android:layout_gravity="bottom|center"
+                        android:layout_margin="2px"
+                        android:foregroundGravity="center" android:gravity="bottom|center"
+                        android:background="#b14853ff" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginRight="5px" android:textColor="#fffc21"/>
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1" android:layout_margin="0px">
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/orderingAmountInRow" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:gravity="top|center_horizontal" android:foregroundGravity="center"
+                        android:background="#b14853ff" android:textSize="15dp" android:layout_marginLeft="5px"
+                        android:textStyle="italic" android:textColor="#fffc21"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:id="@+id/whoTakenInRow" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:gravity="top|center_horizontal" android:focusable="true"
+                        android:foregroundGravity="center" android:background="#b14853ff" android:textSize="15dp"
+                        android:textStyle="italic" android:textColor="#fffc21"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/whoServesInRow" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:gravity="top|center_horizontal" android:foregroundGravity="center"
+                        android:background="#b14853ff" android:textSize="15dp" android:layout_marginRight="5px"
+                        android:textStyle="italic" android:textColor="#fffc21"/>
+
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1" android:layout_margin="0px">
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/type"
+                        android:id="@+id/orderTypeInConcretteOrdering" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:gravity="right" android:background="#b14853ff" android:textStyle="bold"
+                        android:textSize="17dp" android:layout_marginLeft="5px" android:textColor="#fffc21"/>
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/orderTypeInRow" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:gravity="left" android:background="#b14853ff" android:textSize="15dp"
+                        android:layout_marginRight="5px" android:textStyle="italic" android:textColor="#fffc21"/>
+
+
+            </LinearLayout>
+        </TableRow>
+
+
+        <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="match_parent"
+                          android:layout_weight="1" android:orientation="horizontal" android:layout_margin="0px">
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/avance"
+                        android:id="@+id/orderAvanceInConcretteOrdering" android:layout_gravity="center"
+                        android:layout_margin="2px"
+                        android:background="#b14853ff" android:textStyle="bold"
+                        android:textSize="17dp" android:layout_marginLeft="5px" android:gravity="right"
+                        android:textColor="#fffc21"/>
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="fill_parent"
+                          android:layout_weight="3"
+                          android:textAppearance="?android:attr/textAppearanceMedium"
+                          android:id="@+id/orderavanseInRow"
+                          android:layout_margin="2px"
+                          android:background="#b14853ff"
+                          android:layout_gravity="center" android:textSize="15dp" android:layout_marginRight="5px"
+                          android:textStyle="italic" android:textColor="#fffc21"/>
+            </LinearLayout>
+
+        </TableRow>
+
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="6" android:layout_height="wrap_content"
+                  android:layout_margin="0px">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1" android:layout_margin="0px">
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/orderingDescriptionEditInRow"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_gravity="top|left|center"
+                        android:gravity="left" android:focusable="true" android:background="#b14853ff"
+                        android:textSize="15dp" android:layout_marginLeft="5px" android:layout_marginRight="5px"
+                        android:layout_marginBottom="5px" android:layout_margin="2px" android:textStyle="italic"
+                        android:textColor="#fffc21"/>
+            </LinearLayout>
+        </TableRow>
+
+
+    </TableLayout>
+
+</LinearLayout>

@@ -1,0 +1,91 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="brytskyi.waitershelperclient.app.activities.dishes.DishesListFragment"
+             android:background="@drawable/fon">
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_gravity="top"
+                  android:gravity="top" android:background="#b10300ff">
+        <TextView
+                android:id="@+id/dishId"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/id"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fcff25"/>
+
+        <TextView
+                android:id="@+id/dishName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/name"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fcff25"/>
+
+        <TextView
+                android:id="@+id/whoCoockDish"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/who_coock"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fcff25"/>
+
+        <TextView
+                android:id="@+id/priceForPortionDish"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/price"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fcff25"/>
+        <TextView
+                android:id="@+id/typeDish"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/type"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fcff25"/>
+
+        <TextView
+                android:id="@+id/isDishAvailable"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/is_dish_available"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fcff25"/>
+    </LinearLayout>
+
+
+    <Spinner
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/dishTypeSpinnerInList" android:layout_gravity="center_horizontal|top"
+            android:background="#b1ff312b"/>
+
+    <ListView
+            android:layout_marginTop="75dp"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/dishesList" android:background="#c1feff0b"/>
+
+</FrameLayout>
+

@@ -1,0 +1,41 @@
+<LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+            android:id="@+id/ingridientProduct"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/product"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#992e78ff"/>
+
+    <TextView
+            android:id="@+id/ingridientAmount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/amount"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#992e78ff"/>
+
+    <TextView
+            android:id="@+id/ingridientMesur"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text=""
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#992e78ff"/>
+
+
+</LinearLayout>

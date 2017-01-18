@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="brytskyi.waitershelperclient.app.activities.products.ProductsListFragment"
+             android:id="@+id/fragmentProductList" android:background="@drawable/fon">
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_gravity="top"
+                  android:gravity="top" android:background="#b1ff2e08">
+        <TextView
+                android:id="@+id/productId"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/id"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center"/>
+
+        <TextView
+                android:id="@+id/productName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/name"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center"/>
+
+        <TextView
+                android:id="@+id/productMesurement"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/mesurement"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center"/>
+    </LinearLayout>
+
+    <ListView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/productsList" android:background="#b1f9ff2c"/>
+</FrameLayout>
+

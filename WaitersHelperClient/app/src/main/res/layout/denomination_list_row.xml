@@ -1,0 +1,196 @@
+<LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center"
+        android:foregroundGravity="center" android:background="#c1fcff53">
+
+    <TableLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                 android:layout_margin="5px">
+
+        <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center"
+                  android:layout_gravity="center" android:layout_margin="0dp" android:foregroundGravity="center">
+            <TextView
+                    android:id="@+id/dishNameInDenomRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/dish_name"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/priceForPortionInDemonRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/price"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/priceSumInDenomRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/sum_price"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/portionsInDenomRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/portions"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center"
+                  android:layout_gravity="center" android:layout_margin="0dp" android:foregroundGravity="center">
+
+            <TextView
+                    android:id="@+id/dishNameInDenomRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/priceForPortionInDemonRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/priceSumInDenomRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/portionsInDenomRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center"
+                  android:layout_gravity="center" android:layout_margin="0dp" android:foregroundGravity="center">
+            <TextView
+                    android:id="@+id/timeDenomAddedInDenomRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/time_added"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/timeDenomReadyInDenomRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/time_ready"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+
+            <TextView
+                    android:id="@+id/denomStateInDenomsRow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text="@string/state"
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa"/>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center"
+                  android:layout_gravity="center" android:layout_margin="0dp" android:foregroundGravity="center">
+            <TextView
+                    android:id="@+id/timeDenomAddedInDenomRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa" android:textSize="10dp"/>
+
+            <TextView
+                    android:id="@+id/timeDenomReadyInDenomRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa" android:textSize="10dp"/>
+
+            <TextView
+                    android:id="@+id/denomStateInDenomsRowToEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:ellipsize="end"
+                    android:padding="5dp"
+                    android:text=""
+                    android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                    android:gravity="center" android:foregroundGravity="center" android:layout_margin="2px"
+                    android:background="#c1ffddfa" android:textSize="10dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

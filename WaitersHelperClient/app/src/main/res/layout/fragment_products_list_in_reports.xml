@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="brytskyi.waitershelperclient.app.activities.reports.ProductsListInReportsFragment"
+                android:background="@drawable/fon">
+
+    <LinearLayout
+            android:id="@+id/productHeaderInReportLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            xmlns:android="http://schemas.android.com/apk/res/android" android:background="#b10a1bff">
+
+
+        <TextView
+                android:id="@+id/productNameInRowReports"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/name"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fdff06"/>
+
+        <TextView
+                android:id="@+id/productAmountInReportsRow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/amount"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fdff06"/>
+
+        <TextView
+                android:id="@+id/productMesurementInReportsRow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:text="@string/mesurement"
+                android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+                android:gravity="center" android:textColor="#fdff06"/>
+
+    </LinearLayout>
+
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/productListInReports"
+            android:layout_below="@+id/productHeaderInReportLayout"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/priceSum" android:background="#b1fff733"/>
+
+
+
+</RelativeLayout>
+

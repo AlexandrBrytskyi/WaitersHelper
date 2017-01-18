@@ -1,0 +1,44 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".brytskyi.waitershelperclient.app.activities.users.UsersActivity"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schemas.android.com/apk/res/android" android:background="@drawable/fon">
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_margin="5dp" android:layout_centerInParent="true" android:id="@+id/tableLayoutInUsersActivity">
+
+        <TableRow android:layout_width="match_parent"
+                  android:layout_height="0dp"
+        android:layout_weight="30">
+
+
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/usersListViewInUsersActivity" android:background="#b1ffff00"/>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/addUser"
+                    android:id="@+id/addUserButtonInUsersActivity" android:background="#c10020ff"
+                    android:textStyle="bold" android:textColor="#f7ff01"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</RelativeLayout>

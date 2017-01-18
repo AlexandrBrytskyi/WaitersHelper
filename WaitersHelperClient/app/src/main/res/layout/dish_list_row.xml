@@ -1,0 +1,72 @@
+<LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+            android:id="@+id/dishId"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/id"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffe54"/>
+
+    <TextView
+            android:id="@+id/dishName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/name"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffe54"/>
+
+    <TextView
+            android:id="@+id/whoCoockDish"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/who_coock"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffe54"/>
+
+    <TextView
+            android:id="@+id/priceForPortion"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/price"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffe54"/>
+
+    <TextView
+            android:id="@+id/typeDish"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/type"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffe54"/>
+
+    <TextView
+            android:id="@+id/isDishAvailable"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:padding="5dp"
+            android:text="@string/is_dish_available"
+            android:singleLine="true" android:textStyle="bold" android:layout_gravity="center"
+            android:gravity="center" android:background="#c1fffe54"/>
+</LinearLayout>

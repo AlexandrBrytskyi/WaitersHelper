@@ -1,0 +1,201 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".brytskyi.waitershelperclient.app.activities.orderings.AddOrderingFragment"
+                android:background="@drawable/fon">
+
+
+    <TableLayout android:layout_width="fill_parent"
+                 android:layout_height="match_parent">
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/time_clients_come"
+                        android:id="@+id/orderingclientComeInCcreateOrdering"
+                        android:layout_margin="2dp"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:textStyle="bold"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1">
+
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2">
+
+                    <EditText
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:id="@+id/datePickerCreateOrdering"
+                            android:foregroundGravity="top"/>
+                    <EditText
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:id="@+id/timePickerCreateOrdering"
+                            android:foregroundGravity="top"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1">
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/amount"
+                        android:id="@+id/orderingAmountInConcretteOrdering" android:layout_gravity="bottom|center"
+                        android:layout_margin="2dp"
+                        android:foregroundGravity="center" android:gravity="bottom|center" android:textStyle="bold"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/who_taken"
+                        android:id="@+id/whoTakenInConcretteOrdering" android:layout_gravity="bottom|center"
+                        android:layout_margin="2dp"
+                        android:foregroundGravity="center" android:gravity="bottom|center" android:textStyle="bold"/>
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1">
+
+                <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/orderingAmountInCreateOrderingToEdit" android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:gravity="top|center_horizontal" android:foregroundGravity="center"
+                        android:textStyle="bold"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:id="@+id/whoTakenInCreateOrderingToEdit" android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:gravity="top|center_horizontal" android:focusable="true" android:foregroundGravity="center"/>
+
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1">
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/type"
+                        android:id="@+id/orderTypeInCreateOrdering" android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:gravity="right" android:textStyle="bold"/>
+                <Spinner android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="3"
+                         android:id="@+id/orderTypeSpinnerInCreateOrdering"
+                         android:gravity="left"/>
+
+
+            </LinearLayout>
+        </TableRow>
+
+
+        <TableRow android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_weight="1"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:layout_weight="1" android:orientation="horizontal">
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/description"
+                        android:id="@+id/orderingDescriptionTextInCreate" android:layout_gravity="center"
+                        android:layout_margin="2dp" android:gravity="left|bottom" android:textStyle="bold"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/avance"
+                        android:id="@+id/orderAvanceInCreateOrdering" android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:gravity="left" android:textStyle="bold"/>
+                <EditText android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_weight="3"
+                          android:id="@+id/orderavanseInCreateOrderingEdit"
+                          android:textStyle="bold"/>
+            </LinearLayout>
+
+        </TableRow>
+
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="6" android:layout_height="wrap_content"
+                  android:background="#c1f6ff03">
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                          android:layout_weight="1">
+                <EditText
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/orderingDescriptionEditInCreateOrdering"
+                        android:layout_gravity="top|left|center"
+                        android:layout_margin="2dp"
+                        android:gravity="left" android:focusable="true" android:textStyle="bold"/>
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="wrap_content"
+                  android:gravity="center">
+
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_new"
+                    android:id="@+id/addNewOrderingButtonInCreateOrdering" android:gravity="center"
+                    android:layout_gravity="center" android:background="#c10006ff" android:textStyle="bold"
+                    android:textColor="#fbff4b"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,148 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".brytskyi.waitershelperclient.app.activities.users.AddUserActivity"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/fon">
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_margin="5dp" android:layout_centerInParent="true"
+            android:id="@+id/tableLayoutInAddUserActivity">
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" android:background="#b1fffe14">
+
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/userName"
+                    android:id="@+id/textView3" android:layout_gravity="center" android:gravity="right"
+                    android:layout_marginRight="5dp" android:textStyle="bold"/>
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userNameEditInAddUser" android:layout_gravity="center" android:gravity="center"
+                    android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" android:background="#b1fffe14">
+
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/userLogin"
+                    android:id="@+id/textView4" android:layout_gravity="center" android:gravity="right"
+                    android:layout_marginRight="5dp" android:textStyle="bold"/>
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userLoginInAddUserToEdit" android:layout_gravity="center" android:gravity="center"
+                    android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" android:background="#b1fffe14">
+
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/userPassword"
+                    android:id="@+id/textView5" android:layout_gravity="center" android:gravity="right"
+                    android:layout_marginRight="5dp" android:textStyle="bold"/>
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userPassInAddUser"
+                    android:text="00000"
+                    android:editable="false" android:layout_gravity="center" android:gravity="center"
+                    android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" android:background="#b1fffe14">
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/isLocked"
+                    android:id="@+id/textView6" android:layout_gravity="center" android:gravity="right"
+                    android:layout_marginRight="5dp" android:textStyle="bold"/>
+            <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lockedBoxInAddUser" android:layout_gravity="center" android:gravity="center"/>
+
+
+        </TableRow>
+
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" android:background="#b1fffe14">
+
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/userType"
+                    android:id="@+id/textView7" android:layout_gravity="center" android:gravity="right"
+                    android:layout_marginRight="5dp" android:textStyle="bold"/>
+            <Spinner
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userTypeSpinnerInAddUser" android:layout_gravity="center"
+                    android:gravity="center"/>
+
+        </TableRow>
+
+
+        <TableRow android:layout_width="fill_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="0.5">
+
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/addUser"
+                    android:id="@+id/addUserButtonInUserActivity"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</RelativeLayout>

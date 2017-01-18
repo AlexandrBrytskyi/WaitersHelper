@@ -1,0 +1,78 @@
+<RelativeLayout
+        android:id="@+id/main_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".brytskyi.waitershelperclient.app.activities.account.AccountActivity"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://schemas.android.com/apk/res/android" android:background="@drawable/fon">
+
+    <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" android:layout_centerInParent="true" android:id="@+id/tableLayout">
+        <TableRow android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" android:background="#90fffd37">
+
+            <TextView android:id="@+id/userNameLabel"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content"
+                      android:text="User Name"
+                      android:textSize="20dp"
+                      android:textStyle="normal|bold"/>
+
+            <EditText android:id="@+id/userNameEditInAccount"
+                      android:layout_width="0dp"
+                      android:layout_weight="2"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:enabled="false"
+                      android:textColor="#040404" android:textStyle="bold"/>
+
+        </TableRow>
+
+        <TableRow android:background="#90fffd37">
+
+            <TextView android:id="@+id/userLoginLabel"
+                      android:layout_width="0dp"
+                      android:layout_weight="1"
+                      android:layout_height="wrap_content"
+                      android:text="User Login"
+                      android:textSize="20dp"
+                      android:textStyle="normal|bold"/>
+
+            <EditText android:id="@+id/userLoginEditInAccount"
+                      android:layout_width="0dp"
+                      android:layout_weight="2"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:enabled="false"
+                      android:textColor="#040404" android:textStyle="bold"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/changeName"
+                    android:id="@+id/changeNamebutton" android:background="#9ffff7fa" android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/changePass"
+                    android:id="@+id/changePassButton" android:background="#9ffff7fa" android:textStyle="bold"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</RelativeLayout>

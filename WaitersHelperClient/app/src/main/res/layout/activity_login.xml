@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context=".LoginActivity" android:background="#bdffd0">
+
+    <TextView
+            android:text="@string/please_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pleaseLoginText" android:textAlignment="center"
+            android:textStyle="bold" android:textSize="30dp" android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" android:layout_marginTop="59dp"
+            android:layout_alignParentLeft="false" android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false" android:autoText="false" android:gravity="center"
+            android:backgroundTint="#ffff00" android:backgroundTintMode="src_over" android:capitalize="characters"
+            android:shadowColor="#f6ff00" android:textColorHighlight="#fffe00"/>
+    <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginEdit" android:layout_below="@+id/pleaseLoginText"
+            android:layout_centerHorizontal="true" android:layout_marginTop="82dp" android:gravity="center"
+            android:password="false" android:textStyle="bold"/>
+    <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordEdit"
+            android:layout_marginTop="80dp" android:gravity="center" android:layout_below="@+id/loginEdit"
+            android:layout_alignStart="@+id/loginEdit"/>
+    <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:id="@+id/loginButton" android:layout_below="@+id/passwordEdit" android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" android:gravity="center" android:textStyle="bold" android:textSize="20dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:id="@+id/loginView" android:layout_alignBottom="@+id/loginEdit"
+            android:layout_centerHorizontal="true" android:layout_marginBottom="38dp" android:textStyle="bold"
+            android:textSize="30dp" android:labelFor="@id/loginEdit" android:backgroundTint="#ffff00"
+            android:backgroundTintMode="src_over" android:capitalize="characters" android:shadowColor="#f6ff00"
+            android:textColorHighlight="#fffe00"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:id="@+id/passView" android:layout_below="@+id/loginEdit" android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp" android:textStyle="bold" android:textSize="30dp"
+            android:labelFor="@id/passwordEdit" android:backgroundTint="#ffff00" android:backgroundTintMode="src_over"
+            android:capitalize="characters" android:shadowColor="#f6ff00" android:textColorHighlight="#fffe00"/>
+
+</RelativeLayout>

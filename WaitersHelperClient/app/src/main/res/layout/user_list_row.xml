@@ -1,0 +1,118 @@
+<LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center"
+        android:foregroundGravity="center">
+
+
+    <TableLayout android:layout_width="fill_parent"
+                 android:layout_height="match_parent" android:layout_margin="4px">
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp"
+                  android:layout_margin="0px">
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="1.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/login"
+                        android:id="@+id/userLoginInRow"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b179ffe0" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginLeft="5px" android:layout_marginTop="5px" android:autoText="false"/>
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/name"
+                        android:id="@+id/userNameInRow"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b179ffe0" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginTop="5px" android:autoText="false"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="1.2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/isLocked"
+                        android:id="@+id/userLockedInRow"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b179ffe0" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginRight="5px" android:layout_marginTop="5px" android:autoText="false"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="2"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/userType"
+                        android:id="@+id/userTypeInRow"
+                        android:layout_margin="2px"
+                        android:gravity="bottom|center" android:layout_gravity="bottom|center"
+                        android:background="#b179ffe0" android:textStyle="bold" android:textSize="17dp"
+                        android:layout_marginRight="5px" android:layout_marginTop="5px" android:autoText="false"/>
+        </TableRow>
+
+        <TableRow android:layout_width="fill_parent" android:layout_weight="1" android:layout_height="0dp"
+                  android:layout_margin="0px">
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="1.5"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/login"
+                    android:id="@+id/userLoginInRowToEdit"
+                    android:layout_margin="2px"
+                    android:gravity="center" android:layout_gravity="center"
+                    android:background="#b179ffe0" android:textSize="17dp"
+                    android:layout_marginLeft="5px" android:layout_marginTop="5px" android:autoText="false"
+                    android:textStyle="italic"/>
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="2"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/name"
+                    android:id="@+id/userNameInRowToEdit"
+                    android:layout_margin="2px"
+                    android:gravity="center" android:layout_gravity="center"
+                    android:background="#b179ffe0" android:textSize="17dp"
+                    android:layout_marginTop="5px" android:autoText="false" android:textStyle="italic"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="1.2"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/userLockedInRowToEdit"
+                    android:layout_margin="2px"
+                    android:layout_gravity="center"
+                    android:background="#b179ffe0" android:textSize="17dp"
+                    android:layout_marginRight="5px" android:layout_marginTop="5px" android:gravity="center"
+                    android:showText="false" android:splitTrack="false" android:singleLine="false"
+                    android:autoText="false" android:textStyle="italic"/>
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="2"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/userType"
+                    android:id="@+id/userTypeInRowToEdit"
+                    android:layout_margin="2px"
+                    android:gravity="center" android:layout_gravity="center"
+                    android:background="#b179ffe0" android:textSize="17dp"
+                    android:layout_marginRight="5px" android:layout_marginTop="5px" android:autoText="false"
+                    android:textStyle="italic"/>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>
